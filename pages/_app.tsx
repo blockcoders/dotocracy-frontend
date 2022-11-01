@@ -1,11 +1,26 @@
-import "../styles/globals.css";
 import type { AppProps } from "next/app";
-import { ChakraProvider } from "@chakra-ui/react";
+import { ChakraProvider, Flex } from "@chakra-ui/react";
+import Sidebar from "../components/layout/Sidebar";
+import MainPanel from "../components/layout/MainPanel";
+import Navbar from "../components/layout/Navbar";
+import theme from "../theme/theme";
+import { routes } from "../routes";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
-    <ChakraProvider>
-      <Component {...pageProps} />
+    <ChakraProvider theme={theme}>
+      <Sidebar routes={routes} />
+      <MainPanel
+        w={{
+          base: "100%",
+          xl: "calc(100% - 275px)",
+        }}
+      >
+        <Navbar />
+        <Flex flexDirection="column" pt={{ base: "120px" }} px={10}>
+          <Component {...pageProps} />
+        </Flex>
+      </MainPanel>
     </ChakraProvider>
   );
 }
