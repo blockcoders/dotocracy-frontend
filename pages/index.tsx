@@ -12,7 +12,6 @@ import ReactTypingEffect from "react-typing-effect";
 import styles from "../styles/style.module.css";
 import { votationsMock } from "../_mocks/votations-mocks";
 import { Votation } from "../components/common";
-import Header from "../components/layout/Header";
 
 export default function Home() {
   const [search, setSearch] = useState("");
