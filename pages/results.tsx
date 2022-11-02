@@ -1,7 +1,6 @@
 import { Container, Spinner, Text, HStack } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { Votation } from "../components/common";
-import Header from "../components/layout/Header";
 import { useLoading } from "../hooks/useLoading";
 import { votationsMock } from "../_mocks/votations-mocks";
 
