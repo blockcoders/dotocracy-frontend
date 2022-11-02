@@ -16,4 +16,9 @@ export const routes = [
     name: "Results",
     icon: <MdHowToVote />,
   },
+  {
+    path: "/create",
+    name: "Create vote",
+    icon: <MdHowToVote />,
+  },
 ];

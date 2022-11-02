@@ -19,9 +19,10 @@ import React, { FC } from "react";
 interface VotationProps {
   name: string;
   address: string;
+  isEditable?: boolean;
 }
 
-export const Votation: FC<VotationProps> = ({ address, name }) => {
+export const Votation: FC<VotationProps> = ({ address, name, isEditable }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -61,7 +62,7 @@ export const Votation: FC<VotationProps> = ({ address, name }) => {
             }}
             onClick={onOpen}
           >
-            Vote
+            {isEditable ? "Edit" : "Vote"}
           </Button>
         </Stack>
       </Box>
@@ -69,7 +70,9 @@ export const Votation: FC<VotationProps> = ({ address, name }) => {
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Confirm votation</ModalHeader>
+          <ModalHeader>
+            {isEditable ? "Edit votation" : "Confirm votation"}
+          </ModalHeader>
           <ModalCloseButton />
           <ModalBody>
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate,
