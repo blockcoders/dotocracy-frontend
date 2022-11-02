@@ -2,32 +2,22 @@ import {
   Box,
   Button,
   Heading,
-  Modal,
-  ModalBody,
-  ModalCloseButton,
-  ModalContent,
-  ModalFooter,
-  ModalHeader,
-  ModalOverlay,
   Stack,
   Text,
   useColorModeValue,
-  useDisclosure,
 } from "@chakra-ui/react";
-import Link from "next/link";
 import React, { FC } from "react";
 import { useRouter } from "next/router";
 
 interface VotationProps {
   name: string;
   address: string;
+  endsOn: string;
   fromView: "result" | "vote";
 }
 
-export const Votation: FC<VotationProps> = ({ address, name, fromView }) => {
+export const Votation: FC<VotationProps> = ({ address, name, endsOn, fromView }) => {
   const router = useRouter();
-  // const { isOpen, onOpen, onClose } = useDisclosure();
-
   return (
     <>
       <Box
@@ -44,7 +34,11 @@ export const Votation: FC<VotationProps> = ({ address, name, fromView }) => {
         </Heading>
 
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
-          Ends on 10/11/22
+          {address}
+        </Text>
+        
+        <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
+          {`Ends on ${endsOn}`}
         </Text>
 
         <Stack mt={1} direction={"row"} spacing={4}>
@@ -73,31 +67,6 @@ export const Votation: FC<VotationProps> = ({ address, name, fromView }) => {
           </Button>
         </Stack>
       </Box>
-
-      {/* <Modal isOpen={isOpen} onClose={onClose} isCentered>
-        <ModalOverlay />
-        <ModalContent>
-          <ModalHeader>
-            Confirm votation
-          </ModalHeader>
-          <ModalCloseButton />
-          <ModalBody>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate,
-            dicta neque optio corporis ullam voluptas dolore consequatur minima
-            eligendi atque quibusdam odit expedita modi, assumenda temporibus!
-            Dignissimos excepturi hic eaque!
-          </ModalBody>
-
-          <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
-            </Button>
-            <Link href={`vote/${address}`}>
-              <Button variant="ghost">Confirm</Button>
-            </Link>
-          </ModalFooter>
-        </ModalContent>
-      </Modal> */}
     </>
   );
 };
