@@ -13,6 +13,7 @@ import Separator from "../Separator";
 import Image from "next/image";
 import IconBox from "../../Icons/IconBox";
 import { useRouter } from "next/router";
+import { SocialMedia } from "./SocialMedia";
 
 const SidebarContent = ({ logoText, routes }) => {
   const route = useRouter();
@@ -159,24 +160,28 @@ const SidebarContent = ({ logoText, routes }) => {
   return (
     <>
       <Box pt={"25px"} mb="12px">
-        <NLink href={`${process.env.PUBLIC_URL}/#/`}>
+        <NLink href='https://blockcoders.io/'>
           <Box
             display="flex"
+            flexDirection="column"
+            gap={3}
             lineHeight="100%"
-            mb="30px"
+            mb="1rem"
             fontWeight="bold"
             justifyContent="center"
             alignItems="center"
             fontSize="11px"
           >
             <Image src="/logo.png" width="60" height="60" />
+            <Text fontSize="1.1rem">{logoText}</Text>
           </Box>
         </NLink>
         <Separator />
       </Box>
-      <Stack direction="column" mb="40px">
+      <Stack direction="column" mb="40px" flex="1">
         <Box>{links}</Box>
       </Stack>
+      <SocialMedia />
     </>
   );
 };
