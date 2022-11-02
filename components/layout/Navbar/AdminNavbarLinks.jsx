@@ -14,8 +14,10 @@ import { useWalletContext } from "../../../providers/WalletProvider";
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
 
-  const { state: {isLoadingWallet, wallets, userName, selectedAddress}, changeAddress } =
+  const { state: {isLoadingWallet, wallets, userName, selectedAddress}, changeAddress, connectWallet } =
     useWalletContext();
+
+  const haveWallets = wallets.length > 0
 
   return (
     <Flex
@@ -37,15 +39,20 @@ export default function HeaderLinks(props) {
           display="block"
           textOverflow="ellipsis" 
           whiteSpace="nowrap"
+          onClick={() => !haveWallets && connectWallet()}
         >
-          {wallets?.length === 0 ? "Connect wallet" : selectedAddress}
+          {!haveWallets ? "Connect wallet" : selectedAddress}
         </MenuButton>
-        <MenuList maxW="32">
-          <Text px={3}>Select Wallet</Text>
-          {wallets.map((w) => (
-            <MenuItem textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap" display="block" onClick={() => changeAddress(w?.address)}>{w?.address}</MenuItem>
-          ))}
-        </MenuList>
+        {
+          haveWallets && (
+            <MenuList maxW="32">
+              <Text px={3}>Select Wallet</Text>
+              {wallets.map((w) => (
+                <MenuItem textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap" display="block" onClick={() => changeAddress(w?.address)}>{w?.address}</MenuItem>
+              ))}
+            </MenuList>
+          )
+        }
       </Menu>
     </Flex>
   );

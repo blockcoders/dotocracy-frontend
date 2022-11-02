@@ -1,3 +1,4 @@
+import { useToast } from "../hooks/useToast";
 import {
   createContext,
   FC,
@@ -11,6 +12,7 @@ const WalletContext = createContext(
   {} as {
     state: InitialState;
     changeAddress: (address: string) => void;
+    connectWallet: () => void;
   }
 );
 
@@ -59,33 +61,10 @@ const reducer = (state: InitialState, action: any): InitialState => {
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState as any);
+  const { showWarningToast } = useToast();
 
   useEffect(() => {
-    (async () => {
-      try {
-        const { web3FromAddress, web3Accounts, web3Enable } = await import(
-          "@polkadot/extension-dapp"
-        );
-
-        const extensions = await web3Enable("Ink! Explorer");
-        if (extensions.length === 0) {
-          console.log("no extension");
-          // showErrorToast('No extension installed!')
-          return;
-        }
-        const accounts = await web3Accounts();
-        dispatch({
-          type: "init",
-          payload: {
-            wallets: accounts,
-            selectedAddress: accounts?.[0]?.address,
-            userName: "Estimado",
-          },
-        });
-      } catch (error) {
-        console.log(error);
-      }
-    })();
+    connectWallet(false);
   }, []);
 
   const changeAddress = (address: string) => {
@@ -98,11 +77,45 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     });
   };
 
+  const connectWallet = async (showAlert: boolean = true) => {
+    try {
+      const { web3Accounts, web3Enable } = await import(
+        "@polkadot/extension-dapp"
+      );
+
+      const extensions = await web3Enable("Ink! Explorer");
+      if (extensions.length === 0) {
+        showAlert && showWarningToast("No extension detected");
+        console.warn("no extension");
+        return;
+      }
+      const accounts = await web3Accounts();
+
+      if (accounts.length === 0) {
+        showAlert && showWarningToast("No accounts detected");
+        console.warn("No wallets fonund");
+        return;
+      }
+
+      dispatch({
+        type: "init",
+        payload: {
+          wallets: accounts,
+          selectedAddress: accounts?.[0]?.address,
+          userName: "Estimado",
+        },
+      });
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <WalletContext.Provider
       value={{
         state,
         changeAddress,
+        connectWallet,
       }}
     >
       {children}

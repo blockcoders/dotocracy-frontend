@@ -6,6 +6,8 @@ import Navbar from "../components/layout/Navbar";
 import theme from "../theme/theme";
 import { routes } from "../routes";
 import { WalletProvider } from "../providers/WalletProvider";
+import "react-toastify/dist/ReactToastify.css";
+import { ToastContainer } from "react-toastify";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
@@ -22,6 +24,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Flex flexDirection="column" pt={{ base: "120px" }} px={10}>
             <Component {...pageProps} />
           </Flex>
+          <ToastContainer />
         </MainPanel>
       </WalletProvider>
     </ChakraProvider>
