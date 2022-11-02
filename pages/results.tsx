@@ -34,7 +34,7 @@ export default function Restults() {
         {isLoading && <Spinner size="md" />}
         <HStack gap={10}>
           {votations.map((v) => (
-            <Votation {...v} isEditable />
+            <Votation {...v} fromView="result" />
           ))}
         </HStack>
       </Container>

@@ -3,30 +3,23 @@ import {
   Button,
   Heading,
   Modal,
-  ModalBody,
   ModalCloseButton,
   ModalContent,
   ModalFooter,
   ModalHeader,
   ModalOverlay,
   Stack,
-  Text,
   useColorModeValue,
   useDisclosure,
 } from "@chakra-ui/react";
-import Link from "next/link";
 import React, { FC } from "react";
-import { useRouter } from "next/router";
 
-interface VotationProps {
+interface CandidateProps {
   name: string;
-  address: string;
-  fromView: "result" | "vote";
 }
 
-export const Votation: FC<VotationProps> = ({ address, name, fromView }) => {
-  const router = useRouter();
-  // const { isOpen, onOpen, onClose } = useDisclosure();
+export const Candidate: FC<CandidateProps> = ({ name }) => {
+  const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
     <>
@@ -42,10 +35,6 @@ export const Votation: FC<VotationProps> = ({ address, name, fromView }) => {
         <Heading fontSize={"2xl"} fontFamily={"body"}>
           {name}
         </Heading>
-
-        <Text fontSize="2xs" textAlign="start" mt={2}>
-          finish date: 10/11/22
-        </Text>
 
         <Stack mt={1} direction={"row"} spacing={4}>
           <Button
@@ -63,41 +52,28 @@ export const Votation: FC<VotationProps> = ({ address, name, fromView }) => {
             _focus={{
               bg: "blue.500",
             }}
-            onClick={() => {
-              router.push(
-                fromView === "vote" ? `vote/${address}` : `result/${address}`
-              );
-            }}
+            onClick={onOpen}
           >
-            {fromView === "vote" ? "Vote" : "View"}
+            Vote
           </Button>
         </Stack>
       </Box>
 
-      {/* <Modal isOpen={isOpen} onClose={onClose} isCentered>
+      <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>
-            Confirm votation
-          </ModalHeader>
+          <ModalHeader>Confirm votation</ModalHeader>
           <ModalCloseButton />
-          <ModalBody>
-            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Voluptate,
-            dicta neque optio corporis ullam voluptas dolore consequatur minima
-            eligendi atque quibusdam odit expedita modi, assumenda temporibus!
-            Dignissimos excepturi hic eaque!
-          </ModalBody>
-
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               Close
             </Button>
-            <Link href={`vote/${address}`}>
-              <Button variant="ghost">Confirm</Button>
-            </Link>
+            <Button variant="ghost" onClick={onClose}>
+              Confirm
+            </Button>
           </ModalFooter>
         </ModalContent>
-      </Modal> */}
+      </Modal>
     </>
   );
 };

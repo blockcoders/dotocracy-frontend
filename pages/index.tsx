@@ -1,5 +1,4 @@
 import {
-  Button,
   Container,
   Grid,
   HStack,
@@ -7,9 +6,8 @@ import {
   Spinner,
   Text,
 } from "@chakra-ui/react";
-import { TbReportSearch } from "react-icons/tb";
 import { useLoading } from "../hooks/useLoading";
-import { useState } from "react";
+import { useState, useEffect, useMemo } from "react";
 import ReactTypingEffect from "react-typing-effect";
 import styles from "../styles/style.module.css";
 import { votationsMock } from "../_mocks/votations-mocks";
@@ -22,22 +20,36 @@ export default function Home() {
 
   const { isLoading, startLoading, endLoading } = useLoading();
 
-  const searchVotation = async () => {
-    if (!search) return;
-
+  const searchVotations = async () => {
     startLoading();
     try {
-      // TODO: change search votation by address
       const res = await new Promise((res, rej) =>
         setTimeout(() => res(votationsMock), 2000)
       );
-
       setVotations(res);
     } catch (error) {
       console.log(error);
     }
     endLoading();
   };
+
+  useEffect(() => {
+    searchVotations();
+  }, []);
+
+  const filteredVotations = useMemo(() => {
+    if (votations.length === 0) return [];
+
+    let filterVotations = votations;
+
+    if (search) {
+      filterVotations = filterVotations.filter((v) =>
+        v?.name?.toLowerCase().includes(search.toLowerCase().trim())
+      );
+    }
+
+    return filterVotations;
+  }, [votations, search]);
 
   return (
     <>
@@ -58,15 +70,9 @@ export default function Home() {
         <HStack my={10}>
           <Input
             placeholder="Search votation by address..."
-            onKeyDown={({ key }) =>
-              key.toLowerCase() === "enter" && searchVotation()
-            }
             onChange={({ target }) => setSearch(target.value || "")}
             value={search}
           />
-          <Button colorScheme="green" onClick={searchVotation}>
-            <TbReportSearch />
-          </Button>
         </HStack>
 
         {isLoading && <Spinner size="md" />}
@@ -81,12 +87,10 @@ export default function Home() {
           }}
           rowGap={10}
         >
-          {votations.map((v) => (
-            <Votation {...v} />
+          {filteredVotations.map((v) => (
+            <Votation {...v} fromView="vote" />
           ))}
         </Grid>
-
-        {/* TODO: create votation component */}
       </Container>
     </>
   );
