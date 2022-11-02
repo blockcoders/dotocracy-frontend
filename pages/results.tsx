@@ -1,4 +1,4 @@
-import { Container, Spinner, Text, HStack, Input } from "@chakra-ui/react";
+import { Container, Spinner, Text, HStack, Input, Grid } from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
 import { Votation } from "../components/common";
 import { useLoading } from "../hooks/useLoading";
@@ -57,11 +57,20 @@ export default function Restults() {
           />
         </HStack>
         {isLoading && <Spinner size="md" />}
-        <HStack gap={10}>
+        <Grid
+          columnGap={8}
+          justifyContent="center"
+          gridTemplateColumns={{
+            base: "1fr",
+            md: "1fr 1fr",
+            lg: "1fr 1fr 1fr",
+          }}
+          rowGap={10}
+        >
           {filteredVotations.map((v) => (
             <Votation {...v} fromView="result" />
           ))}
-        </HStack>
+        </Grid>
       </Container>
     </>
   );
