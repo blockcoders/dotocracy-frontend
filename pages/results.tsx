@@ -48,8 +48,8 @@ export default function Restults() {
       <Text fontSize="3xl" fontWeight="bold">
         Results
       </Text>
-      <Container maxW="2xl" mt={3}>
-      <HStack my={10}>
+      <Container maxW="2xl" mt={3} textAlign="center">
+        <HStack my={10}>
           <Input
             placeholder="Search the ballot by name or address..."
             onChange={({ target }) => setSearch(target.value || "")}
