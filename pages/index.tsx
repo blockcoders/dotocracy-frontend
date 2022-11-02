@@ -42,8 +42,10 @@ export default function Home() {
     let filterVotations = votations;
 
     if (search) {
-      filterVotations = filterVotations.filter((v) =>
-        v?.name?.toLowerCase().includes(search.toLowerCase().trim())
+      filterVotations = filterVotations.filter(
+        (voting) =>
+          voting?.name?.toLowerCase().includes(search.toLowerCase().trim()) ||
+          voting?.address?.toLowerCase().includes(search.toLowerCase().trim())
       );
     }
 
@@ -55,20 +57,21 @@ export default function Home() {
       <Container maxW="2xl" textAlign="center">
         <ReactTypingEffect
           className={styles["main-title"]}
-          text={["Blockcoders", "Polkadot"]}
+          text={["Dotocracy", "Blockcoders", "Polkadot"]}
           speed={100}
           typingDelay={0}
         />
         <Text>
-          Lorem ipsum dolor, sit amet consectetur adipisicing elit. Iusto,
-          corrupti? Ad voluptatibus, beatae facere exercitationem aliquid
-          voluptas dolores atque dignissimos expedita. Quisquam, voluptates
-          debitis? Aperiam id debitis reiciendis sapiente voluptate.
+          Dotocracy is the evolution of democracy towards technology. Our
+          platform uses blockchain to allow voting where consensus, transparency
+          and decentralization rule. Running on top of Polkadot it can be easily
+          integrated with different EVM compatible parachains, such as Moonbeam
+          and Astar.
         </Text>
 
         <HStack my={10}>
           <Input
-            placeholder="Search votation by address..."
+            placeholder="Search the ballot by name or address..."
             onChange={({ target }) => setSearch(target.value || "")}
             value={search}
           />
