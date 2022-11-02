@@ -33,18 +33,17 @@ export default function create() {
           textAlign={"center"}
         >
           <Heading fontSize={"2xl"} fontFamily={"body"}>
-            Create Votation
+            New Ballot
           </Heading>
 
           <VStack mt={10} gap={7}>
+            <Input placeholder="Ballot Name" />
             <Input placeholder="NFT address" />
             <Input placeholder="End date" value={new Date().toLocaleString()} />
 
             <HStack direction="row" justifyContent="space-between" w="full">
-              <VStack alignItems="start">
-                <Box>
-                  <Text textAlign="start">Participants</Text>
-                </Box>
+            <VStack alignItems="start">
+                <Text textAlign="start">Candidates</Text>
                 {participants.map(() => (
                   <HStack>
                     <Input />
@@ -57,9 +56,10 @@ export default function create() {
                   <BsPlusLg />
                 </Button>
               </VStack>
-
               <VStack alignItems="start">
-                <Text textAlign="start">Candidates</Text>
+                <Box>
+                  <Text textAlign="start">Voters</Text>
+                </Box>
                 {participants.map(() => (
                   <HStack>
                     <Input />
