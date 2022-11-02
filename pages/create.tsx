@@ -5,7 +5,6 @@ import {
   Heading,
   HStack,
   Input,
-  Stack,
   Text,
   useColorModeValue,
   VStack,

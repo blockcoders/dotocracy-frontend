@@ -8,11 +8,13 @@ import { routes } from "../routes";
 import { WalletProvider } from "../providers/WalletProvider";
 import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
+import Header from "../components/layout/Header";
 
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ChakraProvider theme={theme}>
       <WalletProvider>
+        <Header></Header>
         <Sidebar routes={routes} />
         <MainPanel
           w={{
