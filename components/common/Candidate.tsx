@@ -16,9 +16,10 @@ import React, { FC } from "react";
 
 interface CandidateProps {
   name: string;
+  fromView?: "vote" | "result";
 }
 
-export const Candidate: FC<CandidateProps> = ({ name }) => {
+export const Candidate: FC<CandidateProps> = ({ name, fromView = "vote" }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
 
   return (
@@ -54,7 +55,7 @@ export const Candidate: FC<CandidateProps> = ({ name }) => {
             }}
             onClick={onOpen}
           >
-            Vote
+            {fromView === "vote" ? "Vote" : "Edit"}
           </Button>
         </Stack>
       </Box>
@@ -62,7 +63,9 @@ export const Candidate: FC<CandidateProps> = ({ name }) => {
       <Modal isOpen={isOpen} onClose={onClose} isCentered>
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Confirm votation</ModalHeader>
+          <ModalHeader>
+            {fromView === "vote" ? "Confirm" : "Edit"} votation
+          </ModalHeader>
           <ModalCloseButton />
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>

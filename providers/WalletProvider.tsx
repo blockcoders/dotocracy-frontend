@@ -1,4 +1,3 @@
-import { useToast } from "../hooks/useToast";
 import {
   createContext,
   FC,
@@ -7,6 +6,7 @@ import {
   useEffect,
   useReducer,
 } from "react";
+import { useToast } from "../hooks/useToast";
 
 const WalletContext = createContext(
   {} as {

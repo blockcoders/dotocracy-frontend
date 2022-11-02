@@ -8,8 +8,6 @@ export default function VoteDetail() {
   const router = useRouter();
   const [candidates, setCandidates] = useState(candidatesMocks);
 
-  console.log(router.query);
-
   return (
     <>
       <Box
@@ -28,7 +26,9 @@ export default function VoteDetail() {
       </Box>
 
       <Box mt={10}>
-        <Text>Select a candidate</Text>
+        <Text textAlign="center" fontWeight={600} mb={5} fontSize="3xl">
+          Select a candidate
+        </Text>
       </Box>
       <Grid
         gridTemplateColumns={{
