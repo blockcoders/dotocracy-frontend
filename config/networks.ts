@@ -1,10 +1,10 @@
 export const networks = [
   {
-    name: "moonriver",
+    name: "Moonbeam - Moonriver",
     wss: "wss://moonriver.public.blastapi.io",
   },
   {
-    name: "aster",
+    name: "Astar - Shibuya",
     wss: "wss://astar.public.blastapi.io",
   },
 ];
