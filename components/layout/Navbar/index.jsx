@@ -1,11 +1,7 @@
 // Chakra Imports
 import {
   Box,
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
   Flex,
-  Link,
   useColorModeValue,
 } from "@chakra-ui/react";
 import React, { useState } from "react";
@@ -103,13 +99,10 @@ export default function AdminNavbar(props) {
     >
       <Flex
         w="100%"
-        flexDirection={{
-          sm: "column",
-          md: "row",
-        }}
+        flexDirection='row'
         alignItems={{ xl: "center" }}
       >
-        <Box ms="auto" w={{ sm: "100%", md: "unset" }}>
+        <Box ms="auto" w="full">
           <AdminNavbarLinks
             onOpen={props.onOpen}
             logoText={props.logoText}

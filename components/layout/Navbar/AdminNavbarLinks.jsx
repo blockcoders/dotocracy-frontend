@@ -2,43 +2,51 @@ import {
   Button,
   Flex,
   Menu,
-  useColorModeValue,
+  MenuButton,
+  MenuItem,
+  MenuList,
+  Text
 } from "@chakra-ui/react";
 
-import React, { useEffect } from "react";
-import { useLoading } from "../../../hooks";
+import React from "react";
 import { useWalletContext } from "../../../providers/WalletProvider";
 
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
-  
-  const { state } = useWalletContext()
-  
-  const { isLoading,startLoading, endLoading } = useLoading()
 
-  let mainText = useColorModeValue("gray.700", "gray.200");
-  let navbarIcon = useColorModeValue("gray.500", "gray.200");
-
-  if (secondary) {
-    navbarIcon = "white";
-    mainText = "white";
-  }
-
-  console.log(state)
+  const { state: {isLoadingWallet, wallets, userName, selectedAddress}, changeAddress } =
+    useWalletContext();
 
   return (
     <Flex
       pe={{ sm: "0px", md: "16px" }}
-      w={{ sm: "100%", md: "auto" }}
+      w="full"
       alignItems="center"
       flexDirection="row"
+      justifyContent="space-between"
     >
+      <Text>
+        {userName}
+      </Text>
       <Menu>
-        <Button isLoading={isLoading} maxW="36" overflowX="hidden">
-          { state?.accounts?.length === 0 ?  'Connect wallet' :  state?.accounts[0]?.address } 
-        </Button>
+        <MenuButton
+          as={Button}
+          isLoading={isLoadingWallet}
+          maxW="36"
+          overflow="hidden"
+          display="block"
+          textOverflow="ellipsis" 
+          whiteSpace="nowrap"
+        >
+          {wallets?.length === 0 ? "Connect wallet" : selectedAddress}
+        </MenuButton>
+        <MenuList maxW="32">
+          <Text px={3}>Select Wallet</Text>
+          {wallets.map((w) => (
+            <MenuItem textOverflow="ellipsis" overflow="hidden" whiteSpace="nowrap" display="block" onClick={() => changeAddress(w?.address)}>{w?.address}</MenuItem>
+          ))}
+        </MenuList>
       </Menu>
     </Flex>
   );
 }
-

@@ -6,34 +6,62 @@ import {
   useEffect,
   useReducer,
 } from "react";
-import { useLoading } from "../hooks/useLoading";
 
-const WalletContext = createContext({});
+const WalletContext = createContext(
+  {} as {
+    state: InitialState;
+    changeAddress: (address: string) => void;
+  }
+);
 
-const initialState = {
-  wallet: null,
-  accounts: [],
+interface InitialState {
+  selectedAddress: string;
+  wallets: string[];
+  isLoadingWallet: boolean;
+  userName?: string;
+}
+
+const initialState: InitialState = {
+  selectedAddress: "",
+  wallets: [],
+  isLoadingWallet: false,
+  userName: "",
 };
 
-const reducer = (state: any, action: any) => {
+const reducer = (state: InitialState, action: any): InitialState => {
   switch (action.type) {
-    case "add-account": {
+    case "init": {
       return {
         ...state,
-        accounts: action.payload,
+        selectedAddress: action.payload.selectedAddress,
+        wallets: action.payload.wallets,
+        userName: action.payload.userName || "",
+        isLoadingWallet: false,
       };
     }
+    case "change-address": {
+      return {
+        ...state,
+        selectedAddress: action.payload.address,
+        userName: action.payload.userName || "",
+      };
+    }
+    case "start-loading": {
+      return {
+        ...state,
+        isLoadingWallet: true,
+      };
+    }
+    default:
+      return state;
   }
 };
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const [state, dispatch] = useReducer(reducer, initialState as any);
 
-  const { isLoading, startLoading, endLoading } = useLoading();
-
   useEffect(() => {
     (async () => {
-      startLoading();
       try {
         const { web3FromAddress, web3Accounts, web3Enable } = await import(
           "@polkadot/extension-dapp"
@@ -46,19 +74,35 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
           return;
         }
         const accounts = await web3Accounts();
-        console.log(accounts);
-        dispatch({ type: "add-account", payload: accounts });
+        dispatch({
+          type: "init",
+          payload: {
+            wallets: accounts,
+            selectedAddress: accounts?.[0]?.address,
+            userName: "Estimado",
+          },
+        });
       } catch (error) {
         console.log(error);
       }
-      endLoading();
     })();
   }, []);
+
+  const changeAddress = (address: string) => {
+    dispatch({
+      type: "change-address",
+      payload: {
+        address,
+        userName: "Another username",
+      },
+    });
+  };
 
   return (
     <WalletContext.Provider
       value={{
         state,
+        changeAddress,
       }}
     >
       {children}
