@@ -43,8 +43,8 @@ export const Votation: FC<VotationProps> = ({ address, name, fromView }) => {
           {name}
         </Heading>
 
-        <Text fontSize="2xs" textAlign="start" mt={2}>
-          finish date: 10/11/22
+        <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
+          Ends on 10/11/22
         </Text>
 
         <Stack mt={1} direction={"row"} spacing={4}>
