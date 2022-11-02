@@ -38,7 +38,6 @@ export default function create() {
 
           <VStack mt={10} gap={7}>
             <Input placeholder="Ballot Name" />
-            <Input placeholder="NFT address (voters will need this NFT to vote)" />
             <Input placeholder="End date" value={new Date().toLocaleString()} />
 
             <HStack direction="row" justifyContent="space-between" w="full">
