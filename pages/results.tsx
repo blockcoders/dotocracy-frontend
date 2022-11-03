@@ -6,7 +6,6 @@ import {
   Input,
   Grid,
 } from "@chakra-ui/react";
-import { format } from "path";
 import { useEffect, useMemo, useState } from "react";
 import { Votation } from "../components/common";
 import { useLoading } from "../hooks/useLoading";
@@ -61,7 +60,7 @@ export default function Restults() {
       <Container maxW="2xl" mt={3} textAlign="center">
         <HStack my={10}>
           <Input
-            placeholder={format("search_the ballot by name or address...")}
+            placeholder={format("search_the_ballot_by_name_or_address")}
             onChange={({ target }) => setSearch(target.value || "")}
             value={search}
           />

@@ -67,7 +67,7 @@ export default function Home() {
 
         <HStack my={10}>
           <Input
-            placeholder={format("Search the ballot by name or address...")}
+            placeholder={format("search_the_ballot_by_name_or_address")}
             onChange={({ target }) => setSearch(target.value || "")}
             value={search}
           />

@@ -10,6 +10,7 @@ export const en = {
   ends_on: "Ends on",
   total_voters: "Total voters",
   candidates: "Candidates",
+  current_votes: "Current votes: ",
   votes: "Votes",
   registered_votes: "Registered votes",
   select_candidate: "Select candidate",
@@ -19,16 +20,18 @@ export const en = {
   there_is_at_least_one_empty_voter_or_candidate:
     "There is at least one empty voter or candidate",
   ballot_created: "Ballot created",
-  "sending...": "Sending...",
+  sending: "Sending...",
   new_ballot: "New ballot",
   ballot_name: "Ballot name",
   voters: "Voters",
   create: "Create",
   home_page_description:
     "Dotocracy is the evolution of democracy towards technology. Our platform uses blockchain to allow voting where consensus, transparency and decentralization rule. Running on top of Polkadot it can be easily integrated with different EVM compatible parachains, such as Moonbeam and Astar.",
-  "search_the ballot by name or address...":
+  search_the_ballot_by_name_or_address:
     "Search the ballot by name or address...",
+  another_username: "Another username",
   no_wallets_detected: "No wallets detected",
+  no_accounts_detected: "No accounts detected",
   no_extension_detected: "No extension detected",
   username: "Username",
   documentation: "Documentation",
@@ -50,7 +53,7 @@ export const en = {
     "As the system is currently implemented, it is very expensive and it takes a lot of time to count the votes. This is a problem that can be solved by using a blockchain-based voting system. It is not only a matter of time and money, but also of security. As more time pases between the voting and the results, the more unseccure the results are. This is because the results can be manipulated.",
   why_dotocracy: "Why Dotocracy?",
   why_dotocracy_text:
-    "Dotocracy is a blockchain-based voting system that solves the problems of the current voting system. It is a decentralized and secure system that allows voters to vote from any location and device in which they can give proof of identity. It is also a fast and cheap system that allows the counting of votes in a matter of minutes.",
+    "Dotocracy is a blockchain-based voting system that solves the problems of the current voting system. It is a decentralized and secure system that allows voters to vote from any location and device in which they can give proof of identity. It is also a fast and cheap system that allows the counting of votes in real time.",
   low_voter_turnout_can_be_increased: "Low voter turnout can be increased",
   low_voter_turnout_can_be_increased_text:
     "Dotocracy allows voters to vote from any location and device in which they can give proof of identity. This allows the participation of voters that are not able to go to the voting booth. This is a very important feature that can increase the voter turnout.",
@@ -73,9 +76,9 @@ export const en = {
   how_to_create_a_new_ballot_1:
     "To create a new ballot, you need to have a wallet connected to the app. If you don't have one, you can create one using",
   how_to_create_a_new_ballot_polkadot_extension: " Polkadot.js extension. ",
-  how_to_create_a_new_ballot_create: " Create ",
   how_to_create_a_new_ballot_2:
     "Once you have a wallet, you can create a new ballot by going to the",
+  how_to_create_a_new_ballot_create: " Create ",
   how_to_create_a_new_ballot_3:
     "page. There you will have to fill the form with the required information.",
   how_to_create_a_new_ballot_name: "Name: ",

@@ -43,7 +43,7 @@ export default function create() {
       (form.voters.length === 1 && !form.voters[0])
     ) {
       return showErrorToast(
-        format("there_must be at least one voter or one candidate")
+        format("there_must_be_at_least_one_voter_or_one_candidate")
       );
     }
 
@@ -53,7 +53,7 @@ export default function create() {
 
     if (emptyCandidates || emptyVoters) {
       return showErrorToast(
-        format("there_is at least one empty voter or candidate")
+        format("there_is_at_least_one_empty_voter_or_candidate")
       );
     }
 
@@ -67,7 +67,7 @@ export default function create() {
       );
       showSuccessToast(format("ballot_created"));
       resetForm();
-      console.log("sending...");
+      console.log(format("sending"));
     } catch (error) {
       console.log(error);
     }

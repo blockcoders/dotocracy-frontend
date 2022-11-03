@@ -15,7 +15,6 @@ import {
 } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
-import { Candidate } from "../../components/common/Candidate";
 import { candidatesMocks } from "../../_mocks/candidateMocks";
 import { useFormatIntl } from "../../hooks/useFormatIntl";
 
@@ -37,7 +36,7 @@ export default function ResultDetails() {
       >
         <VStack alignItems="start" gap={2} mb={5}>
           <Text fontSize="3xl" fontWeight="bold">
-            Votation_name
+            Votation-name
           </Text>
           <Text as="p" fontWeight="bold">
             {format("address")}:{" "}
@@ -46,7 +45,7 @@ export default function ResultDetails() {
             </Text>
           </Text>
           <Text as="p" fontWeight="bold">
-            {format("Ends on")}:{" "}
+            {format("ends_on")}:{" "}
             <Text display="inline-block" fontWeight="medium">
               11
             </Text>
@@ -77,7 +76,7 @@ export default function ResultDetails() {
             </Tbody>
             <Tfoot>
               <Tr>
-                <Th>{format("current votes:")}</Th>
+                <Th>{format("registered_votes")}</Th>
                 <Th>15</Th>
               </Tr>
             </Tfoot>

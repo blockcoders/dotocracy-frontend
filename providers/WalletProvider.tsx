@@ -7,6 +7,7 @@ import {
   useReducer,
 } from "react";
 import { useToast } from "../hooks/useToast";
+import { useFormatIntl } from "../hooks/useFormatIntl";
 
 const WalletContext = createContext(
   {} as {
@@ -60,6 +61,7 @@ const reducer = (state: InitialState, action: any): InitialState => {
 };
 
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
+  const { format } = useFormatIntl();
   const [state, dispatch] = useReducer(reducer, initialState as any);
   const { showWarningToast } = useToast();
 
@@ -72,7 +74,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       type: "change-address",
       payload: {
         address,
-        userName: "Another username",
+        userName: format("another_username"),
       },
     });
   };
@@ -85,15 +87,15 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
 
       const extensions = await web3Enable("Ink! Explorer");
       if (extensions.length === 0) {
-        showAlert && showWarningToast("No extension detected");
-        console.warn("No extension detected");
+        showAlert && showWarningToast(format("no_extension_detected"));
+        console.warn(format("no_extension_detected"));
         return;
       }
       const accounts = await web3Accounts();
 
       if (accounts.length === 0) {
-        showAlert && showWarningToast("No accounts detected");
-        console.warn("No wallets detected");
+        showAlert && showWarningToast(format("no_accounts_detected"));
+        console.warn(format("no_wallets_detected"));
         return;
       }
 
@@ -102,7 +104,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         payload: {
           wallets: accounts,
           selectedAddress: accounts?.[0]?.address,
-          userName: "Estimado",
+          userName: format("username"),
         },
       });
     } catch (error) {
