@@ -10,29 +10,44 @@ import "react-toastify/dist/ReactToastify.css";
 import { ToastContainer } from "react-toastify";
 import Header from "../components/layout/Header";
 import { NetworkProvider } from "../providers/NetworkProvider";
+import { useRouter } from "next/router";
+import { IntlProvider } from "react-intl";
+
+const messages: any = {
+  en: {
+    header: "hola",
+  },
+  es: {
+    header: "adios",
+  },
+};
 
 export default function App({ Component, pageProps }: AppProps) {
+  const { locale } = useRouter();
+
   return (
-    <ChakraProvider theme={theme}>
-      <NetworkProvider>
-        <WalletProvider>
-          <Header />
-          <Sidebar routes={routes} />
-          <MainPanel
-            w={{
-              base: "100%",
-              xl: "calc(100% - 275px)",
-            }}
-            pb={10}
-          >
-            <Navbar />
-            <Flex flexDirection="column" pt={{ base: "120px" }} px={10}>
-              <Component {...pageProps} />
-            </Flex>
-            <ToastContainer />
-          </MainPanel>
-        </WalletProvider>
-      </NetworkProvider>
-    </ChakraProvider>
+    <IntlProvider locale={locale || "es"} messages={messages[locale as string]}>
+      <ChakraProvider theme={theme}>
+        <NetworkProvider>
+          <WalletProvider>
+            <Header />
+            <Sidebar routes={routes} />
+            <MainPanel
+              w={{
+                base: "100%",
+                xl: "calc(100% - 275px)",
+              }}
+              pb={10}
+            >
+              <Navbar />
+              <Flex flexDirection="column" pt={{ base: "120px" }} px={10}>
+                <Component {...pageProps} />
+              </Flex>
+              <ToastContainer />
+            </MainPanel>
+          </WalletProvider>
+        </NetworkProvider>
+      </ChakraProvider>
+    </IntlProvider>
   );
 }

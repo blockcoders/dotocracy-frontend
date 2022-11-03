@@ -12,12 +12,14 @@ import ReactTypingEffect from "react-typing-effect";
 import styles from "../styles/style.module.css";
 import { votationsMock } from "../_mocks/votations-mocks";
 import { Votation } from "../components/common";
+import { useFormatIntl } from "../hooks/useFormatIntl";
 
 export default function Home() {
+  const { isLoading, startLoading, endLoading } = useLoading();
+  const { format } = useFormatIntl();
+
   const [search, setSearch] = useState("");
   const [votations, setVotations] = useState([]);
-
-  const { isLoading, startLoading, endLoading } = useLoading();
 
   const searchVotations = async () => {
     startLoading();
@@ -61,13 +63,7 @@ export default function Home() {
           speed={100}
           typingDelay={0}
         />
-        <Text>
-          Dotocracy is the evolution of democracy towards technology. Our
-          platform uses blockchain to allow voting where consensus, transparency
-          and decentralization rule. Running on top of Polkadot it can be easily
-          integrated with different EVM compatible parachains, such as Moonbeam
-          and Astar.
-        </Text>
+        <Text>{format("header")}</Text>
 
         <HStack my={10}>
           <Input

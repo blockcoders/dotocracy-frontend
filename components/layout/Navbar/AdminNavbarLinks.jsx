@@ -9,6 +9,7 @@ import { SelectWalletMenu } from "./SelectWalletMenu";
 import { ThemeTogle } from "./ThemeTogle";
 import SidebarResponsive from '../Sidebar/SidebarResponsive'
 import { routes } from "../../../routes";
+import { LanguageMenu } from "./LanguageMenu";
 
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
@@ -36,6 +37,7 @@ export default function HeaderLinks(props) {
       <Text>{userName}</Text>
       <HStack>
         <ThemeTogle />
+        <LanguageMenu />
         <NetworkSwitch />
         <SelectWalletMenu />
       </HStack>
