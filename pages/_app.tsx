@@ -12,15 +12,10 @@ import Header from "../components/layout/Header";
 import { NetworkProvider } from "../providers/NetworkProvider";
 import { useRouter } from "next/router";
 import { IntlProvider } from "react-intl";
+import { en } from "../i18n/en";
+import { es } from "../i18n/es";
 
-const messages: any = {
-  en: {
-    header: "hola",
-  },
-  es: {
-    header: "adios",
-  },
-};
+const messages: any = { en, es };
 
 export default function App({ Component, pageProps }: AppProps) {
   const { locale } = useRouter();
