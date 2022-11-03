@@ -39,8 +39,8 @@ export default function ResultDetails() {
         columnGap={6}
         rowGap={10}
       >
-        {candidates.map((c) => (
-          <Candidate {...c} fromView="result" />
+        {candidates.map((c, index) => (
+          <Candidate key={index.toString()} {...c} fromView="result" />
         ))}
       </Grid>
     </>

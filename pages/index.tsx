@@ -89,8 +89,8 @@ export default function Home() {
           }}
           rowGap={10}
         >
-          {filteredVotations.map((v) => (
-            <Votation {...v} fromView="vote" />
+          {filteredVotations.map((v, index) => (
+            <Votation key={index.toString()} {...v} fromView="vote" />
           ))}
         </Grid>
       </Container>

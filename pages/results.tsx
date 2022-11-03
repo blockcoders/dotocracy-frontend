@@ -1,4 +1,11 @@
-import { Container, Spinner, Text, HStack, Input, Grid } from "@chakra-ui/react";
+import {
+  Container,
+  Spinner,
+  Text,
+  HStack,
+  Input,
+  Grid,
+} from "@chakra-ui/react";
 import { useEffect, useMemo, useState } from "react";
 import { Votation } from "../components/common";
 import { useLoading } from "../hooks/useLoading";
@@ -67,8 +74,8 @@ export default function Restults() {
           }}
           rowGap={10}
         >
-          {filteredVotations.map((v) => (
-            <Votation {...v} fromView="result" />
+          {filteredVotations.map((v, index) => (
+            <Votation key={index.toString()} {...v} fromView="result" />
           ))}
         </Grid>
       </Container>

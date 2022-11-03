@@ -39,8 +39,8 @@ export default function VoteDetail() {
         columnGap={6}
         rowGap={10}
       >
-        {candidates.map((c) => (
-          <Candidate {...c} />
+        {candidates.map((c, index) => (
+          <Candidate key={index.toString()} {...c} />
         ))}
       </Grid>
     </>
