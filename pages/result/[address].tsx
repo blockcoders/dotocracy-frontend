@@ -1,4 +1,18 @@
-import { Box, Grid, Text, useColorModeValue } from "@chakra-ui/react";
+import {
+  Box,
+  Grid,
+  Table,
+  TableContainer,
+  Tbody,
+  Td,
+  Text,
+  Tfoot,
+  Th,
+  Thead,
+  Tr,
+  useColorModeValue,
+  VStack,
+} from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Candidate } from "../../components/common/Candidate";
@@ -11,38 +25,63 @@ export default function ResultDetails() {
   return (
     <>
       <Box
-        maxW={"320px"}
+        mx="auto"
+        maxW="xl"
         w={"full"}
         bg={useColorModeValue("white", "gray.900")}
         boxShadow={"2xl"}
         rounded={"lg"}
         p={6}
       >
-        <Text fontSize="3xl" fontWeight="bold">
-          Votation_name
-        </Text>
-        <Text>Address: {router.query.address}</Text>
-        <Text>End date: 11</Text>
-      </Box>
+        <VStack alignItems="start" gap={2} mb={5}>
+          <Text fontSize="3xl" fontWeight="bold">
+            Votation_name
+          </Text>
+          <Text as="p" fontWeight="bold">
+            Address:{" "}
+            <Text display="inline-block" fontWeight="medium">
+              {router.query.address}
+            </Text>
+          </Text>
+          <Text as="p" fontWeight="bold">
+            End date:{" "}
+            <Text display="inline-block" fontWeight="medium">
+              11
+            </Text>
+          </Text>
+          <Text as="p" fontWeight="bold">
+            Total voters:{" "}
+            <Text display="inline-block" fontWeight="medium">
+              15
+            </Text>
+          </Text>
+        </VStack>
 
-      <Box mt={10}>
-        <Text textAlign="center" fontWeight={600} mb={5} fontSize="3xl">
-          Select a candidate
-        </Text>
+        <TableContainer>
+          <Table variant="simple">
+            <Thead>
+              <Tr>
+                <Th>Candidate</Th>
+                <Th>Votes</Th>
+              </Tr>
+            </Thead>
+            <Tbody>
+              {candidates.map((c) => (
+                <Tr>
+                  <Td>{c.name}</Td>
+                  <Td>5</Td>
+                </Tr>
+              ))}
+            </Tbody>
+            <Tfoot>
+              <Tr>
+                <Th>Current votes:</Th>
+                <Th>15</Th>
+              </Tr>
+            </Tfoot>
+          </Table>
+        </TableContainer>
       </Box>
-      <Grid
-        gridTemplateColumns={{
-          base: "1fr",
-          md: "1fr 1fr",
-          lg: "1fr 1fr 1fr",
-        }}
-        columnGap={6}
-        rowGap={10}
-      >
-        {candidates.map((c, index) => (
-          <Candidate key={index.toString()} {...c} fromView="result" />
-        ))}
-      </Grid>
     </>
   );
 }
