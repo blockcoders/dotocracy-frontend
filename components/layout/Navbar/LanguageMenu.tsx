@@ -1,18 +1,15 @@
 import {
   Box,
   Button,
-  Checkbox,
   Menu,
   MenuButton,
   MenuItem,
   MenuList,
-  Text,
 } from "@chakra-ui/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React from "react";
-import { networks } from "../../../config/networks";
-import { useNetworkContext } from "../../../providers/NetworkProvider";
+import { TbLanguage } from "react-icons/tb";
 
 export const LanguageMenu = () => {
   const { asPath, locale } = useRouter();
@@ -27,7 +24,7 @@ export const LanguageMenu = () => {
         textOverflow="ellipsis"
         whiteSpace="nowrap"
       >
-        Ln
+        <TbLanguage size={20} />
       </MenuButton>
 
       <MenuList maxW="32">
