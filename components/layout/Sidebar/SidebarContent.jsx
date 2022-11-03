@@ -172,7 +172,7 @@ const SidebarContent = ({ logoText, routes }) => {
             alignItems="center"
             fontSize="11px"
           >
-            <Image src="/logo.png" width="60" height="60" />
+            <Image src="/logo.png" width="60" height="60" alt="logo" />
             <Text fontSize="1.1rem">{logoText}</Text>
           </Box>
         </NLink>
