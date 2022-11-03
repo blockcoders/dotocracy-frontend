@@ -13,6 +13,7 @@ import {
   useDisclosure,
 } from "@chakra-ui/react";
 import React, { FC } from "react";
+import { useFormatIntl } from "../../hooks/useFormatIntl";
 
 interface CandidateProps {
   name: string;
@@ -21,7 +22,7 @@ interface CandidateProps {
 
 export const Candidate: FC<CandidateProps> = ({ name, fromView = "vote" }) => {
   const { isOpen, onOpen, onClose } = useDisclosure();
-
+  const { format } = useFormatIntl();
   return (
     <>
       <Box
@@ -64,15 +65,15 @@ export const Candidate: FC<CandidateProps> = ({ name, fromView = "vote" }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {fromView === "vote" ? "Confirm" : "Edit"} votation
+            {fromView === "vote" ? "Confirm" : "Edit"} {format("voting")}
           </ModalHeader>
           <ModalCloseButton />
           <ModalFooter>
             <Button colorScheme="blue" mr={3} onClick={onClose}>
-              Close
+              {format("close")}
             </Button>
             <Button variant="ghost" onClick={onClose}>
-              Confirm
+              {format("confirm")}
             </Button>
           </ModalFooter>
         </ModalContent>

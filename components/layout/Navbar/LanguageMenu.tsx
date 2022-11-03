@@ -42,7 +42,7 @@ export const LanguageMenu = () => {
               w={2}
               h={2}
             />
-            es
+            Español
           </MenuItem>
         </Link>
         <Link href={asPath} locale="en">
@@ -59,7 +59,7 @@ export const LanguageMenu = () => {
               w={2}
               h={2}
             />
-            en
+            English
           </MenuItem>
         </Link>
       </MenuList>

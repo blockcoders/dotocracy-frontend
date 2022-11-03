@@ -8,6 +8,7 @@ import {
 } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { useRouter } from "next/router";
+import { useFormatIntl } from "../../hooks/useFormatIntl";
 
 interface VotationProps {
   name: string;
@@ -15,9 +16,9 @@ interface VotationProps {
   endsOn: string;
   fromView: "result" | "vote";
 }
-
 export const Votation: FC<VotationProps> = ({ address, name, endsOn, fromView }) => {
   const router = useRouter();
+  const { format } = useFormatIntl();
   return (
     <>
       <Box
@@ -38,7 +39,7 @@ export const Votation: FC<VotationProps> = ({ address, name, endsOn, fromView })
         </Text>
         
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
-          {`Ends on ${endsOn}`}
+          {`${format("ends_on")} ${endsOn}`}
         </Text>
 
         <Stack mt={1} direction={"row"} spacing={4}>

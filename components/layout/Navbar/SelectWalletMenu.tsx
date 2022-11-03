@@ -8,8 +8,10 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import { useWalletContext } from "../../../providers/WalletProvider";
+import { useFormatIntl } from "../../../hooks/useFormatIntl";
 
 export const SelectWalletMenu = () => {
+  const { format } = useFormatIntl();
   const {
     state: { isLoadingWallet, wallets, userName, selectedAddress },
     changeAddress,
@@ -30,11 +32,11 @@ export const SelectWalletMenu = () => {
         whiteSpace="nowrap"
         onClick={() => !haveWallets && connectWallet()}
       >
-        {!haveWallets ? "Connect wallet" : selectedAddress}
+        {!haveWallets ? format("connect_wallet") : selectedAddress}
       </MenuButton>
       {haveWallets && (
         <MenuList maxW="32">
-          <Text px={3}>Select Wallet</Text>
+          <Text px={3}>{format("select_wallet")}</Text>
           {wallets.map((w, index) => (
             <MenuItem
               key={index.toString()}

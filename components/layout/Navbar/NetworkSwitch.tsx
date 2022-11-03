@@ -10,8 +10,10 @@ import {
 import React from "react";
 import { networks } from "../../../config/networks";
 import { useNetworkContext } from "../../../providers/NetworkProvider";
+import { useFormatIntl } from "../../../hooks/useFormatIntl";
 
 export const NetworkSwitch = () => {
+  const { format } = useFormatIntl();
   const {
     state: { network },
     changeNetwork,
@@ -28,11 +30,11 @@ export const NetworkSwitch = () => {
         whiteSpace="nowrap"
         // onClick={() => !haveWallets && connectWallet()}
       >
-        Network
+        {format("network")}
       </MenuButton>
       {networks && (
         <MenuList maxW="32">
-          <Text px={3}>Select network</Text>
+          <Text px={3}>{format("select_network")}</Text>
           {networks.map((w) => (
             <MenuItem
               key={w?.name}
