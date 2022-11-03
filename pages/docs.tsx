@@ -1,93 +1,53 @@
 import { Container, Text, Heading } from "@chakra-ui/react";
 import Link from "next/link";
+import { useFormatIntl } from "../hooks/useFormatIntl";
 
 export default function Docs() {
+  const { format } = useFormatIntl();
   return (
     <>
       <Text fontSize="3xl" fontWeight="bold">
-        Documentation
+        {format("documentation")}
       </Text>
       <Container maxW="4xl" mt={3}>
         <Heading fontSize="2xl" my={5}>
-          Democracy and Consensus Today's Problems
+          {format("democracy_and_consensus_todays_problems")}
         </Heading>
         <Text>
-          The main problems with votings with large numbers of voters are:
+          {format("democracy_and_consensus_todays_problems_text")}
           <Text my={3}>
-            <b>Low voter turnout</b>
-            <p>
-              In many cases, under an optimistic scenario, the participation of
-              only 60% of the electoral roll or qualified voters is expected.
-              This is a very low participation rate, which can be increased by
-              the use of a reliable and secure voting system that allows voters
-              to vote from any location and device in which they can give proof
-              of identity.
-            </p>
+            <b>{format("low_voter_turnout")}</b>
+            <p>{format("low_voter_turnout_text")}</p>
           </Text>
           <Text my={3}>
-            <b>Risk of fraud</b>
-            <p>
-              The risk of fraud under the current voting system is unnecessarily
-              high. As people are involved and they can be persuade to
-              manipulate either the votes and the people that are voting.
-            </p>
+            <b>{format("risk_of_fraud")}</b>
+            <p>{format("risk_of_fraud_text")}</p>
           </Text>
           <Text my={3}>
-            <b>Vote counting procedure</b>
-            <p>
-              The current vote counting system has many vulnerabilities, from
-              "innocent" human error to "mistakes" made in order to tamper with
-              the results. Not to mention that it is expensive and time
-              consuming.
-            </p>
+            <b>{format("vote_couting_procedure")}</b>
+            <p>{format("vote_couting_procedure_text")}</p>
           </Text>
           <Text my={3}>
-            <b>High costs and exorbitant times</b>
-            <p>
-              As the system is currently implemented, it is very expensive and
-              it takes a lot of time to count the votes. This is a problem that
-              can be solved by using a blockchain-based voting system. It is not
-              only a matter of time and money, but also of security. As more
-              time pases between the voting and the results, the more unseccure
-              the results are. This is because the results can be manipulated.
-            </p>
+            <b>{format("high_costs_and_exorbitant_times")}</b>
+            <p>{format("high_costs_and_exorbitant_times_text")}</p>
           </Text>
         </Text>
         <Heading fontSize="2xl" my={5}>
-          Why Dotocracy?
+          {format("why_dotocracy")}
         </Heading>
         <Text>
-          Dotocracy is a blockchain-based voting system that solves the main
-          issues mentioned before. It is a decentralized and secure voting
-          system that keep the voters' privacy and the results integrity. It is
-          also very fast and cheap. It is a system that is designed to be used
-          by anyone, anywhere and at any time (as long as the user can give a
-          proof of identity).
+          {format("why_dotocracy_text")}
           <Text my={3}>
-            <b>Low voter turnout can be increased</b>
-            <p>
-              Using Dotocracy, the voter turnout can be increased by allowing
-              the user to vote from any location and device in which they can
-              give proof of identity.
-            </p>
+            <b>{format("low_voter_turnout_can_be_increased")}</b>
+            <p>{format("low_voter_turnout_can_be_increased_text")}</p>
           </Text>
           <Text my={3}>
-            <b>Risk of fraud is clearly no to so easy now</b>
-            <p>
-              Using Dotocracy, fraud is not possible. As the system is based on
-              a blockchain, the results are immutable and every vote pass
-              through a consensus algorithm that guarantees its integrity.
-            </p>
+            <b>{format("risk_of_fraud_can_be_reduced")}</b>
+            <p>{format("risk_of_fraud_can_be_reduced_text")}</p>
           </Text>
           <Text my={3}>
-            <b>Vote counting procedure faster and cheaper</b>
-            <p>
-              Using Dotocracy, the vote counting procedure is faster and
-              cheaper. This is because every vote is counted in real time and
-              the results are immutable. This means that the results are
-              available as soon as the voting is closed and they can not be
-              tampered.
-            </p>
+            <b>{format("vote_counting_faster_and_cheaper")}</b>
+            <p>{format("vote_counting_faster_and_cheaper_text")}</p>
           </Text>
         </Text>
         <Heading fontSize="2xl" my={5}>

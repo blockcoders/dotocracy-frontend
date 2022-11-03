@@ -1,4 +1,4 @@
-export const es = {
+export const en = {
   close: "Close",
   confirm: "Confirm",
   votation: "Votation",
@@ -14,9 +14,9 @@ export const es = {
   registered_votes: "Registered votes",
   select_candidate: "Select candidate",
   please_fill_ballot_name_and_date: "Please fill ballot name and date",
-  "there_must be at least one voter or one candidate":
+  there_must_be_at_least_one_voter_or_one_candidate:
     "There must be at least one voter or one candidate",
-  "there_is at least one empty voter or candidate":
+  there_is_at_least_one_empty_voter_or_candidate:
     "There is at least one empty voter or candidate",
   ballot_created: "Ballot created",
   "sending...": "Sending...",
