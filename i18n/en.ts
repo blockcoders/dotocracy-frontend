@@ -73,18 +73,19 @@ export const en = {
   how_to_create_a_new_ballot_1:
     "To create a new ballot, you need to have a wallet connected to the app. If you don't have one, you can create one using",
   how_to_create_a_new_ballot_polkadot_extension: " Polkadot.js extension. ",
+  how_to_create_a_new_ballot_create: " Create ",
   how_to_create_a_new_ballot_2:
     "Once you have a wallet, you can create a new ballot by going to the",
   how_to_create_a_new_ballot_3:
     "page. There you will have to fill the form with the required information.",
-  "name:": "Name: ",
+  how_to_create_a_new_ballot_name: "Name: ",
   how_to_create_a_new_ballot_4:
     "Name your ballot so you and any voter can find it easily.",
-  "ends_on:": "Ends on: ",
+  how_to_create_a_new_ballot_ends_on: "Ends on: ",
   how_to_create_a_new_ballot_5: "Last day to vote on this ballot.",
-  "candidates:": "Candidates: ",
+  how_to_create_a_new_ballot_candidates: "Candidates: ",
   how_to_create_a_new_ballot_6: "List of options/people/entities to vote for.",
-  "voters:": "Voters: ",
+  how_to_create_a_new_ballot_voters: "Voters: ",
   how_to_create_a_new_ballot_7:
     "List of addresses that represent each voter/electoral register.",
   how_to_create_a_new_ballot_text:
@@ -92,6 +93,7 @@ export const en = {
   voting: "Voting",
   voting_1:
     "Voting is easy. You just need to have a wallet connected to the app. If you don't have one, you can create one using",
+  voting_polkadot_extension: " Polkadot.js extension. ",
   voting_2:
     'Once you have a wallet connected, you will see a list of all the open ballots. You can vote on any of them by clicking on the "Vote" button. You will be redirected to a page where you will have to select the Candidate you want to vote on. Once you have selected the ballot and the option, you will have to sign the transaction using your wallet. Once the transaction is confirmed, you will be redirected to the results page where you will see the results of the ballot.',
   voting_step_1: "Step 1: ",
