@@ -203,18 +203,48 @@ export default function Docs() {
           We are planning to add more features to the app. Some of them are:
           <Text my={3}>
             <b>1. Identiy Verification</b>
-            <p>asdsadsa</p>
+            <p>
+              The only condition to vote is to have only one of the NFTs that
+              are minted once the Ballot is created but this behavior is just
+              for the MVP. The main idea is to ask for a proof of identity
+              before the vote is cast. This way we can ensure that each voter is
+              who they say they are. As NFTs will not be transferable we can
+              ensure that each voter can only vote once.
+            </p>
           </Text>
           <Text my={3}>
-            <b>2. Avoid using any extension to sign transactions</b>
-            <p>asdsadsa</p>
+            <b>2. Adding more voting options</b>
+            <p>
+              For now we only support votations where voter can only vote once.
+              But we are planning to add support for more governance options.
+              Such as multiple votes per voter, ranked voting, etc.
+            </p>
+          </Text>
+          <Text my={3}>
+            <b>3. Avoid using any extension to sign transactions</b>
+            <p>
+              As this is a solution that have to reach multiple users and we
+              cannot expect them to know how to use wallets and have knowledge
+              of how transactions work we are planning to allow users to vote
+              without having to use any extension. This will potentially be done
+              by an strategy that consists of generating a new wallet for every
+              voter without them knowing it. This wallet will be used to sign
+              the vote after the user give their proof of identity.
+            </p>
           </Text>
           <Text my={3}>
             <b>
-              3. Create Ballots that can be voted from different parachains
+              4. Create Ballots that can be voted from different parachains
               using XCM
             </b>
-            <p>asdsadsa</p>
+            <p>
+              Polkadot ecosystem allows for parachains to comunicate this means
+              that we will be able to add some features that involve being able
+              to vote from different parachains. Having the NFT minted on the
+              parachain where the ballot was created and then being able to vote
+              on the parachain where the voter is located. We will have to
+              explore the posibilities and limitations of this feature.
+            </p>
           </Text>
         </Text>
       </Container>
