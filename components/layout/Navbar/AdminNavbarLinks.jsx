@@ -7,6 +7,8 @@ import { useWalletContext } from "../../../providers/WalletProvider";
 import { NetworkSwitch } from "./NetworkSwitch";
 import { SelectWalletMenu } from "./SelectWalletMenu";
 import { ThemeTogle } from "./ThemeTogle";
+import SidebarResponsive from '../Sidebar/SidebarResponsive'
+import { routes } from "../../../routes";
 
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
@@ -24,6 +26,13 @@ export default function HeaderLinks(props) {
       flexDirection="row"
       justifyContent="space-between"
     >
+      <SidebarResponsive
+        logoText={props.logoText}
+        secondary={props.secondary}
+        routes={routes}
+        // logo={logo}
+        {...rest}
+      />
       <Text>{userName}</Text>
       <HStack>
         <ThemeTogle />
