@@ -102,7 +102,7 @@ export default function create() {
               onChange={({ target }) => onChangeForm(target.name, target.value)}
             />
             <Input
-              placeholder="End date"
+              placeholder="Ends on"
               type="date"
               value={form.date}
               onChange={({ target }) => onChangeForm("date", target.value)}

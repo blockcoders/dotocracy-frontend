@@ -86,14 +86,14 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       const extensions = await web3Enable("Ink! Explorer");
       if (extensions.length === 0) {
         showAlert && showWarningToast("No extension detected");
-        console.warn("no extension");
+        console.warn("No extension detected");
         return;
       }
       const accounts = await web3Accounts();
 
       if (accounts.length === 0) {
         showAlert && showWarningToast("No accounts detected");
-        console.warn("No wallets fonund");
+        console.warn("No wallets detected");
         return;
       }
 

@@ -27,7 +27,7 @@ export default function VoteDetail() {
 
       <Box mt={10}>
         <Text textAlign="center" fontWeight={600} mb={5} fontSize="3xl">
-          Select a candidate
+          Select candidate
         </Text>
       </Box>
       <Grid
