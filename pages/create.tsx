@@ -9,19 +9,12 @@ import {
   useColorModeValue,
   VStack,
 } from "@chakra-ui/react";
-import { useState } from "react";
 import { AiFillDelete } from "react-icons/ai";
 import { BsPlusLg } from "react-icons/bs";
 import { useToast } from "../hooks/useToast";
 import { useLoading } from "../hooks/useLoading";
 import { useCreateBallot } from "../hooks/useCreateBallot";
-
-interface Form {
-  ballotName: string;
-  date: Date;
-  candidates: string[];
-  voters: string[];
-}
+import { useFormatIntl } from "../hooks/useFormatIntl";
 
 export default function create() {
   const {
@@ -38,10 +31,11 @@ export default function create() {
 
   const { showSuccessToast, showErrorToast } = useToast();
   const { isLoading, endLoading, startLoading } = useLoading();
+  const { format } = useFormatIntl();
 
   const createVotation = async () => {
     if (!form.ballotName.trim() || !form.date) {
-      return showErrorToast("Please fill ballot name and date");
+      return showErrorToast(format("please_fill_ballot_name_and_date"));
     }
 
     if (
@@ -49,7 +43,7 @@ export default function create() {
       (form.voters.length === 1 && !form.voters[0])
     ) {
       return showErrorToast(
-        "There must be at least one voter or one candidate"
+        format("there_must be at least one voter or one candidate")
       );
     }
 
@@ -58,7 +52,9 @@ export default function create() {
     const emptyVoters = form.voters.some((v) => !v.trim());
 
     if (emptyCandidates || emptyVoters) {
-      return showErrorToast("There is at least one empty voter or candidate");
+      return showErrorToast(
+        format("there_is at least one empty voter or candidate")
+      );
     }
 
     startLoading();
@@ -69,7 +65,7 @@ export default function create() {
           res("");
         }, 2000)
       );
-      showSuccessToast("Ballot created");
+      showSuccessToast(format("ballot_created"));
       resetForm();
       console.log("sending...");
     } catch (error) {
@@ -91,18 +87,18 @@ export default function create() {
           textAlign={"center"}
         >
           <Heading fontSize={"2xl"} fontFamily={"body"}>
-            New Ballot
+            {format("new_ballot")}
           </Heading>
 
           <VStack mt={10} gap={7}>
             <Input
               name="ballotName"
-              placeholder="Ballot Name"
+              placeholder={format("ballot_name")}
               value={form.ballotName}
               onChange={({ target }) => onChangeForm(target.name, target.value)}
             />
             <Input
-              placeholder="Ends on"
+              placeholder={format("ends_on")}
               type="date"
               value={form.date}
               onChange={({ target }) => onChangeForm("date", target.value)}
@@ -115,7 +111,7 @@ export default function create() {
               alignItems="baseline"
             >
               <VStack alignItems="start">
-                <Text textAlign="start">Candidates</Text>
+                <Text textAlign="start">{format("candidates")}</Text>
                 {form?.candidates?.map((p, index) => (
                   <HStack key={index.toString()}>
                     <Input
@@ -135,7 +131,7 @@ export default function create() {
               </VStack>
               <VStack alignItems="start">
                 <Box>
-                  <Text textAlign="start">Voters</Text>
+                  <Text textAlign="start">{format("voters")}</Text>
                 </Box>
                 {form?.voters?.map((p, index) => (
                   <HStack key={index.toString()}>
@@ -163,7 +159,7 @@ export default function create() {
             onClick={createVotation}
             colorScheme="green"
           >
-            Create
+            {format("create")}
           </Button>
         </Box>
       </Container>

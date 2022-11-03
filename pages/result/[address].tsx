@@ -17,9 +17,11 @@ import { useRouter } from "next/router";
 import { useState } from "react";
 import { Candidate } from "../../components/common/Candidate";
 import { candidatesMocks } from "../../_mocks/candidateMocks";
+import { useFormatIntl } from "../../hooks/useFormatIntl";
 
 export default function ResultDetails() {
   const router = useRouter();
+  const { format } = useFormatIntl();
   const [candidates, setCandidates] = useState(candidatesMocks);
 
   return (
@@ -38,19 +40,19 @@ export default function ResultDetails() {
             Votation_name
           </Text>
           <Text as="p" fontWeight="bold">
-            Address:{" "}
+            {format("address")}:{" "}
             <Text display="inline-block" fontWeight="medium">
               {router.query.address}
             </Text>
           </Text>
           <Text as="p" fontWeight="bold">
-            End date:{" "}
+            {format("Ends on")}:{" "}
             <Text display="inline-block" fontWeight="medium">
               11
             </Text>
           </Text>
           <Text as="p" fontWeight="bold">
-            Total voters:{" "}
+            {format("total_voters")}:{" "}
             <Text display="inline-block" fontWeight="medium">
               15
             </Text>
@@ -61,8 +63,8 @@ export default function ResultDetails() {
           <Table variant="simple">
             <Thead>
               <Tr>
-                <Th>Candidate</Th>
-                <Th>Votes</Th>
+                <Th>{format("candidates")}</Th>
+                <Th>{format("votes")}</Th>
               </Tr>
             </Thead>
             <Tbody>
@@ -75,7 +77,7 @@ export default function ResultDetails() {
             </Tbody>
             <Tfoot>
               <Tr>
-                <Th>Current votes:</Th>
+                <Th>{format("current votes:")}</Th>
                 <Th>15</Th>
               </Tr>
             </Tfoot>

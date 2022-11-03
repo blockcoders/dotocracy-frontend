@@ -3,8 +3,10 @@ import { useRouter } from "next/router";
 import React, { useState } from "react";
 import { Candidate } from "../../components/common/Candidate";
 import { candidatesMocks } from "../../_mocks/candidateMocks";
+import { useFormatIntl } from "../../hooks/useFormatIntl";
 
 export default function VoteDetail() {
+  const { format } = useFormatIntl();
   const router = useRouter();
   const [candidates, setCandidates] = useState(candidatesMocks);
 
@@ -21,13 +23,15 @@ export default function VoteDetail() {
         <Text fontSize="3xl" fontWeight="bold">
           Votation_name
         </Text>
-        <Text>Address: {router.query.address}</Text>
-        <Text>End date: 11</Text>
+        <Text>
+          {format("address")}: {router.query.address}
+        </Text>
+        <Text>{format("ends_on")}: 11</Text>
       </Box>
 
       <Box mt={10}>
         <Text textAlign="center" fontWeight={600} mb={5} fontSize="3xl">
-          Select candidate
+          {format("select_candidate")}
         </Text>
       </Box>
       <Grid

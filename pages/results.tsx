@@ -6,16 +6,19 @@ import {
   Input,
   Grid,
 } from "@chakra-ui/react";
+import { format } from "path";
 import { useEffect, useMemo, useState } from "react";
 import { Votation } from "../components/common";
 import { useLoading } from "../hooks/useLoading";
 import { votationsMock } from "../_mocks/votations-mocks";
+import { useFormatIntl } from "../hooks/useFormatIntl";
 
 export default function Restults() {
   const [search, setSearch] = useState("");
   const [votations, setVotations] = useState([]);
 
   const { isLoading, startLoading, endLoading } = useLoading();
+  const { format } = useFormatIntl();
 
   const searchVotations = async () => {
     startLoading();
@@ -53,12 +56,12 @@ export default function Restults() {
   return (
     <>
       <Text fontSize="3xl" fontWeight="bold">
-        Results
+        {format('results')}
       </Text>
       <Container maxW="2xl" mt={3} textAlign="center">
         <HStack my={10}>
           <Input
-            placeholder="Search the ballot by name or address..."
+            placeholder={format("search_the ballot by name or address...")}
             onChange={({ target }) => setSearch(target.value || "")}
             value={search}
           />

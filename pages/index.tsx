@@ -63,11 +63,11 @@ export default function Home() {
           speed={100}
           typingDelay={0}
         />
-        <Text>{format("header")}</Text>
+        <Text>{format("home_page_description")}</Text>
 
         <HStack my={10}>
           <Input
-            placeholder="Search the ballot by name or address..."
+            placeholder={format("Search the ballot by name or address...")}
             onChange={({ target }) => setSearch(target.value || "")}
             value={search}
           />
