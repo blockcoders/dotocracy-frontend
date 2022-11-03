@@ -64,7 +64,7 @@ export const Votation: FC<VotationProps> = ({ address, name, endsOn, fromView })
               );
             }}
           >
-            {fromView === "vote" ? "Vote" : "View"}
+            {fromView === "vote" ? format("vote") : format("view")}
           </Button>
         </Stack>
       </Box>

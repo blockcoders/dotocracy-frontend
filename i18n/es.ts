@@ -1,6 +1,9 @@
 export const es = {
   close: "Cerrar",
   confirm: "Confirmar",
+  edit: "Editar",
+  vote: "Votar",
+  view: "Ver",
   votation: "Votación",
   select_network: "Seleccione red",
   network: "Red",

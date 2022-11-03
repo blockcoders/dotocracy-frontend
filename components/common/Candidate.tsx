@@ -56,7 +56,7 @@ export const Candidate: FC<CandidateProps> = ({ name, fromView = "vote" }) => {
             }}
             onClick={onOpen}
           >
-            {fromView === "vote" ? "Vote" : "Edit"}
+            {fromView === "vote" ? format("vote") : format("edit")}
           </Button>
         </Stack>
       </Box>
@@ -65,7 +65,7 @@ export const Candidate: FC<CandidateProps> = ({ name, fromView = "vote" }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {fromView === "vote" ? "Confirm" : "Edit"} {format("voting")}
+            {fromView === "vote" ? format("confirm") : format("edit")} {format("voting")}
           </ModalHeader>
           <ModalCloseButton />
           <ModalFooter>

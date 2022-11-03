@@ -1,6 +1,9 @@
 export const en = {
   close: "Close",
   confirm: "Confirm",
+  edit: "Edit",
+  vote: "Vote",
+  view: "View",
   votation: "Votation",
   select_network: "Select network",
   network: "Network",
