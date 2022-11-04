@@ -1,24 +1,25 @@
 import { MdHome, MdHowToVote, MdInsertChart, MdInsertDriveFile } from "react-icons/md";
 
+
 export const routes = [
   {
     path: "/",
-    name: "Home",
+    name: "home",
     icon: <MdHome />,
   },
   {
     path: "/results",
-    name: "Results",
+    name: "results",
     icon: <MdInsertChart />,
   },
   {
     path: "/create",
-    name: "Create Ballot",
+    name: "create_ballot",
     icon: <MdHowToVote />,
   },
   {
     path: "/docs",
-    name: "Docs",
+    name: "docs",
     icon: <MdInsertDriveFile />,
   },
 ];

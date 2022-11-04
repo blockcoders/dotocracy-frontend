@@ -3,13 +3,14 @@ import {
 } from "@chakra-ui/react";
 import React from "react";
 import SidebarContent from "./SidebarContent";
-
+import { useFormatIntl } from "../../../hooks/useFormatIntl";
 
 function Sidebar(props) {
   const mainPanel = React.useRef();
   let variantChange = "0.2s linear";
 
-  const { logoText, routes, sidebarVariant } = props;
+  const { format } = useFormatIntl();
+  const { routes, sidebarVariant } = props;
 
   let sidebarBg = useColorModeValue("white", "gray.700");
   
@@ -27,7 +28,7 @@ function Sidebar(props) {
           ps="20px"
           pe="20px"
         >
-          <SidebarContent routes={routes}
+          <SidebarContent routes={routes.map((r) => ({ ...r, name: format(r.name) }))}
             logoText={"Blockcoders"}
             display="none"
             sidebarVariant={sidebarVariant}
