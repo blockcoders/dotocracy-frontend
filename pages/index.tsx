@@ -13,6 +13,7 @@ import styles from "../styles/style.module.css";
 import { votationsMock } from "../_mocks/votations-mocks";
 import { Votation } from "../components/common";
 import { useFormatIntl } from "../hooks/useFormatIntl";
+import { AnimatePresence } from "framer-motion";
 
 export default function Home() {
   const { isLoading, startLoading, endLoading } = useLoading();
@@ -85,9 +86,11 @@ export default function Home() {
           }}
           rowGap={10}
         >
-          {filteredVotations.map((v, index) => (
-            <Votation key={index.toString()} {...v} fromView="vote" />
-          ))}
+          <AnimatePresence>
+            {filteredVotations.map((v, index) => (
+              <Votation key={index.toString()} {...v} fromView="vote" />
+            ))}
+          </AnimatePresence>
         </Grid>
       </Container>
     </>

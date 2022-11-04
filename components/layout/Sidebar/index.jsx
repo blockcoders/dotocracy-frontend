@@ -11,7 +11,7 @@ function Sidebar(props) {
 
   const { logoText, routes, sidebarVariant } = props;
 
-  let sidebarBg = useColorModeValue("white", "gray.700");;
+  let sidebarBg = useColorModeValue("white", "gray.700");
   
   return (
     <Box ref={mainPanel}>

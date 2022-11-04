@@ -30,7 +30,7 @@ export default function App({ Component, pageProps }: AppProps) {
             <MainPanel
               w={{
                 base: "100%",
-                xl: "calc(100% - 275px)",
+                xl: "calc(100% - 260px)",
               }}
               pb={10}
             >

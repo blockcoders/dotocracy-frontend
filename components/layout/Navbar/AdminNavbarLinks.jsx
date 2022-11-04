@@ -11,6 +11,7 @@ import SidebarResponsive from '../Sidebar/SidebarResponsive'
 import { routes } from "../../../routes";
 import { LanguageMenu } from "./LanguageMenu";
 
+
 export default function HeaderLinks(props) {
   const { variant, children, fixed, secondary, onOpen, ...rest } = props;
 
@@ -35,7 +36,7 @@ export default function HeaderLinks(props) {
         {...rest}
       />
       <Text>{userName}</Text>
-      <HStack>
+      <HStack >
         <ThemeTogle />
         <LanguageMenu />
         <NetworkSwitch />

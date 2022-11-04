@@ -14,6 +14,8 @@ import {
 } from "@chakra-ui/react";
 import React, { FC } from "react";
 import { useFormatIntl } from "../../hooks/useFormatIntl";
+import { motion } from "framer-motion";
+import { buttonAnimation, enterAnimation } from "../../utils/animations";
 
 interface CandidateProps {
   name: string;
@@ -26,6 +28,8 @@ export const Candidate: FC<CandidateProps> = ({ name, fromView = "vote" }) => {
   return (
     <>
       <Box
+        as={motion.div}
+        {...enterAnimation}
         maxW={"320px"}
         w={"full"}
         bg={useColorModeValue("white", "gray.900")}
@@ -40,9 +44,12 @@ export const Candidate: FC<CandidateProps> = ({ name, fromView = "vote" }) => {
 
         <Stack mt={1} direction={"row"} spacing={4}>
           <Button
-            flex={1}
+            as={motion.button}
+            {...buttonAnimation}
             fontSize={"sm"}
-            rounded={"full"}
+            mx="auto"
+            rounded={"2xl"}
+            px="12"
             bg={"blue.400"}
             color={"white"}
             boxShadow={
@@ -65,7 +72,8 @@ export const Candidate: FC<CandidateProps> = ({ name, fromView = "vote" }) => {
         <ModalOverlay />
         <ModalContent>
           <ModalHeader>
-            {fromView === "vote" ? format("confirm") : format("edit")} {format("voting")}
+            {fromView === "vote" ? format("confirm") : format("edit")}{" "}
+            {format("voting")}
           </ModalHeader>
           <ModalCloseButton />
           <ModalFooter>

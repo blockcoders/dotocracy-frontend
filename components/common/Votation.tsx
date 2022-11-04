@@ -9,6 +9,8 @@ import {
 import React, { FC } from "react";
 import { useRouter } from "next/router";
 import { useFormatIntl } from "../../hooks/useFormatIntl";
+import { motion } from "framer-motion";
+import { enterAnimation, buttonAnimation } from "../../utils/animations";
 
 interface VotationProps {
   name: string;
@@ -16,12 +18,19 @@ interface VotationProps {
   endsOn: string;
   fromView: "result" | "vote";
 }
-export const Votation: FC<VotationProps> = ({ address, name, endsOn, fromView }) => {
+export const Votation: FC<VotationProps> = ({
+  address,
+  name,
+  endsOn,
+  fromView,
+}) => {
   const router = useRouter();
   const { format } = useFormatIntl();
   return (
     <>
       <Box
+        as={motion.div}
+        {...enterAnimation}
         maxW={"320px"}
         w={"full"}
         bg={useColorModeValue("white", "gray.900")}
@@ -37,16 +46,19 @@ export const Votation: FC<VotationProps> = ({ address, name, endsOn, fromView })
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
           {address}
         </Text>
-        
+
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
           {`${format("ends_on")} ${endsOn}`}
         </Text>
 
-        <Stack mt={1} direction={"row"} spacing={4}>
+        <Stack mt={4} direction={"row"} spacing={4}>
           <Button
-            flex={1}
+            as={motion.button}
+            {...buttonAnimation}
             fontSize={"sm"}
-            rounded={"full"}
+            mx="auto"
+            rounded={"2xl"}
+            px="12"
             bg={"blue.400"}
             color={"white"}
             boxShadow={

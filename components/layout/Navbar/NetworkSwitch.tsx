@@ -6,11 +6,13 @@ import {
   MenuItem,
   MenuList,
   Text,
+  useMediaQuery,
 } from "@chakra-ui/react";
 import React from "react";
 import { networks } from "../../../config/networks";
 import { useNetworkContext } from "../../../providers/NetworkProvider";
 import { useFormatIntl } from "../../../hooks/useFormatIntl";
+import { FaNetworkWired } from "react-icons/fa";
 
 export const NetworkSwitch = () => {
   const { format } = useFormatIntl();
@@ -18,6 +20,7 @@ export const NetworkSwitch = () => {
     state: { network },
     changeNetwork,
   } = useNetworkContext();
+  const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   return (
     <Menu>
@@ -28,9 +31,8 @@ export const NetworkSwitch = () => {
         display="block"
         textOverflow="ellipsis"
         whiteSpace="nowrap"
-        // onClick={() => !haveWallets && connectWallet()}
       >
-        {format("network")}
+        {isLargerThan768 ? format("network") : <FaNetworkWired />}
       </MenuButton>
       {networks && (
         <MenuList maxW="32">
