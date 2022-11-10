@@ -26,7 +26,7 @@ export default function Home() {
   const { format } = useFormatIntl();
 
   const [search, setSearch] = useState("");
-  const [votations, setVotations] = useState([]);
+  const [votations, setVotations] = useState<any>([]);
 
   const { state } = useWalletContext();
   const { selectedAddress, provider } = state;
@@ -53,22 +53,6 @@ export default function Home() {
     }
     endLoading();
   };
-
-  // const filteredVotations = useMemo(() => {
-  //   if (votations.length === 0) return [];
-
-  //   let filterVotations = votations;
-
-  //   if (search) {
-  //     filterVotations = filterVotations.filter(
-  //       (voting) =>
-  //         voting?.name?.toLowerCase().includes(search.toLowerCase().trim()) ||
-  //         voting?.address?.toLowerCase().includes(search.toLowerCase().trim())
-  //     );
-  //   }
-
-  //   return filterVotations;
-  // }, [votations, search]);
 
   return (
     <>
@@ -105,13 +89,11 @@ export default function Home() {
           justifyContent="center"
           gridTemplateColumns={{
             base: "1fr",
-            // md: "1fr 1fr",
-            // lg: "1fr 1fr 1fr",
           }}
           rowGap={10}
         >
           <AnimatePresence>
-            {votations.map((v, index) => (
+            {votations.map((v: any, index: number) => (
               <Votation key={index.toString()} {...v} fromView="vote" />
             ))}
           </AnimatePresence>
