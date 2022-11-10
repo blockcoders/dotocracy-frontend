@@ -16,12 +16,14 @@ interface VotationProps {
   name: string;
   address: string;
   endsOn: string;
+  balance: number;
   fromView: "result" | "vote";
 }
 export const Votation: FC<VotationProps> = ({
   address,
   name,
   endsOn,
+  balance,
   fromView,
 }) => {
   const router = useRouter();
@@ -43,9 +45,9 @@ export const Votation: FC<VotationProps> = ({
           {name}
         </Heading>
 
-        <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
+        {/* <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
           {address}
-        </Text>
+        </Text> */}
 
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
           {`${format("ends_on")} ${endsOn}`}
@@ -54,6 +56,8 @@ export const Votation: FC<VotationProps> = ({
         <Stack mt={4} direction={"row"} spacing={4}>
           <Button
             as={motion.button}
+            disabled={balance !== 1}
+            _readOnly={balance !== 1}
             {...buttonAnimation}
             fontSize={"sm"}
             mx="auto"

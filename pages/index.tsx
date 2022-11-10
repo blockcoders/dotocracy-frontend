@@ -1,4 +1,5 @@
 import {
+  Button,
   Container,
   Grid,
   HStack,
@@ -10,12 +11,12 @@ import { useLoading } from "../hooks/useLoading";
 import { useState, useEffect, useMemo } from "react";
 import ReactTypingEffect from "react-typing-effect";
 import styles from "../styles/style.module.css";
-import { votationsMock } from "../_mocks/votations-mocks";
 import { Votation } from "../components/common";
 import { useFormatIntl } from "../hooks/useFormatIntl";
 import { AnimatePresence } from "framer-motion";
 import { useContracts } from "../hooks/useContracts";
 import { useWalletContext } from "../providers/WalletProvider";
+import { SearchIcon } from "@chakra-ui/icons";
 
 export default function Home() {
   const { getBallotContractInstance, getTicketContractInstance } =
@@ -33,19 +34,17 @@ export default function Home() {
   const searchVotations = async () => {
     startLoading();
     try {
-      const search = "0x878aB74D744DD186ED06600D9D31f9299760Ac1a";
       const ballotContract = await getBallotContractInstance(search, provider);
       const NFTAddress = await ballotContract.token();
       const ticketContract = await getTicketContractInstance(
         NFTAddress,
         provider
       );
-      console.log("ticketContract", await ticketContract.balanceOf(selectedAddress));
 
-      const res = await new Promise((res, rej) =>
-        setTimeout(() => res(votationsMock), 2000)
-      );
-      setVotations(res);
+      const balance = await ticketContract.balanceOf(search);
+      const name = await ticketContract.name();
+
+      setVotations([{ name, balance: Number(balance), address, endsOn: "" }]);
     } catch (error) {
       console.log(error);
     }
@@ -56,21 +55,21 @@ export default function Home() {
     searchVotations();
   }, []);
 
-  const filteredVotations = useMemo(() => {
-    if (votations.length === 0) return [];
+  // const filteredVotations = useMemo(() => {
+  //   if (votations.length === 0) return [];
 
-    let filterVotations = votations;
+  //   let filterVotations = votations;
 
-    if (search) {
-      filterVotations = filterVotations.filter(
-        (voting) =>
-          voting?.name?.toLowerCase().includes(search.toLowerCase().trim()) ||
-          voting?.address?.toLowerCase().includes(search.toLowerCase().trim())
-      );
-    }
+  //   if (search) {
+  //     filterVotations = filterVotations.filter(
+  //       (voting) =>
+  //         voting?.name?.toLowerCase().includes(search.toLowerCase().trim()) ||
+  //         voting?.address?.toLowerCase().includes(search.toLowerCase().trim())
+  //     );
+  //   }
 
-    return filterVotations;
-  }, [votations, search]);
+  //   return filterVotations;
+  // }, [votations, search]);
 
   return (
     <>
@@ -83,28 +82,37 @@ export default function Home() {
         />
         <Text>{format("home_page_description")}</Text>
 
-        <HStack my={10}>
+        <HStack my={10} gap={2}>
           <Input
             placeholder={format("search_the_ballot_by_name_or_address")}
             onChange={({ target }) => setSearch(target.value || "")}
             value={search}
           />
+          <Button
+            colorScheme="teal"
+            variant="outline"
+            onClick={searchVotations}
+          >
+            <SearchIcon />
+          </Button>
         </HStack>
 
         {isLoading && <Spinner size="md" />}
 
         <Grid
           columnGap={8}
+          alignItems="center"
+          justifyItems="center"
           justifyContent="center"
           gridTemplateColumns={{
             base: "1fr",
-            md: "1fr 1fr",
-            lg: "1fr 1fr 1fr",
+            // md: "1fr 1fr",
+            // lg: "1fr 1fr 1fr",
           }}
           rowGap={10}
         >
           <AnimatePresence>
-            {filteredVotations.map((v, index) => (
+            {votations.map((v, index) => (
               <Votation key={index.toString()} {...v} fromView="vote" />
             ))}
           </AnimatePresence>
