@@ -34,23 +34,6 @@ export const SelectWalletMenu = () => {
       >
         {!haveWallets ? format("connect_wallet") : selectedAddress}
       </MenuButton>
-      {haveWallets && (
-        <MenuList maxW="32">
-          <Text px={3}>{format("select_wallet")}</Text>
-          {wallets.map((w, index) => (
-            <MenuItem
-              key={index.toString()}
-              textOverflow="ellipsis"
-              overflow="hidden"
-              whiteSpace="nowrap"
-              display="block"
-              onClick={() => changeAddress(w)}
-            >
-              {w}
-            </MenuItem>
-          ))}
-        </MenuList>
-      )}
     </Menu>
   );
 };

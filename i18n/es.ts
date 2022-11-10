@@ -13,6 +13,7 @@ export const es = {
   network: "Red",
   select_wallet: "Seleccione billetera",
   connect_wallet: "Conecte su billereta",
+  unsupported_network: "Red no soportada",
   address: "Dirección",
   ends_on: "Termina el",
   total_voters: "Total de votantes",

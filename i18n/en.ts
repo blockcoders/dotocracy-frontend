@@ -13,6 +13,7 @@ export const en = {
   network: "Network",
   select_wallet: "Select wallet",
   connect_wallet: "Connect wallet",
+  unsupported_network: "Unsupported network",
   address: "Address",
   ends_on: "Ends on",
   total_voters: "Total voters",
