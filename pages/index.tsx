@@ -15,9 +15,10 @@ import { Votation } from "../components/common";
 import { useFormatIntl } from "../hooks/useFormatIntl";
 import { AnimatePresence } from "framer-motion";
 import { useContracts } from "../hooks/useContracts";
+import { useWalletContext } from "../providers/WalletProvider";
 
 export default function Home() {
-  const { connect, getBallotContractInstance, getTicketContractInstance } =
+  const { getBallotContractInstance, getTicketContractInstance } =
     useContracts();
 
   const { isLoading, startLoading, endLoading } = useLoading();
@@ -26,10 +27,12 @@ export default function Home() {
   const [search, setSearch] = useState("");
   const [votations, setVotations] = useState([]);
 
+  const { state } = useWalletContext();
+  const { selectedAddress, provider } = state;
+
   const searchVotations = async () => {
     startLoading();
     try {
-      const { address, provider } = await connect((window as any)?.ethereum);
       const search = "0x878aB74D744DD186ED06600D9D31f9299760Ac1a";
       const ballotContract = await getBallotContractInstance(search, provider);
       const NFTAddress = await ballotContract.token();
@@ -37,7 +40,7 @@ export default function Home() {
         NFTAddress,
         provider
       );
-      console.log("ticketContract", await ticketContract.balanceOf(address));
+      console.log("ticketContract", await ticketContract.balanceOf(selectedAddress));
 
       const res = await new Promise((res, rej) =>
         setTimeout(() => res(votationsMock), 2000)

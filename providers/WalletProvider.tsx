@@ -8,6 +8,7 @@ import {
 } from "react";
 import { useToast } from "../hooks/useToast";
 import { useFormatIntl } from "../hooks/useFormatIntl";
+import { ethers } from "ethers";
 
 const WalletContext = createContext(
   {} as {
@@ -21,14 +22,14 @@ interface InitialState {
   selectedAddress: string;
   wallets: string[];
   isLoadingWallet: boolean;
-  userName?: string;
+  provider?: ethers.providers.Web3Provider;
 }
 
 const initialState: InitialState = {
   selectedAddress: "",
   wallets: [],
   isLoadingWallet: false,
-  userName: "",
+  provider: undefined,
 };
 
 const reducer = (state: InitialState, action: any): InitialState => {
@@ -38,7 +39,7 @@ const reducer = (state: InitialState, action: any): InitialState => {
         ...state,
         selectedAddress: action.payload.selectedAddress,
         wallets: action.payload.wallets,
-        userName: action.payload.userName || "",
+        provider: action.payload.provider,
         isLoadingWallet: false,
       };
     }
@@ -46,7 +47,6 @@ const reducer = (state: InitialState, action: any): InitialState => {
       return {
         ...state,
         selectedAddress: action.payload.address,
-        userName: action.payload.userName || "",
       };
     }
     case "start-loading": {
@@ -74,37 +74,28 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       type: "change-address",
       payload: {
         address,
-        userName: format("another_username"),
       },
     });
   };
 
   const connectWallet = async (showAlert: boolean = true) => {
     try {
-      const { web3Accounts, web3Enable } = await import(
-        "@polkadot/extension-dapp"
-      );
-
-      const extensions = await web3Enable("Ink! Explorer");
-      if (extensions.length === 0) {
+      if (!(window as any)?.ethereum) {
         showAlert && showWarningToast(format("no_extension_detected"));
-        console.warn(format("no_extension_detected"));
-        return;
+        return
       }
-      const accounts = await web3Accounts();
-
-      if (accounts.length === 0) {
+      const provider = new ethers.providers.Web3Provider((window as any)?.ethereum);
+      const addresses = (await provider.send("eth_requestAccounts", []));
+      if (addresses.length === 0) {
         showAlert && showWarningToast(format("no_accounts_detected"));
-        console.warn(format("no_wallets_detected"));
-        return;
       }
 
       dispatch({
         type: "init",
         payload: {
-          wallets: accounts,
-          selectedAddress: accounts?.[0]?.address,
-          userName: format("username"),
+          provider,
+          wallets: addresses,
+          selectedAddress: addresses?.[0],
         },
       });
     } catch (error) {
