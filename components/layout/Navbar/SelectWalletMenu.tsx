@@ -13,7 +13,7 @@ import { useFormatIntl } from "../../../hooks/useFormatIntl";
 export const SelectWalletMenu = () => {
   const { format } = useFormatIntl();
   const {
-    state: { isLoadingWallet, wallets, userName, selectedAddress },
+    state: { isLoadingWallet, wallets, selectedAddress },
     changeAddress,
     connectWallet,
   } = useWalletContext();
