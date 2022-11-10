@@ -14,8 +14,12 @@ import { votationsMock } from "../_mocks/votations-mocks";
 import { Votation } from "../components/common";
 import { useFormatIntl } from "../hooks/useFormatIntl";
 import { AnimatePresence } from "framer-motion";
+import { useContracts } from "../hooks/useContracts";
 
 export default function Home() {
+  const { connect, getBallotContractInstance, getTicketContractInstance } =
+    useContracts();
+
   const { isLoading, startLoading, endLoading } = useLoading();
   const { format } = useFormatIntl();
 
@@ -25,6 +29,16 @@ export default function Home() {
   const searchVotations = async () => {
     startLoading();
     try {
+      const { address, provider } = await connect((window as any)?.ethereum);
+      const search = "0x878aB74D744DD186ED06600D9D31f9299760Ac1a";
+      const ballotContract = await getBallotContractInstance(search, provider);
+      const NFTAddress = await ballotContract.token();
+      const ticketContract = await getTicketContractInstance(
+        NFTAddress,
+        provider
+      );
+      console.log("ticketContract", await ticketContract.balanceOf(address));
+
       const res = await new Promise((res, rej) =>
         setTimeout(() => res(votationsMock), 2000)
       );
