@@ -82,10 +82,12 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     try {
       if (!(window as any)?.ethereum) {
         showAlert && showWarningToast(format("no_extension_detected"));
-        return
+        return;
       }
-      const provider = new ethers.providers.Web3Provider((window as any)?.ethereum);
-      const addresses = (await provider.send("eth_requestAccounts", []));
+      const provider = new ethers.providers.Web3Provider(
+        (window as any)?.ethereum
+      );
+      const addresses = await provider.send("eth_requestAccounts", []);
       if (addresses.length === 0) {
         showAlert && showWarningToast(format("no_accounts_detected"));
       }

@@ -13,6 +13,7 @@ import { useLoading } from "../hooks/useLoading";
 import { useFormatIntl } from "../hooks/useFormatIntl";
 import { SearchIcon } from "@chakra-ui/icons";
 import { useContracts } from "../hooks/useContracts";
+import { useWalletContext } from "../providers/WalletProvider";
 
 export default function Restults() {
   const { getBallotContractInstance, getTicketContractInstance } =
@@ -24,10 +25,12 @@ export default function Restults() {
   const { isLoading, startLoading, endLoading } = useLoading();
   const { format } = useFormatIntl();
 
+  const { state } = useWalletContext();
+  const { selectedAddress, provider } = state;
+
   const searchVotations = async () => {
     startLoading();
     try {
-      const { address, provider } = await connect((window as any)?.ethereum);
       const ballotContract = await getBallotContractInstance(search, provider);
       const NFTAddress = await ballotContract.token();
       const ticketContract = await getTicketContractInstance(
@@ -35,19 +38,18 @@ export default function Restults() {
         provider
       );
 
-      const balance = await ticketContract.balanceOf(address);
+      const balance = await ticketContract.balanceOf(selectedAddress);
       const name = await ticketContract.name();
 
-      setVotations([{ name, balance: Number(balance), address, endsOn: "" }]);
+      setVotations([
+        { name, balance: Number(balance), address: search, endsOn: "" },
+      ]);
     } catch (error) {
       console.log(error);
+      setVotations([]);
     }
     endLoading();
   };
-
-  useEffect(() => {
-    searchVotations();
-  }, []);
 
   // const filteredVotations = useMemo(() => {
   //   if (votations.length === 0) return [];

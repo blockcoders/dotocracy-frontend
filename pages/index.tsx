@@ -8,7 +8,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { useLoading } from "../hooks/useLoading";
-import { useState, useEffect, useMemo } from "react";
+import { useState } from "react";
 import ReactTypingEffect from "react-typing-effect";
 import styles from "../styles/style.module.css";
 import { Votation } from "../components/common";
@@ -41,19 +41,18 @@ export default function Home() {
         provider
       );
 
-      const balance = await ticketContract.balanceOf(search);
+      const balance = await ticketContract.balanceOf(selectedAddress);
       const name = await ticketContract.name();
 
-      setVotations([{ name, balance: Number(balance), address, endsOn: "" }]);
+      setVotations([
+        { name, balance: Number(balance), address: search, endsOn: "" },
+      ]);
     } catch (error) {
       console.log(error);
+      setVotations([]);
     }
     endLoading();
   };
-
-  useEffect(() => {
-    searchVotations();
-  }, []);
 
   // const filteredVotations = useMemo(() => {
   //   if (votations.length === 0) return [];
