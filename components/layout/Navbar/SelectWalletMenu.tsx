@@ -44,9 +44,9 @@ export const SelectWalletMenu = () => {
               overflow="hidden"
               whiteSpace="nowrap"
               display="block"
-              onClick={() => changeAddress(w?.address)}
+              onClick={() => changeAddress(w)}
             >
-              {w?.address}
+              {w}
             </MenuItem>
           ))}
         </MenuList>
