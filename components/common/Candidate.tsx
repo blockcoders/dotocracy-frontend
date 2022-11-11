@@ -16,15 +16,49 @@ import React, { FC } from "react";
 import { useFormatIntl } from "../../hooks/useFormatIntl";
 import { motion } from "framer-motion";
 import { buttonAnimation, enterAnimation } from "../../utils/animations";
+import { useToast } from "../../hooks/useToast";
+import { useContracts } from "../../hooks/useContracts";
+import { useWalletContext } from "../../providers/WalletProvider";
+import { useRouter } from "next/router";
 
 interface CandidateProps {
   name: string;
   fromView?: "vote" | "result";
+  proposalId: string;
+  address: string;
 }
 
-export const Candidate: FC<CandidateProps> = ({ name, fromView = "vote" }) => {
+export const Candidate: FC<CandidateProps> = ({
+  name,
+  fromView = "vote",
+  proposalId,
+  address,
+}) => {
+  const router = useRouter();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const { format } = useFormatIntl();
+  const { showSuccessToast, showErrorToast } = useToast();
+  const { getBallotContractInstance } = useContracts();
+  const {
+    state: { provider },
+  } = useWalletContext();
+
+  const onVote = async () => {
+    try {
+      const ballotContract = await getBallotContractInstance(
+        address,
+        provider?.getSigner()
+      );
+
+      const rest = await ballotContract.castVote(name, proposalId);
+      showSuccessToast("Succesfull vote");
+
+      router.push("/");
+    } catch (error) {
+      showErrorToast(String(error));
+    }
+  };
+
   return (
     <>
       <Box
@@ -80,7 +114,7 @@ export const Candidate: FC<CandidateProps> = ({ name, fromView = "vote" }) => {
             <Button colorScheme="blue" mr={3} onClick={onClose}>
               {format("close")}
             </Button>
-            <Button variant="ghost" onClick={onClose}>
+            <Button variant="ghost" onClick={onVote}>
               {format("confirm")}
             </Button>
           </ModalFooter>

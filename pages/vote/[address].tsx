@@ -11,7 +11,7 @@ export default function VoteDetail() {
   const { format } = useFormatIntl();
   const router = useRouter();
   const [candidates, setCandidates] = useState([]);
-  const [ballot, setBallot] = useState({name: "", endsOn: ""});
+  const [ballot, setBallot] = useState({ name: "", endsOn: "" });
   const { startLoading, endLoading, isLoading } = useLoading();
   const { getBallotContractInstance } = useContracts();
   const { state } = useWalletContext();
@@ -25,7 +25,7 @@ export default function VoteDetail() {
       const ballotContract = await getBallotContractInstance(address, provider);
       //const candidates = await ballotContract.getCandidates();
       const name = await ballotContract.name();
-      setBallot({name, endsOn: ""});
+      setBallot({ name, endsOn: "" });
       //setCandidates(candidates);
     } catch (error) {
       console.log(error);
@@ -46,7 +46,9 @@ export default function VoteDetail() {
         <Text>
           {format("address")}: {address}
         </Text>
-        <Text>{format("ends_on")}: {ballot.endsOn}</Text>
+        <Text>
+          {format("ends_on")}: {ballot.endsOn}
+        </Text>
       </Box>
 
       <Container maxW="4xl" mt={3} textAlign="center">
@@ -67,7 +69,7 @@ export default function VoteDetail() {
           rowGap={10}
         >
           {candidates.map((c: any, index) => (
-            <Candidate key={index.toString()} {...c} />
+            <Candidate key={index.toString()} {...c} address={address} />
           ))}
         </Grid>
       </Container>
