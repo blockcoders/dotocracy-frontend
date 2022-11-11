@@ -5,6 +5,7 @@ import {
   Heading,
   HStack,
   Input,
+  Select,
   Text,
   useColorModeValue,
   VStack,
@@ -23,6 +24,10 @@ import {
   cardEnterAnimation,
 } from "../utils/animations";
 import { useWalletContext } from "../providers/WalletProvider";
+import { parse } from "path";
+import { transformDate } from "../utils/date";
+
+const dateOptions = ["Minutes", "Hours", "Days"];
 
 export default function create() {
   const {
@@ -35,6 +40,7 @@ export default function create() {
     deleteVoter,
     onChangeForm,
     resetForm,
+    onChangeDateOption,
   } = useCreateBallot();
 
   const { showSuccessToast, showErrorToast } = useToast();
@@ -46,8 +52,12 @@ export default function create() {
   } = useWalletContext();
 
   const createVotation = async () => {
-    if (!form.ballotName.trim() || !form.date) {
+    if (!form.ballotName.trim()) {
       return showErrorToast(format("please_fill_ballot_name_and_date"));
+    }
+
+    if (isNaN(parseFloat(form.startDate)) || isNaN(parseFloat(form.endDate))) {
+      return showErrorToast(format("please_fill_ballot_dates"));
     }
 
     if (
@@ -73,8 +83,8 @@ export default function create() {
     try {
       // TODO: call contract
       const voters = form.voters;
-      const delay = 1000;
-      const period = 100;
+      const delay = transformDate(form.startOption, form.startDate);
+      const period = delay + transformDate(form.endOption, form.endDate);
       const description = form.ballotName;
       const options = form.options;
 
@@ -138,12 +148,84 @@ export default function create() {
                   onChangeForm(target.name, target.value)
                 }
               />
-              <Input
-                placeholder={format("ends_on")}
-                type="date"
-                value={form.date}
-                onChange={({ target }) => onChangeForm("date", target.value)}
-              />
+
+              <HStack gap={10}>
+                {/* start date */}
+                <VStack>
+                  <Text>{format("Empezar en:")}</Text>
+                  <HStack
+                    gap={0}
+                    sx={{
+                      ".chakra-select__wrapper": {
+                        marginInlineStart: 0,
+                      },
+                    }}
+                  >
+                    <Input
+                      name="startDate"
+                      mr={0}
+                      borderTopRightRadius={0}
+                      borderBottomRightRadius={0}
+                      value={form.startDate}
+                      onChange={({ target }) =>
+                        onChangeForm(target.name, target.value)
+                      }
+                    />
+                    <Select
+                      borderTopLeftRadius={0}
+                      borderBottomLeftRadius={0}
+                      value={form.startOption}
+                      onChange={({ target }) =>
+                        onChangeDateOption("start", target.value)
+                      }
+                    >
+                      {dateOptions.map((opt, index) => (
+                        <option key={index} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </Select>
+                  </HStack>
+                </VStack>
+
+                {/* end date */}
+                <VStack>
+                  <Text>{format("Terminar en:")}</Text>
+                  <HStack
+                    gap={0}
+                    sx={{
+                      ".chakra-select__wrapper": {
+                        marginInlineStart: 0,
+                      },
+                    }}
+                  >
+                    <Input
+                      name="endDate"
+                      mr={0}
+                      borderTopRightRadius={0}
+                      borderBottomRightRadius={0}
+                      value={form.endDate}
+                      onChange={({ target }) =>
+                        onChangeForm(target.name, target.value)
+                      }
+                    />
+                    <Select
+                      borderTopLeftRadius={0}
+                      borderBottomLeftRadius={0}
+                      value={form.endOption}
+                      onChange={({ target }) =>
+                        onChangeDateOption("end", target.value)
+                      }
+                    >
+                      {dateOptions.map((opt, index) => (
+                        <option key={index} value={opt}>
+                          {opt}
+                        </option>
+                      ))}
+                    </Select>
+                  </HStack>
+                </VStack>
+              </HStack>
 
               <HStack
                 direction="row"

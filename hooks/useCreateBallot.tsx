@@ -1,17 +1,25 @@
 import { useState } from "react";
 
+export type DateOptions = "Minutes" | "Hours" | "Days" | string;
+
 interface Form {
   ballotName: string;
-  date: Date;
   options: string[];
   voters: string[];
+  startDate: "";
+  endDate: "";
+  startOption: DateOptions;
+  endOption: DateOptions;
 }
 
 const initialState: Form = {
   ballotName: "",
-  date: new Date(),
   options: [""],
   voters: [""],
+  startDate: "",
+  endDate: "",
+  startOption: "Minutes",
+  endOption: "Minutes",
 };
 
 export const useCreateBallot = () => {
@@ -89,6 +97,21 @@ export const useCreateBallot = () => {
     setForm(initialState);
   };
 
+  const onChangeDateOption = (option: "start" | "end", value: string) => {
+    if (option === "start") {
+      setForm((prevState) => ({
+        ...prevState,
+        startOption: value,
+      }));
+      return;
+    }
+
+    setForm((prevState) => ({
+      ...prevState,
+      endOption: value,
+    }));
+  };
+
   return {
     form,
     addCandidate,
@@ -99,5 +122,6 @@ export const useCreateBallot = () => {
     deleteVoter,
     onChangeForm,
     resetForm,
+    onChangeDateOption,
   };
 };
