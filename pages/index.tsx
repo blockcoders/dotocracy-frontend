@@ -25,8 +25,6 @@ type Proposal = {
   name: string;
   voteStart: number;
   voteEnd: number;
-  executed?: boolean;
-  canceled?: boolean;
   state: "0" | "1" | "2" | "3" | "4" | "5";
 };
 
@@ -73,8 +71,6 @@ export default function Home() {
           ballotContract.startsOn(proposalId),
           ballotContract.endsOn(proposalId),
           ballotContract.state(proposalId),
-          // ballotContract.executed(proposalId),
-          // ballotContract.canceled(proposalId),
         ]);
         proposals.push({
           id: proposalId.toString(),

@@ -18,8 +18,6 @@ interface ProposalProps {
   name: string;
   voteStart: number;
   voteEnd: number;
-  executed: boolean;
-  canceled: boolean;
   balance: number;
   address: string;
   fromView: "result" | "vote";
@@ -31,8 +29,6 @@ export const Proposal: FC<ProposalProps> = ({
   name,
   voteStart,
   voteEnd,
-  executed,
-  canceled,
   balance,
   fromView,
   address,
@@ -40,10 +36,6 @@ export const Proposal: FC<ProposalProps> = ({
 }) => {
   const router = useRouter();
   const { format } = useFormatIntl();
-  // const getStatus = () => {
-  //   let status = canceled ? "canceled" : executed ? "executed" : "active";
-  //   return format(status);
-  // };
 
   return (
     <>
@@ -74,7 +66,7 @@ export const Proposal: FC<ProposalProps> = ({
         <Stack mt={4} direction={"row"} spacing={4}>
           <Button
             as={motion.button}
-            disabled={balance !== 1 || canceled || executed}
+            disabled={balance !== 1}
             _readOnly={balance !== 1}
             {...buttonAnimation}
             fontSize={"sm"}
