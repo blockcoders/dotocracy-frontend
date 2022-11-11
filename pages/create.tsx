@@ -29,6 +29,8 @@ import { transformDate } from "../utils/date";
 
 const dateOptions = ["Minutes", "Hours", "Days"];
 
+const BALLOT_ADDRESS = process.env.NEXT_PUBLIC_BALLOT_ADDRESS as string;
+
 export default function create() {
   const {
     form,
@@ -89,17 +91,9 @@ export default function create() {
       const options = form.options;
 
       const ballotContract = await getBallotContractInstance(
-        "0xfe0b8252eADfB404C59bd84C4E9A8e9C9beA494f",
+        BALLOT_ADDRESS,
         provider?.getSigner()
       );
-
-      console.log({
-        voters,
-        delay,
-        period,
-        description,
-        options,
-      });
 
       const res = await ballotContract.createProposal(
         voters,
@@ -109,11 +103,8 @@ export default function create() {
         options
       );
 
-      console.log(res);
-
       showSuccessToast(format("ballot_created"));
       resetForm();
-      console.log(format("sending"));
     } catch (error) {
       console.log(error);
     }
