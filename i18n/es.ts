@@ -21,6 +21,7 @@ export const es = {
   active: "Activa",
   address: "Dirección",
   ends_on: "Termina el",
+  starts_on: "Comienza el",
   total_voters: "Total de votantes",
   candidates: "Candidatos",
   votes: "Votos",

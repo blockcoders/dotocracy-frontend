@@ -21,6 +21,7 @@ export const en = {
   active: "Active",
   address: "Address",
   ends_on: "Ends on",
+  starts_on: "Starts on",
   total_voters: "Total voters",
   candidates: "Candidates",
   current_votes: "Current votes: ",

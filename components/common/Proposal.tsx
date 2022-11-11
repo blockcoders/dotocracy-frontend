@@ -38,7 +38,7 @@ export const Proposal: FC<ProposalProps> = ({
   const router = useRouter();
   const { format } = useFormatIntl();
   const getStatus = () => {
-    let status = canceled ? "Canceled" : executed ? "Executed" : "Active";
+    let status = canceled ? "canceled" : executed ? "executed" : "active";
     return format(status);
   }
 
@@ -65,7 +65,7 @@ export const Proposal: FC<ProposalProps> = ({
           {`${format("ends_on")} ${voteEnd}`}
         </Text>
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
-          {`${format("status")} ${getStatus()}`}
+          {getStatus()}
         </Text>
 
         <Stack mt={4} direction={"row"} spacing={4}>

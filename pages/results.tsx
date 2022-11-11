@@ -66,7 +66,7 @@ export default function Home() {
           ballotContract.canceled(proposalId),
         ]);
         proposals.push({
-          id: proposalId,
+          id: proposalId.toString(),
           name,
           voteStart,
           voteEnd,
@@ -114,7 +114,7 @@ export default function Home() {
           </Button>
         </HStack>
         {isLoading && <Spinner size="md" />}
-        {ballot && <Heading>{ballot.name}</Heading>}
+        {ballot && <Heading  mb={10}>{ballot.name}</Heading>}
         <Grid
           columnGap={8}
           alignItems="center"
