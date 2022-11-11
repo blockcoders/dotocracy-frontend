@@ -12,23 +12,23 @@ import { useFormatIntl } from "../../hooks/useFormatIntl";
 import { motion } from "framer-motion";
 import { enterAnimation, buttonAnimation } from "../../utils/animations";
 
-interface BallotProps {
+interface ProposalProps {
+  id: string;
   name: string;
-  startsOn: string;
-  endsOn: string;
-  address: string;
-  ticketName: string;
+  voteStart: number;
+  voteEnd: number;
   balance: number;
+  address: string;
   fromView: "result" | "vote";
 }
-export const Ballot: FC<BallotProps> = ({
+export const Proposal: FC<ProposalProps> = ({
+  id,
   name,
-  startsOn,
-  endsOn,
-  address,
-  ticketName,
+  voteStart,
+  voteEnd,
   balance,
   fromView,
+  address
 }) => {
   const router = useRouter();
   const { format } = useFormatIntl();
@@ -48,14 +48,11 @@ export const Ballot: FC<BallotProps> = ({
         <Heading fontSize={"2xl"} fontFamily={"body"}>
           {name}
         </Heading>
-        <Text fontSize={"2xl"} fontFamily={"body"}>
-          {`${format("required_ticket")}: ${ticketName}`}
+        <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
+          {`${format("starts_on")} ${voteStart}`}
         </Text>
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
-          {`${format("starts_on")} ${startsOn}`}
-        </Text>
-        <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
-          {`${format("ends_on")} ${endsOn}`}
+          {`${format("ends_on")} ${voteEnd}`}
         </Text>
 
         <Stack mt={4} direction={"row"} spacing={4}>
@@ -81,7 +78,7 @@ export const Ballot: FC<BallotProps> = ({
             }}
             onClick={() => {
               router.push(
-                fromView === "vote" ? `vote/${address}` : `result/${address}`
+                fromView === "vote" ? `vote/${address}?proposalId=${id}` : `result/${address}?proposalId=${id}`
               );
             }}
           >

@@ -2,6 +2,7 @@ import {
   Button,
   Container,
   Grid,
+  Heading,
   HStack,
   Input,
   Spinner,
@@ -12,17 +13,23 @@ import { useState } from "react";
 import ReactTypingEffect from "react-typing-effect";
 import { useToast } from "../hooks/useToast";
 import styles from "../styles/style.module.css";
-import { Ballot } from "../components/common";
+import { Proposal as Proposal } from "../components/common";
 import { useFormatIntl } from "../hooks/useFormatIntl";
 import { AnimatePresence } from "framer-motion";
 import { useContracts } from "../hooks/useContracts";
 import { useWalletContext } from "../providers/WalletProvider";
 import { SearchIcon } from "@chakra-ui/icons";
 
+type Proposal = {
+  id: string;
+  name: string;
+  voteStart: number;
+  voteEnd: number;
+};
+
 type Ballot = {
   name: string;
-  endsOn: string;
-  startsOn: string;
+  proposals: Proposal[];
   address: string;
   ticketName: string;
   balance: number;
@@ -47,24 +54,35 @@ export default function Home() {
     startLoading();
     try {
       const ballotContract = await getBallotContractInstance(search, provider);
+      const name = await ballotContract.name();
+      const proposalsIds = await ballotContract.getProposals();
+      const proposals: Proposal[] = [];
+      for (const proposalId of proposalsIds) {
+        const [desc, start, end] = await Promise.all([
+          ballotContract.proposalDescription(proposalId),
+          ballotContract.startsOn(proposalId),
+          ballotContract.endsOn(proposalId),
+        ]);
+        proposals.push({
+          id: proposalId,
+          name: desc,
+          voteStart: start,
+          voteEnd: end,
+        });
+      }
       const ticketAddress = await ballotContract.token();
       const ticketContract = await getTicketContractInstance(
         ticketAddress,
         provider
       );
-
-      const name = await ballotContract.name();
-      const startsOn = await ballotContract.startsOn();
-      const endsOn = await ballotContract.endsOn();
       const ticketName = await ticketContract.name();
       const balance = await ticketContract.balanceOf(selectedAddress);
 
       setBallot({
         name,
         ticketName,
+        proposals,
         address: search,
-        endsOn,
-        startsOn,
         balance: Number(balance),
       });
     } catch (error) {
@@ -99,6 +117,7 @@ export default function Home() {
 
         {isLoading && <Spinner size="md" />}
 
+        {ballot && <Heading>{ballot.name}</Heading>}
         <Grid
           columnGap={8}
           alignItems="center"
@@ -106,13 +125,21 @@ export default function Home() {
           justifyContent="center"
           gridTemplateColumns={{
             base: "1fr",
+            md: "1fr 1fr",
+            lg: "1fr 1fr 1fr",
           }}
           rowGap={10}
         >
           <AnimatePresence>
-            {ballot && (
-              <Ballot key={ballot.address} {...ballot} fromView="vote" />
-            )}
+            {ballot?.proposals.map((p, i) => (
+              <Proposal
+                key={i}
+                {...p}
+                address={ballot.address}
+                balance={ballot.balance}
+                fromView="vote"
+              />
+            ))}
           </AnimatePresence>
         </Grid>
       </Container>
