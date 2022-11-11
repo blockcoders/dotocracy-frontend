@@ -6,16 +6,20 @@ import { useFormatIntl } from "../../hooks/useFormatIntl";
 import { useLoading } from "../../hooks/useLoading";
 import { useContracts } from "../../hooks/useContracts";
 import { useWalletContext } from "../../providers/WalletProvider";
+import { proposalUtils } from "../../utils/proposal-utils";
+
+type Candidate = {
+  name: string;
+  hash: string;
+}
 
 type Proposal = {
   id: string;
   name: string;
   voteStart: number;
   voteEnd: number;
-  state: string;
-  // executed: boolean;
-  // canceled: boolean;
-  candidates: string[];
+  state: "0" | "1" | "2" | "3" | "4" | "5";
+  candidates: Candidate[];
 };
 
 type Ballot = {
@@ -34,13 +38,6 @@ export default function VoteDetail() {
   const { provider } = state;
   const address = router.query.address as string;
   const proposalId = router.query.proposalId as string;
-
-  const getStatus = (proposal: Proposal | undefined) => {
-    if (!proposal) return "";
-    const { executed, canceled } = proposal;
-    let status = canceled ? "canceled" : executed ? "executed" : "active";
-    return format(status);
-  };
 
   const getProposal = async () => {
     startLoading();
@@ -61,11 +58,11 @@ export default function VoteDetail() {
         ballotContract.getOptions(proposalId),
       ]);
 
-      let _candidates = [];
+      let _candidates: { name: string, hash: string }[] = [];
 
-      candidates?.[0].forEach((c, index) => {
+      candidates?.[0].forEach((hash:string, index:number) => {
         _candidates.push({
-          hash: c,
+          hash,
           name: candidates[1][index],
         });
       });
@@ -110,7 +107,7 @@ export default function VoteDetail() {
           {format("ends_on")}: {ballot?.proposal.voteEnd}
         </Text>
         <Text>
-          {format("status")}: {getStatus(ballot?.proposal)}
+          {format(proposalUtils[ballot?.proposal?.state || "0"])}
         </Text>
       </Box>
 
