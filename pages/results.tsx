@@ -128,7 +128,7 @@ export default function Home() {
                 {...p}
                 address={ballot.address}
                 balance={ballot.balance}
-                fromView="results"
+                fromView="result"
               />
             ))}
           </AnimatePresence>
