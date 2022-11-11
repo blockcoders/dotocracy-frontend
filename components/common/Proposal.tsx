@@ -71,7 +71,7 @@ export const Proposal: FC<ProposalProps> = ({
         <Stack mt={4} direction={"row"} spacing={4}>
           <Button
             as={motion.button}
-            disabled={balance !== 1}
+            disabled={balance !== 1 || canceled || executed}
             _readOnly={balance !== 1}
             {...buttonAnimation}
             fontSize={"sm"}
