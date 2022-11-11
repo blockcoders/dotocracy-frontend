@@ -123,7 +123,12 @@ export default function VoteDetail() {
           rowGap={10}
         >
           {ballot?.proposal?.candidates.map((c: any, index) => (
-            <Candidate key={index.toString()} {...c} address={address} />
+            <Candidate
+              key={index.toString()}
+              name={c}
+              proposalId={proposalId}
+              address={address}
+            />
           ))}
         </Grid>
       </Container>

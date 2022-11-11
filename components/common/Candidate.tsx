@@ -72,7 +72,7 @@ export const Candidate: FC<CandidateProps> = ({
         p={6}
         textAlign={"center"}
       >
-        <Heading fontSize={"2xl"} fontFamily={"body"}>
+        <Heading fontSize={"2xl"} fontFamily={"body"} mb={5}>
           {name}
         </Heading>
 
