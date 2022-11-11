@@ -181,6 +181,18 @@
     },
     {
       "inputs": [
+        { "internalType": "uint256", "name": "proposalId", "type": "uint256" }
+      ],
+      "name": "getResults",
+      "outputs": [
+        { "internalType": "string[]", "name": "", "type": "string[]" },
+        { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
         { "internalType": "address[]", "name": "voters", "type": "address[]" },
         { "internalType": "uint256", "name": "delay", "type": "uint256" },
         { "internalType": "uint256", "name": "period", "type": "uint256" },
@@ -213,6 +225,18 @@
       "name": "onERC721Received",
       "outputs": [{ "internalType": "bytes4", "name": "", "type": "bytes4" }],
       "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "proposalId", "type": "uint256" }
+      ],
+      "name": "progress",
+      "outputs": [
+        { "internalType": "string[]", "name": "", "type": "string[]" },
+        { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+      ],
+      "stateMutability": "view",
       "type": "function"
     },
     {
