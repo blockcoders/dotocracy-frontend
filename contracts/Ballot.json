@@ -3,8 +3,8 @@
     {
       "inputs": [
         {
-          "internalType": "contract IERC721",
-          "name": "tokenAddress",
+          "internalType": "contract ITicket",
+          "name": "tokenAddress_",
           "type": "address"
         },
         { "internalType": "string", "name": "name_", "type": "string" }
@@ -27,7 +27,50 @@
     },
     {
       "anonymous": false,
-      "inputs": [],
+      "inputs": [
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "proposalId",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "address",
+          "name": "proposer",
+          "type": "address"
+        },
+        {
+          "indexed": false,
+          "internalType": "address[]",
+          "name": "voters",
+          "type": "address[]"
+        },
+        {
+          "indexed": false,
+          "internalType": "string[]",
+          "name": "options",
+          "type": "string[]"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "startBlock",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "uint256",
+          "name": "endBlock",
+          "type": "uint256"
+        },
+        {
+          "indexed": false,
+          "internalType": "string",
+          "name": "description",
+          "type": "string"
+        }
+      ],
       "name": "ProposalCreated",
       "type": "event"
     },
@@ -65,8 +108,17 @@
     },
     {
       "inputs": [
+        { "internalType": "uint256", "name": "proposalId", "type": "uint256" }
+      ],
+      "name": "cancel",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "nonpayable",
+      "type": "function"
+    },
+    {
+      "inputs": [
         { "internalType": "uint256", "name": "proposalId", "type": "uint256" },
-        { "internalType": "string", "name": "option", "type": "string" }
+        { "internalType": "bytes32", "name": "optionHash", "type": "bytes32" }
       ],
       "name": "castVote",
       "outputs": [],
@@ -79,7 +131,7 @@
         { "internalType": "uint256", "name": "delay", "type": "uint256" },
         { "internalType": "uint256", "name": "period", "type": "uint256" },
         { "internalType": "string", "name": "description", "type": "string" },
-        { "internalType": "string[]", "name": "options", "type": "string[]" }
+        { "internalType": "string[]", "name": "options_", "type": "string[]" }
       ],
       "name": "createProposal",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
@@ -93,6 +145,55 @@
       "name": "endsOn",
       "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
       "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "proposalId", "type": "uint256" }
+      ],
+      "name": "execute",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "payable",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "uint256", "name": "proposalId", "type": "uint256" }
+      ],
+      "name": "getOptions",
+      "outputs": [
+        { "internalType": "bytes32[]", "name": "", "type": "bytes32[]" },
+        { "internalType": "string[]", "name": "", "type": "string[]" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address", "name": "voter", "type": "address" }
+      ],
+      "name": "getProposals",
+      "outputs": [
+        { "internalType": "uint256[]", "name": "", "type": "uint256[]" }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
+        { "internalType": "address[]", "name": "voters", "type": "address[]" },
+        { "internalType": "uint256", "name": "delay", "type": "uint256" },
+        { "internalType": "uint256", "name": "period", "type": "uint256" },
+        {
+          "internalType": "bytes32",
+          "name": "descriptionHash",
+          "type": "bytes32"
+        },
+        { "internalType": "string[]", "name": "options_", "type": "string[]" }
+      ],
+      "name": "hashProposal",
+      "outputs": [{ "internalType": "uint256", "name": "", "type": "uint256" }],
+      "stateMutability": "pure",
       "type": "function"
     },
     {
@@ -118,17 +219,6 @@
       "inputs": [
         { "internalType": "uint256", "name": "proposalId", "type": "uint256" }
       ],
-      "name": "options",
-      "outputs": [
-        { "internalType": "string[]", "name": "", "type": "string[]" }
-      ],
-      "stateMutability": "view",
-      "type": "function"
-    },
-    {
-      "inputs": [
-        { "internalType": "uint256", "name": "proposalId", "type": "uint256" }
-      ],
       "name": "proposalDescription",
       "outputs": [{ "internalType": "string", "name": "", "type": "string" }],
       "stateMutability": "view",
@@ -145,6 +235,21 @@
     },
     {
       "inputs": [
+        { "internalType": "uint256", "name": "proposalId", "type": "uint256" }
+      ],
+      "name": "state",
+      "outputs": [
+        {
+          "internalType": "enum IBallot.ProposalState",
+          "name": "",
+          "type": "uint8"
+        }
+      ],
+      "stateMutability": "view",
+      "type": "function"
+    },
+    {
+      "inputs": [
         { "internalType": "bytes4", "name": "interfaceId", "type": "bytes4" }
       ],
       "name": "supportsInterface",
@@ -154,9 +259,9 @@
     },
     {
       "inputs": [],
-      "name": "token",
+      "name": "tokenAddress",
       "outputs": [
-        { "internalType": "contract IERC721", "name": "", "type": "address" }
+        { "internalType": "contract ITicket", "name": "", "type": "address" }
       ],
       "stateMutability": "view",
       "type": "function"
