@@ -76,10 +76,10 @@ export default function ResultDetails() {
           candidates: [],
         },
       });
-      if (state === "1") {
+      if (state == "1") {
         getProgress();
       }
-      if (state === "3") {
+      if (state == "3") {
         getResults();
       }
     } catch (e) {
@@ -95,8 +95,8 @@ export default function ResultDetails() {
       if (!address) return;
       if (!proposalId) return;
       const ballotContract = await getBallotContractInstance(address, provider);
-      const p: number[] = await ballotContract.progress(proposalId);
-      setProgress(p);
+      const progress = await ballotContract.progress(proposalId);
+      setProgress([progress[0].toNumber(), progress[1].toNumber()]);
     } catch (e) {
       console.error(e);
     } finally {
