@@ -59,10 +59,7 @@ export default function Home() {
 
       console.log(ballotContract);
 
-      // const proposalsIds = await ballotContract.getProposals(selectedAddress);
-      const proposalsIds = [
-        "95053117994208057784365906683332107378593749394797926342286117695413381986685",
-      ];
+      const proposalsIds = await ballotContract.getProposals(selectedAddress);
 
       const proposals: Proposal[] = [];
       for (const proposalId of proposalsIds) {
