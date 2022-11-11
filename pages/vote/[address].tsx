@@ -11,7 +11,7 @@ import { proposalUtils } from "../../utils/proposal-utils";
 type Candidate = {
   name: string;
   hash: string;
-}
+};
 
 type Proposal = {
   id: string;
@@ -58,9 +58,9 @@ export default function VoteDetail() {
         ballotContract.getOptions(proposalId),
       ]);
 
-      let _candidates: { name: string, hash: string }[] = [];
+      let _candidates: { name: string; hash: string }[] = [];
 
-      candidates?.[0].forEach((hash:string, index:number) => {
+      candidates?.[0].forEach((hash: string, index: number) => {
         _candidates.push({
           hash,
           name: candidates[1][index],
@@ -95,7 +95,7 @@ export default function VoteDetail() {
 
       <Box pl={10} pt={5}>
         <Text fontSize="3xl" fontWeight="bold">
-          {ballot?.name}
+          {ballot?.proposal.name}
         </Text>
         <Text>
           {format("address")}: {address}
@@ -106,9 +106,7 @@ export default function VoteDetail() {
         <Text>
           {format("ends_on")}: {ballot?.proposal.voteEnd}
         </Text>
-        <Text>
-          {format(proposalUtils[ballot?.proposal?.state || "0"])}
-        </Text>
+        <Text>{format(proposalUtils[ballot?.proposal?.state || "0"])}</Text>
       </Box>
 
       <Container maxW="4xl" mt={3} textAlign="center">
