@@ -7,7 +7,7 @@ import {
   Grid,
   Button,
 } from "@chakra-ui/react";
-import { useEffect, useMemo, useState } from "react";
+import { useState } from "react";
 import { Votation } from "../components/common";
 import { useLoading } from "../hooks/useLoading";
 import { useFormatIntl } from "../hooks/useFormatIntl";
@@ -20,7 +20,7 @@ export default function Restults() {
     useContracts();
 
   const [search, setSearch] = useState("");
-  const [votations, setVotations] = useState([]);
+  const [votations, setVotations] = useState<any>([]);
 
   const { isLoading, startLoading, endLoading } = useLoading();
   const { format } = useFormatIntl();
@@ -51,22 +51,6 @@ export default function Restults() {
     endLoading();
   };
 
-  // const filteredVotations = useMemo(() => {
-  //   if (votations.length === 0) return [];
-
-  //   let filterVotations = votations;
-
-  //   if (search) {
-  //     filterVotations = filterVotations.filter(
-  //       (voting) =>
-  //         voting?.name?.toLowerCase().includes(search.toLowerCase().trim()) ||
-  //         voting?.address?.toLowerCase().includes(search.toLowerCase().trim())
-  //     );
-  //   }
-
-  //   return filterVotations;
-  // }, [votations, search]);
-
   return (
     <>
       <Text fontSize="3xl" fontWeight="bold">
@@ -95,12 +79,10 @@ export default function Restults() {
           justifyContent="center"
           gridTemplateColumns={{
             base: "1fr",
-            // md: "1fr 1fr",
-            // lg: "1fr 1fr 1fr",
           }}
           rowGap={10}
         >
-          {votations.map((v, index) => (
+          {votations.map((v: any, index: number) => (
             <Votation key={index.toString()} {...v} fromView="result" />
           ))}
         </Grid>
