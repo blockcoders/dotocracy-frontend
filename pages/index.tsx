@@ -25,6 +25,8 @@ type Proposal = {
   name: string;
   voteStart: number;
   voteEnd: number;
+  executed: boolean;
+  canceled: boolean;
 };
 
 type Ballot = {
@@ -58,16 +60,20 @@ export default function Home() {
       const proposalsIds = await ballotContract.getProposals();
       const proposals: Proposal[] = [];
       for (const proposalId of proposalsIds) {
-        const [desc, start, end] = await Promise.all([
+        const [name, voteStart, voteEnd, executed, canceled] = await Promise.all([
           ballotContract.proposalDescription(proposalId),
           ballotContract.startsOn(proposalId),
           ballotContract.endsOn(proposalId),
+          ballotContract.executed(proposalId),
+          ballotContract.canceled(proposalId),
         ]);
         proposals.push({
           id: proposalId,
-          name: desc,
-          voteStart: start,
-          voteEnd: end,
+          name,
+          voteStart,
+          voteEnd,
+          executed,
+          canceled,
         });
       }
       const ticketAddress = await ballotContract.token();

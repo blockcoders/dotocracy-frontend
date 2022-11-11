@@ -17,21 +17,31 @@ interface ProposalProps {
   name: string;
   voteStart: number;
   voteEnd: number;
+  executed: boolean;
+  canceled: boolean;
   balance: number;
   address: string;
   fromView: "result" | "vote";
 }
+
 export const Proposal: FC<ProposalProps> = ({
   id,
   name,
   voteStart,
   voteEnd,
+  executed,
+  canceled,
   balance,
   fromView,
-  address
+  address,
 }) => {
   const router = useRouter();
   const { format } = useFormatIntl();
+  const getStatus = () => {
+    let status = canceled ? "Canceled" : executed ? "Executed" : "Active";
+    return format(status);
+  }
+
   return (
     <>
       <Box
@@ -53,6 +63,9 @@ export const Proposal: FC<ProposalProps> = ({
         </Text>
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
           {`${format("ends_on")} ${voteEnd}`}
+        </Text>
+        <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
+          {`${format("status")} ${getStatus()}`}
         </Text>
 
         <Stack mt={4} direction={"row"} spacing={4}>
@@ -78,7 +91,9 @@ export const Proposal: FC<ProposalProps> = ({
             }}
             onClick={() => {
               router.push(
-                fromView === "vote" ? `vote/${address}?proposalId=${id}` : `result/${address}?proposalId=${id}`
+                fromView === "vote"
+                  ? `vote/${address}?proposalId=${id}`
+                  : `result/${address}?proposalId=${id}`
               );
             }}
           >
