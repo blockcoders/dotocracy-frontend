@@ -15,6 +15,7 @@ export const es = {
   connect_wallet: "Conecte su billereta",
   unsupported_network: "Red no soportada",
   error_searching_ballot: "Error buscando votación",
+  no_votations_found: "No se encontraron votaciones",
   status: "Estado",
   canceled: "Cancelada",
   executed: "Ejecutada",

@@ -122,33 +122,37 @@ export default function Home() {
           </Button>
         </HStack>
 
-        {isLoading && <Spinner size="md" />}
-
-        {ballot && <Heading mb={10}>{ballot.name}</Heading>}
-        <Grid
-          columnGap={8}
-          alignItems="center"
-          justifyItems="center"
-          justifyContent="center"
-          gridTemplateColumns={{
-            base: "1fr",
-            md: "1fr 1fr",
-            lg: "1fr 1fr 1fr",
-          }}
-          rowGap={10}
-        >
-          <AnimatePresence>
-            {ballot?.proposals.map((p, i) => (
-              <Proposal
-                key={i}
-                {...p}
-                address={ballot.address}
-                balance={ballot.balance}
-                fromView="vote"
-              />
-            ))}
-          </AnimatePresence>
-        </Grid>
+        {isLoading && <Spinner size="md" mt={50}/>}
+        {!isLoading && ballot && <Heading mb={10}>{ballot.name}</Heading>}
+        {!isLoading && ballot?.proposals.length === 0 && (
+          <Text>{format("no_votations_found")}</Text>
+        )}
+        {!isLoading && (
+          <Grid
+            columnGap={8}
+            alignItems="center"
+            justifyItems="center"
+            justifyContent="center"
+            gridTemplateColumns={{
+              base: "1fr",
+              md: "1fr 1fr",
+              lg: "1fr 1fr 1fr",
+            }}
+            rowGap={10}
+          >
+            <AnimatePresence>
+              {ballot?.proposals.map((p, i) => (
+                <Proposal
+                  key={i}
+                  {...p}
+                  address={ballot.address}
+                  balance={ballot.balance}
+                  fromView="vote"
+                />
+              ))}
+            </AnimatePresence>
+          </Grid>
+        )}
       </Container>
     </>
   );

@@ -15,6 +15,7 @@ export const en = {
   connect_wallet: "Connect wallet",
   unsupported_network: "Unsupported network",
   error_searching_ballot: "Error searching ballot",
+  no_votations_found: "No votations found",
   status: "Status",
   canceled: "Canceled",
   executed: "Executed",
