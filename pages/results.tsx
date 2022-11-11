@@ -1,52 +1,92 @@
 import {
+  Button,
   Container,
-  Spinner,
-  Text,
+  Grid,
+  Heading,
   HStack,
   Input,
-  Grid,
-  Button,
+  Spinner,
+  Text,
 } from "@chakra-ui/react";
-import { useState } from "react";
-import { Proposal } from "../components/common";
 import { useLoading } from "../hooks/useLoading";
+import { useState } from "react";
+import { useToast } from "../hooks/useToast";
+import { Proposal as Proposal } from "../components/common";
 import { useFormatIntl } from "../hooks/useFormatIntl";
-import { SearchIcon } from "@chakra-ui/icons";
+import { AnimatePresence } from "framer-motion";
 import { useContracts } from "../hooks/useContracts";
 import { useWalletContext } from "../providers/WalletProvider";
+import { SearchIcon } from "@chakra-ui/icons";
 
-export default function Restults() {
+type Proposal = {
+  id: string;
+  name: string;
+  voteStart: number;
+  voteEnd: number;
+};
+
+type Ballot = {
+  name: string;
+  proposals: Proposal[];
+  address: string;
+  ticketName: string;
+  balance: number;
+};
+
+export default function Home() {
+  const { showErrorToast } = useToast();
+
   const { getBallotContractInstance, getTicketContractInstance } =
     useContracts();
-
-  const [search, setSearch] = useState("");
-  const [votations, setVotations] = useState<any>([]);
 
   const { isLoading, startLoading, endLoading } = useLoading();
   const { format } = useFormatIntl();
 
+  const [search, setSearch] = useState("");
+  const [ballot, setBallot] = useState<Ballot>();
+
   const { state } = useWalletContext();
   const { selectedAddress, provider } = state;
 
-  const searchVotations = async () => {
+  const searchBallot = async () => {
     startLoading();
     try {
       const ballotContract = await getBallotContractInstance(search, provider);
-      const NFTAddress = await ballotContract.token();
+      const name = await ballotContract.name();
+      const proposalsIds = await ballotContract.getProposals();
+      const proposals: Proposal[] = [];
+      for (const proposalId of proposalsIds) {
+        const [desc, start, end] = await Promise.all([
+          ballotContract.proposalDescription(proposalId),
+          ballotContract.startsOn(proposalId),
+          ballotContract.endsOn(proposalId),
+        ]);
+        proposals.push({
+          id: proposalId,
+          name: desc,
+          voteStart: start,
+          voteEnd: end,
+        });
+      }
+      const ticketAddress = await ballotContract.token();
       const ticketContract = await getTicketContractInstance(
-        NFTAddress,
+        ticketAddress,
         provider
       );
-
+      const ticketName = await ticketContract.name();
       const balance = await ticketContract.balanceOf(selectedAddress);
-      const name = await ticketContract.name();
 
-      setVotations([
-        { name, balance: Number(balance), address: search, endsOn: "" },
-      ]);
+      setBallot({
+        name,
+        ticketName,
+        proposals,
+        address: search,
+        balance: Number(balance),
+      });
     } catch (error) {
       console.log(error);
-      setVotations([]);
+      showErrorToast(format("error_searching_ballot"));
+      setBallot(undefined);
     }
     endLoading();
   };
@@ -63,15 +103,12 @@ export default function Restults() {
             onChange={({ target }) => setSearch(target.value || "")}
             value={search}
           />
-          <Button
-            colorScheme="teal"
-            variant="outline"
-            onClick={searchVotations}
-          >
+          <Button colorScheme="teal" variant="outline" onClick={searchBallot}>
             <SearchIcon />
           </Button>
         </HStack>
         {isLoading && <Spinner size="md" />}
+        {ballot && <Heading>{ballot.name}</Heading>}
         <Grid
           columnGap={8}
           alignItems="center"
@@ -79,12 +116,22 @@ export default function Restults() {
           justifyContent="center"
           gridTemplateColumns={{
             base: "1fr",
+            md: "1fr 1fr",
+            lg: "1fr 1fr 1fr",
           }}
           rowGap={10}
         >
-          {votations.map((v: any, index: number) => (
-            <Proposal key={index.toString()} {...v} fromView="result" />
-          ))}
+          <AnimatePresence>
+            {ballot?.proposals.map((p, i) => (
+              <Proposal
+                key={i}
+                {...p}
+                address={ballot.address}
+                balance={ballot.balance}
+                fromView="results"
+              />
+            ))}
+          </AnimatePresence>
         </Grid>
       </Container>
     </>
