@@ -1,8 +1,8 @@
 export const proposalUtils = {
-  "0": "Pending",
-  "1": "Active",
-  "2": "Canceled",
-  "3": "Succeeded",
-  "4": "Expired",
-  "5": "Executed",
+  "0": "pending",
+  "1": "active",
+  "2": "canceled",
+  "3": "succeeded",
+  "4": "expired",
+  "5": "executed",
 };

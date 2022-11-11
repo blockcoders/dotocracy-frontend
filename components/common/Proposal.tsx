@@ -60,7 +60,7 @@ export const Proposal: FC<ProposalProps> = ({
           {`${format("ends_on")} ${voteEnd}`}
         </Text>
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
-          {proposalUtils[state]}
+          {format(proposalUtils[state])}
         </Text>
 
         <Stack mt={4} direction={"row"} spacing={4}>
