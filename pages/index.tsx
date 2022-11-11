@@ -10,15 +10,27 @@ import {
 import { useLoading } from "../hooks/useLoading";
 import { useState } from "react";
 import ReactTypingEffect from "react-typing-effect";
+import { useToast } from "../hooks/useToast";
 import styles from "../styles/style.module.css";
-import { Votation } from "../components/common";
+import { Ballot } from "../components/common";
 import { useFormatIntl } from "../hooks/useFormatIntl";
 import { AnimatePresence } from "framer-motion";
 import { useContracts } from "../hooks/useContracts";
 import { useWalletContext } from "../providers/WalletProvider";
 import { SearchIcon } from "@chakra-ui/icons";
 
+type Ballot = {
+  name: string;
+  endsOn: string;
+  startsOn: string;
+  address: string;
+  ticketName: string;
+  balance: number;
+};
+
 export default function Home() {
+  const { showErrorToast } = useToast();
+
   const { getBallotContractInstance, getTicketContractInstance } =
     useContracts();
 
@@ -26,30 +38,39 @@ export default function Home() {
   const { format } = useFormatIntl();
 
   const [search, setSearch] = useState("");
-  const [votations, setVotations] = useState<any>([]);
+  const [ballot, setBallot] = useState<Ballot>();
 
   const { state } = useWalletContext();
   const { selectedAddress, provider } = state;
 
-  const searchVotations = async () => {
+  const searchBallot = async () => {
     startLoading();
     try {
       const ballotContract = await getBallotContractInstance(search, provider);
-      const NFTAddress = await ballotContract.token();
+      const ticketAddress = await ballotContract.token();
       const ticketContract = await getTicketContractInstance(
-        NFTAddress,
+        ticketAddress,
         provider
       );
 
+      const name = await ballotContract.name();
+      const startsOn = await ballotContract.startsOn();
+      const endsOn = await ballotContract.endsOn();
+      const ticketName = await ticketContract.name();
       const balance = await ticketContract.balanceOf(selectedAddress);
-      const name = await ticketContract.name();
 
-      setVotations([
-        { name, balance: Number(balance), address: search, endsOn: "" },
-      ]);
+      setBallot({
+        name,
+        ticketName,
+        address: search,
+        endsOn,
+        startsOn,
+        balance: Number(balance),
+      });
     } catch (error) {
       console.log(error);
-      setVotations([]);
+      showErrorToast(format("error_searching_ballot"));
+      setBallot(undefined);
     }
     endLoading();
   };
@@ -71,11 +92,7 @@ export default function Home() {
             onChange={({ target }) => setSearch(target.value || "")}
             value={search}
           />
-          <Button
-            colorScheme="teal"
-            variant="outline"
-            onClick={searchVotations}
-          >
+          <Button colorScheme="teal" variant="outline" onClick={searchBallot}>
             <SearchIcon />
           </Button>
         </HStack>
@@ -93,9 +110,9 @@ export default function Home() {
           rowGap={10}
         >
           <AnimatePresence>
-            {votations.map((v: any, index: number) => (
-              <Votation key={index.toString()} {...v} fromView="vote" />
-            ))}
+            {ballot && (
+              <Ballot key={ballot.address} {...ballot} fromView="vote" />
+            )}
           </AnimatePresence>
         </Grid>
       </Container>

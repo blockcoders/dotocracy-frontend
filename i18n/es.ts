@@ -14,6 +14,7 @@ export const es = {
   select_wallet: "Seleccione billetera",
   connect_wallet: "Conecte su billereta",
   unsupported_network: "Red no soportada",
+  error_searching_ballot: "Error buscando votación",
   address: "Dirección",
   ends_on: "Termina el",
   total_voters: "Total de votantes",

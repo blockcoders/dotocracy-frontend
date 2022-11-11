@@ -8,7 +8,7 @@ import {
   Button,
 } from "@chakra-ui/react";
 import { useState } from "react";
-import { Votation } from "../components/common";
+import { Ballot } from "../components/common";
 import { useLoading } from "../hooks/useLoading";
 import { useFormatIntl } from "../hooks/useFormatIntl";
 import { SearchIcon } from "@chakra-ui/icons";
@@ -83,7 +83,7 @@ export default function Restults() {
           rowGap={10}
         >
           {votations.map((v: any, index: number) => (
-            <Votation key={index.toString()} {...v} fromView="result" />
+            <Ballot key={index.toString()} {...v} fromView="result" />
           ))}
         </Grid>
       </Container>

@@ -12,17 +12,21 @@ import { useFormatIntl } from "../../hooks/useFormatIntl";
 import { motion } from "framer-motion";
 import { enterAnimation, buttonAnimation } from "../../utils/animations";
 
-interface VotationProps {
+interface BallotProps {
   name: string;
-  address: string;
+  startsOn: string;
   endsOn: string;
+  address: string;
+  ticketName: string;
   balance: number;
   fromView: "result" | "vote";
 }
-export const Votation: FC<VotationProps> = ({
-  address,
+export const Ballot: FC<BallotProps> = ({
   name,
+  startsOn,
   endsOn,
+  address,
+  ticketName,
   balance,
   fromView,
 }) => {
@@ -44,11 +48,12 @@ export const Votation: FC<VotationProps> = ({
         <Heading fontSize={"2xl"} fontFamily={"body"}>
           {name}
         </Heading>
-
-        {/* <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
-          {address}
-        </Text> */}
-
+        <Text fontSize={"2xl"} fontFamily={"body"}>
+          {`${format("required_ticket")}: ${ticketName}`}
+        </Text>
+        <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
+          {`${format("starts_on")} ${startsOn}`}
+        </Text>
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
           {`${format("ends_on")} ${endsOn}`}
         </Text>
