@@ -45,6 +45,26 @@ export const Candidate: FC<CandidateProps> = ({
     state: { provider },
   } = useWalletContext();
 
+  const getErrorMessage = (error: any) => { 
+    if (error?.data?.message) {
+      const e = error.data.message as string;
+      if (e.includes("proposal does not exist")) {
+        return format("proposal_does_not_exist");
+      } else if (e.includes("vote not currently active")) {
+        return format("vote_not_currently_active");
+      } else if (e.includes("not a voter")) {
+        return format("not_a_voter");
+      } else if (e.includes("vote already cast")) {
+        return format("vote_already_cast");
+      }
+      return e;
+    }
+    if (error?.message) {
+      return error.message;
+    }
+    return "Error while voting";
+  }
+
   const onVote = async () => {
     try {
       const ballotContract = await getBallotContractInstance(
@@ -57,7 +77,7 @@ export const Candidate: FC<CandidateProps> = ({
 
       router.push("/");
     } catch (error) {
-      showErrorToast(String(error));
+      showErrorToast(getErrorMessage(error));
     }
   };
 
