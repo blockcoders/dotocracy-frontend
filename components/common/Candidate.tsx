@@ -23,6 +23,7 @@ import { useRouter } from "next/router";
 
 interface CandidateProps {
   name: string;
+  hash: string;
   fromView?: "vote" | "result";
   proposalId: string;
   address: string;
@@ -30,6 +31,7 @@ interface CandidateProps {
 
 export const Candidate: FC<CandidateProps> = ({
   name,
+  hash,
   fromView = "vote",
   proposalId,
   address,
@@ -50,7 +52,7 @@ export const Candidate: FC<CandidateProps> = ({
         provider?.getSigner()
       );
 
-      const rest = await ballotContract.castVote(name, proposalId);
+      const rest = await ballotContract.castVote(proposalId, hash);
       showSuccessToast("Succesfull vote");
 
       router.push("/");
