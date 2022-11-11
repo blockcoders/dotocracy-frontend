@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import { useFormatIntl } from "../../hooks/useFormatIntl";
 import { motion } from "framer-motion";
 import { enterAnimation, buttonAnimation } from "../../utils/animations";
+import { proposalUtils } from "../../utils/proposal-utils";
 
 interface ProposalProps {
   id: string;
@@ -22,6 +23,7 @@ interface ProposalProps {
   balance: number;
   address: string;
   fromView: "result" | "vote";
+  state: "0" | "1" | "2" | "3" | "4" | "5";
 }
 
 export const Proposal: FC<ProposalProps> = ({
@@ -34,13 +36,14 @@ export const Proposal: FC<ProposalProps> = ({
   balance,
   fromView,
   address,
+  state,
 }) => {
   const router = useRouter();
   const { format } = useFormatIntl();
-  const getStatus = () => {
-    let status = canceled ? "canceled" : executed ? "executed" : "active";
-    return format(status);
-  }
+  // const getStatus = () => {
+  //   let status = canceled ? "canceled" : executed ? "executed" : "active";
+  //   return format(status);
+  // };
 
   return (
     <>
@@ -65,7 +68,7 @@ export const Proposal: FC<ProposalProps> = ({
           {`${format("ends_on")} ${voteEnd}`}
         </Text>
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
-          {getStatus()}
+          {proposalUtils[state]}
         </Text>
 
         <Stack mt={4} direction={"row"} spacing={4}>

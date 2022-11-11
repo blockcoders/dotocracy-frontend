@@ -16,11 +16,13 @@ import { useLoading } from "../hooks/useLoading";
 import { useCreateBallot } from "../hooks/useCreateBallot";
 import { useFormatIntl } from "../hooks/useFormatIntl";
 import { AnimatePresence, motion } from "framer-motion";
+import { useContracts } from "../hooks/useContracts";
 import {
   buttonAnimation,
   enterAnimation,
   cardEnterAnimation,
 } from "../utils/animations";
+import { useWalletContext } from "../providers/WalletProvider";
 
 export default function create() {
   const {
@@ -38,6 +40,10 @@ export default function create() {
   const { showSuccessToast, showErrorToast } = useToast();
   const { isLoading, endLoading, startLoading } = useLoading();
   const { format } = useFormatIntl();
+  const { getBallotContractInstance } = useContracts();
+  const {
+    state: { provider },
+  } = useWalletContext();
 
   const createVotation = async () => {
     if (!form.ballotName.trim() || !form.date) {
@@ -45,7 +51,7 @@ export default function create() {
     }
 
     if (
-      (form.candidates.length === 1 && !form.candidates[0].trim()) ||
+      (form.options.length === 1 && !form.options[0].trim()) ||
       (form.voters.length === 1 && !form.voters[0])
     ) {
       return showErrorToast(
@@ -53,7 +59,7 @@ export default function create() {
       );
     }
 
-    const emptyCandidates = form.candidates.some((c) => !c.trim());
+    const emptyCandidates = form.options.some((c) => !c.trim());
 
     const emptyVoters = form.voters.some((v) => !v.trim());
 
@@ -66,11 +72,35 @@ export default function create() {
     startLoading();
     try {
       // TODO: call contract
-      await new Promise((res, rej) =>
-        setTimeout(() => {
-          res("");
-        }, 2000)
+      const voters = form.voters;
+      const delay = 1000;
+      const period = 100;
+      const description = form.ballotName;
+      const options = form.options;
+
+      const ballotContract = await getBallotContractInstance(
+        "0xfe0b8252eADfB404C59bd84C4E9A8e9C9beA494f",
+        provider?.getSigner()
       );
+
+      console.log({
+        voters,
+        delay,
+        period,
+        description,
+        options,
+      });
+
+      const res = await ballotContract.createProposal(
+        voters,
+        delay,
+        period,
+        description,
+        options
+      );
+
+      console.log(res);
+
       showSuccessToast(format("ballot_created"));
       resetForm();
       console.log(format("sending"));
@@ -122,9 +152,9 @@ export default function create() {
                 alignItems="baseline"
               >
                 <VStack alignItems="start">
-                  <Text textAlign="start">{format("candidates")}</Text>
+                  <Text textAlign="start">{format("options")}</Text>
                   <AnimatePresence>
-                    {form?.candidates?.map((p, index) => (
+                    {form?.options?.map((p, index) => (
                       <HStack
                         as={motion.div}
                         key={index.toString()}
@@ -134,7 +164,7 @@ export default function create() {
                         initial={{ scale: 0.8, opacity: 0 }}
                       >
                         <Input
-                          value={form?.candidates[index] || ""}
+                          value={form?.options[index] || ""}
                           onChange={({ target }) =>
                             updateCandidate(index, target.value)
                           }
@@ -168,6 +198,7 @@ export default function create() {
                           onChange={({ target }) =>
                             updateVoters(index, target.value)
                           }
+                          placeholder="0x123..."
                         />
                         <Button onClick={() => deleteVoter(index)}>
                           <AiFillDelete />

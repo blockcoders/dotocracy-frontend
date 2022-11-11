@@ -3,49 +3,47 @@ import { useState } from "react";
 interface Form {
   ballotName: string;
   date: Date;
-  candidates: string[];
+  options: string[];
   voters: string[];
 }
 
 const initialState: Form = {
   ballotName: "",
   date: new Date(),
-  candidates: [""],
+  options: [""],
   voters: [""],
 };
 
 export const useCreateBallot = () => {
   const [form, setForm] = useState<Form>(initialState);
 
-  // candidates
+  // options
   const addCandidate = () => {
-    const isAnyoneEmpty = form.candidates.some((p) => !p.trim());
+    const isAnyoneEmpty = form.options.some((p) => !p.trim());
 
     if (isAnyoneEmpty) return;
 
     setForm((state) => ({
       ...state,
-      candidates: [...state.candidates, ""],
+      options: [...state.options, ""],
     }));
   };
 
   const updateCandidate = (index: number, value: string) => {
-    const candidates = [...form.candidates].map((c, i) =>
-      i === index ? value : c
-    );
+    const options = [...form.options].map((c, i) => (i === index ? value : c));
     setForm((state) => ({
       ...state,
-      candidates: [...candidates],
+      options: [...options],
     }));
   };
 
   const deleteCandidate = (index: number) => {
-    if (form.candidates.length === 1) return;
+    if (form.options.length === 1) return;
 
-    const candidates = [...form.candidates].filter((c, i) => i !== index);
+    const options = [...form.options].filter((c, i) => i !== index);
     setForm((state) => ({
       ...state,
-      candidates: [...candidates],
+      options: [...options],
     }));
   };
 

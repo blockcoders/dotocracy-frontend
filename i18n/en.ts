@@ -23,7 +23,7 @@ export const en = {
   ends_on: "Ends on",
   starts_on: "Starts on",
   total_voters: "Total voters",
-  candidates: "Candidates",
+  options: "Options",
   current_votes: "Current votes: ",
   votes: "Votes",
   registered_votes: "Registered votes",

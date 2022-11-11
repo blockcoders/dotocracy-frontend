@@ -12,8 +12,9 @@ type Proposal = {
   name: string;
   voteStart: number;
   voteEnd: number;
-  executed: boolean;
-  canceled: boolean;
+  state: string;
+  // executed: boolean;
+  // canceled: boolean;
   candidates: string[];
 };
 
@@ -50,27 +51,35 @@ export default function VoteDetail() {
         address,
         provider?.getSigner()
       );
+
       const ballot = await ballotContract.name();
-      const [name, voteStart, voteEnd, executed, canceled, candidates] =
-        await Promise.all([
-          ballotContract.proposalDescription(proposalId),
-          ballotContract.startsOn(proposalId),
-          ballotContract.endsOn(proposalId),
-          ballotContract.executed(proposalId),
-          ballotContract.canceled(proposalId),
-          ballotContract.options(proposalId),
-        ]);
+      const [name, voteStart, voteEnd, state, candidates] = await Promise.all([
+        ballotContract.proposalDescription(proposalId),
+        ballotContract.startsOn(proposalId),
+        ballotContract.endsOn(proposalId),
+        ballotContract.state(proposalId),
+        ballotContract.getOptions(proposalId),
+      ]);
+
+      let _candidates = [];
+
+      candidates?.[0].forEach((c, index) => {
+        _candidates.push({
+          hash: c,
+          name: candidates[1][index],
+        });
+      });
+
       setBallot({
         name: ballot,
         address,
         proposal: {
           id: proposalId,
           name,
-          voteStart,
-          voteEnd,
-          executed,
-          canceled,
-          candidates,
+          voteStart: Number(voteStart),
+          voteEnd: Number(voteEnd),
+          state,
+          candidates: _candidates,
         },
       });
     } catch (error) {
@@ -125,7 +134,7 @@ export default function VoteDetail() {
           {ballot?.proposal?.candidates.map((c: any, index) => (
             <Candidate
               key={index.toString()}
-              name={c}
+              {...c}
               proposalId={proposalId}
               address={address}
             />

@@ -25,8 +25,9 @@ type Proposal = {
   name: string;
   voteStart: number;
   voteEnd: number;
-  executed: boolean;
-  canceled: boolean;
+  executed?: boolean;
+  canceled?: boolean;
+  state: "0" | "1" | "2" | "3" | "4" | "5";
 };
 
 type Ballot = {
@@ -57,26 +58,33 @@ export default function Home() {
     try {
       const ballotContract = await getBallotContractInstance(search, provider);
       const name = await ballotContract.name();
-      const proposalsIds = await ballotContract.getProposals();
+
+      console.log(ballotContract);
+
+      // const proposalsIds = await ballotContract.getProposals(selectedAddress);
+      const proposalsIds = [
+        "95053117994208057784365906683332107378593749394797926342286117695413381986685",
+      ];
+
       const proposals: Proposal[] = [];
       for (const proposalId of proposalsIds) {
-        const [name, voteStart, voteEnd, executed, canceled] = await Promise.all([
+        const [name, voteStart, voteEnd, state] = await Promise.all([
           ballotContract.proposalDescription(proposalId),
           ballotContract.startsOn(proposalId),
           ballotContract.endsOn(proposalId),
-          ballotContract.executed(proposalId),
-          ballotContract.canceled(proposalId),
+          ballotContract.state(proposalId),
+          // ballotContract.executed(proposalId),
+          // ballotContract.canceled(proposalId),
         ]);
         proposals.push({
           id: proposalId.toString(),
           name,
           voteStart,
           voteEnd,
-          executed,
-          canceled,
+          state,
         });
       }
-      const ticketAddress = await ballotContract.token();
+      const ticketAddress = await ballotContract.tokenAddress();
       const ticketContract = await getTicketContractInstance(
         ticketAddress,
         provider
@@ -123,7 +131,7 @@ export default function Home() {
 
         {isLoading && <Spinner size="md" />}
 
-        {ballot && <Heading  mb={10}>{ballot.name}</Heading>}
+        {ballot && <Heading mb={10}>{ballot.name}</Heading>}
         <Grid
           columnGap={8}
           alignItems="center"
