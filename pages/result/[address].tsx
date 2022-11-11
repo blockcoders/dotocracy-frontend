@@ -23,7 +23,7 @@ import { proposalUtils } from "../../utils/proposal-utils";
 
 type Candidate = {
   name: string;
-  hash: string;
+  votes: number;
 };
 
 type Proposal = {
@@ -118,13 +118,12 @@ export default function ResultDetails() {
         ballotContract.endsOn(proposalId),
         ballotContract.getResults(proposalId),
       ]);
+      let _candidates: { name: string; votes: number }[] = [];
 
-      let _candidates: { name: string; hash: string }[] = [];
-
-      candidates?.[0].forEach((hash: string, index: number) => {
+      candidates?.[0].forEach((name: string, index: number) => {
         _candidates.push({
-          hash,
-          name: candidates[1][index],
+          name,
+          votes: Number(candidates[1][index]),
         });
       });
 
@@ -162,29 +161,29 @@ export default function ResultDetails() {
       >
         <VStack alignItems="start" gap={2} mb={5}>
           <Text fontSize="3xl" fontWeight="bold">
-            {ballot?.name}
+            {ballot?.proposal.name}
           </Text>
           <Text as="p" fontWeight="bold">
             {format("address")}:{" "}
-            <Text display="inline-block" fontWeight="medium">
+            <Text as="span" display="inline-block" fontWeight="medium">
               {address}
             </Text>
           </Text>
           <Text as="p" fontWeight="bold">
             {format("starts_on")}:{" "}
-            <Text display="inline-block" fontWeight="medium">
+            <Text as="span" display="inline-block" fontWeight="medium">
               {ballot?.proposal.voteStart}
             </Text>
           </Text>
           <Text as="p" fontWeight="bold">
             {format("ends_on")}:{" "}
-            <Text display="inline-block" fontWeight="medium">
+            <Text as="span" display="inline-block" fontWeight="medium">
               {ballot?.proposal.voteEnd}
             </Text>
           </Text>
           <Text as="p" fontWeight="bold">
             {format("status")}:{" "}
-            <Text display="inline-block" fontWeight="medium">
+            <Text as="span" display="inline-block" fontWeight="medium">
               {format(status || "pending")}
             </Text>
           </Text>
@@ -192,13 +191,13 @@ export default function ResultDetails() {
             <>
               <Text as="p" fontWeight="bold">
                 {format("total_voters")}:{" "}
-                <Text display="inline-block" fontWeight="medium">
+                <Text as="span" display="inline-block" fontWeight="medium">
                   {progress[0]}
                 </Text>
               </Text>
               <Text as="p" fontWeight="bold">
                 {format("registered_votes")}:{" "}
-                <Text display="inline-block" fontWeight="medium">
+                <Text as="span" display="inline-block" fontWeight="medium">
                   {progress[1]}
                 </Text>
               </Text>
@@ -212,22 +211,26 @@ export default function ResultDetails() {
               <Table variant="simple">
                 <Thead>
                   <Tr>
-                    <Th>{format("candidates")}</Th>
+                    <Th>{format("options")}</Th>
                     <Th>{format("votes")}</Th>
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {ballot?.proposal?.candidates.map((c) => (
-                    <Tr>
+                  {ballot?.proposal?.candidates.map((c, i) => (
+                    <Tr key={i}>
                       <Td>{c.name}</Td>
-                      <Td>5</Td>
+                      <Td>{c.votes}</Td>
                     </Tr>
                   ))}
                 </Tbody>
                 <Tfoot>
                   <Tr>
                     <Th>{format("registered_votes")}</Th>
-                    <Th>15</Th>
+                    <Th>
+                      {ballot?.proposal.candidates
+                        .map(({ votes }) => votes)
+                        .reduce((a, b) => a + b, 0)}
+                    </Th>
                   </Tr>
                 </Tfoot>
               </Table>
