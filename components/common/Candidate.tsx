@@ -45,7 +45,7 @@ export const Candidate: FC<CandidateProps> = ({
     state: { provider },
   } = useWalletContext();
 
-  const getErrorMessage = (error: any) => { 
+  const getErrorMessage = (error: any) => {
     if (error?.data?.message) {
       const e = error.data.message as string;
       if (e.includes("proposal does not exist")) {
@@ -63,7 +63,7 @@ export const Candidate: FC<CandidateProps> = ({
       return error.message;
     }
     return "Error while voting";
-  }
+  };
 
   const onVote = async () => {
     try {
@@ -133,10 +133,10 @@ export const Candidate: FC<CandidateProps> = ({
           </ModalHeader>
           <ModalCloseButton />
           <ModalFooter>
-            <Button colorScheme="blue" mr={3} onClick={onClose}>
+            <Button variant="ghost" mr={3} onClick={onClose}>
               {format("close")}
             </Button>
-            <Button variant="ghost" onClick={onVote}>
+            <Button colorScheme="blue" onClick={onVote}>
               {format("confirm")}
             </Button>
           </ModalFooter>
