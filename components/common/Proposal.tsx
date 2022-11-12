@@ -12,6 +12,7 @@ import { useFormatIntl } from "../../hooks/useFormatIntl";
 import { motion } from "framer-motion";
 import { enterAnimation, buttonAnimation } from "../../utils/animations";
 import { proposalUtils } from "../../utils/proposal-utils";
+import useFormattedDate from "../../hooks/useFormattedDate";
 
 interface ProposalProps {
   id: string;
@@ -34,6 +35,9 @@ export const Proposal: FC<ProposalProps> = ({
   address,
   state,
 }) => {
+  const { time: timeStart } = useFormattedDate(voteStart);
+  const { time: timeEnd } = useFormattedDate(voteEnd);
+
   const router = useRouter();
   const { format } = useFormatIntl();
 
@@ -43,6 +47,7 @@ export const Proposal: FC<ProposalProps> = ({
         as={motion.div}
         {...enterAnimation}
         maxW={"320px"}
+        height={"full"}
         w={"full"}
         bg={useColorModeValue("white", "gray.900")}
         boxShadow={"2xl"}
@@ -54,10 +59,10 @@ export const Proposal: FC<ProposalProps> = ({
           {name}
         </Heading>
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
-          {`${format("starts_on")} ${voteStart}`}
+          {`${format("starts_on")} ${timeStart}`}
         </Text>
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
-          {`${format("ends_on")} ${voteEnd}`}
+          {`${format("ends_on")} ${timeEnd}`}
         </Text>
         <Text fontSize="2xs" textAlign="center" mt={2} mb={2}>
           {format(proposalUtils[state])}
@@ -66,7 +71,7 @@ export const Proposal: FC<ProposalProps> = ({
         <Stack mt={4} direction={"row"} spacing={4}>
           <Button
             as={motion.button}
-            disabled={balance !== 1 || state != "1"}
+            disabled={balance !== 1 || state == "0" || state == "2" || state == "4"}
             _readOnly={balance !== 1}
             {...buttonAnimation}
             fontSize={"sm"}

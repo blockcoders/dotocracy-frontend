@@ -15,6 +15,7 @@ const WalletContext = createContext(
     state: InitialState;
     changeAddress: (address: string) => void;
     connectWallet: () => void;
+    getFormattedDate: (blockNumber: number) => Promise<string>;
   }
 );
 
@@ -94,6 +95,12 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     });
   };
 
+  const getFormattedDate = async (blockNumber: number) => {
+    return new Date(
+      ((await state.provider?.getBlock(Number(blockNumber)))?.timestamp || 0) * 1000
+    ).toLocaleString("en-GB");
+  };
+
   const connectWallet = async (showAlert: boolean = true) => {
     try {
       if (!(window as any)?.ethereum) {
@@ -127,6 +134,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         state,
         changeAddress,
         connectWallet,
+        getFormattedDate,
       }}
     >
       {children}
