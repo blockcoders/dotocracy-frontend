@@ -35,7 +35,7 @@ export const en = {
   current_votes: "Current votes: ",
   votes: "Votes",
   registered_votes: "Registered votes",
-  select_candidate: "Select candidate",
+  select_option: "Select an option",
   please_fill_ballot_name_and_date: "Please fill ballot name and date",
   there_must_be_at_least_one_voter_or_one_candidate:
     "There must be at least one voter or one candidate",

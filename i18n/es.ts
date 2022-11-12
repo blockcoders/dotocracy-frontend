@@ -34,7 +34,7 @@ export const es = {
   options: "Opciones",
   votes: "Votos",
   registered_votes: "Votos registrados",
-  select_candidate: "Seleccione un candidato",
+  select_option: "Seleccione una opción",
   please_fill_ballot_name_and_date:
     "Por favor, llene el nombre de la votacion y la fecha de finalización",
   there_must_be_at_least_one_voter_or_one_candidate:

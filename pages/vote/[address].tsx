@@ -112,7 +112,7 @@ export default function VoteDetail() {
       <Container maxW="4xl" mt={3} textAlign="center">
         <Box my={10}>
           <Text textAlign="center" fontWeight={600} mb={5} fontSize="3xl">
-            {format("select_candidate")}
+            {format("select_option")}
           </Text>
         </Box>
         {isLoading && <Spinner size="md" />}
