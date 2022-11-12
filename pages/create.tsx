@@ -20,18 +20,16 @@ import { AnimatePresence, motion } from "framer-motion";
 import { useContracts } from "../hooks/useContracts";
 import {
   buttonAnimation,
-  enterAnimation,
   cardEnterAnimation,
 } from "../utils/animations";
 import { useWalletContext } from "../providers/WalletProvider";
-import { parse } from "path";
 import { transformDate } from "../utils/date";
 
 const dateOptions = ["Minutes", "Hours", "Days"];
 
 const BALLOT_ADDRESS = process.env.NEXT_PUBLIC_BALLOT_ADDRESS as string;
 
-export default function create() {
+export default function Create() {
   const {
     form,
     addCandidate,

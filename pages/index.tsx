@@ -56,11 +56,9 @@ export default function Home() {
     try {
       const ballotContract = await getBallotContractInstance(search, provider);
       const name = await ballotContract.name();
-
-      console.log(ballotContract);
-
       const proposalsIds = await ballotContract.getProposals(selectedAddress);
       const proposals: Proposal[] = [];
+
       for (const proposalId of proposalsIds) {
         const [name, voteStart, voteEnd, state] = await Promise.all([
           ballotContract.proposalDescription(proposalId),
