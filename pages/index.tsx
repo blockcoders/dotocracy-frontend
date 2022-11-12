@@ -135,7 +135,6 @@ export default function Home() {
             gridTemplateColumns={{
               base: "1fr",
               md: "1fr 1fr",
-              lg: "1fr 1fr 1fr",
             }}
             rowGap={10}
           >

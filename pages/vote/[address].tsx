@@ -7,6 +7,7 @@ import { useLoading } from "../../hooks/useLoading";
 import { useContracts } from "../../hooks/useContracts";
 import { useWalletContext } from "../../providers/WalletProvider";
 import { proposalUtils } from "../../utils/proposal-utils";
+import useFormattedDate from "../../hooks/useFormattedDate";
 
 type Candidate = {
   name: string;
@@ -38,7 +39,10 @@ export default function VoteDetail() {
   const { provider } = state;
   const address = router.query.address as string;
   const proposalId = router.query.proposalId as string;
-
+  const { time: timeStart } = useFormattedDate(
+    ballot?.proposal?.voteStart || 0
+  );
+  const { time: timeEnd } = useFormattedDate(ballot?.proposal?.voteEnd || 0);
   const getProposal = async () => {
     startLoading();
     try {
@@ -101,10 +105,10 @@ export default function VoteDetail() {
           {format("address")}: {address}
         </Text>
         <Text>
-          {format("starts_on")}: {ballot?.proposal.voteStart}
+          {format("starts_on")}: {timeStart}
         </Text>
         <Text>
-          {format("ends_on")}: {ballot?.proposal.voteEnd}
+          {format("ends_on")}: {timeEnd}
         </Text>
         <Text>{format(proposalUtils[ballot?.proposal?.state || "0"])}</Text>
       </Box>

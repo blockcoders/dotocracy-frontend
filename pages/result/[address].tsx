@@ -20,6 +20,7 @@ import { useLoading } from "../../hooks";
 import { useContracts } from "../../hooks/useContracts";
 import { useWalletContext } from "../../providers/WalletProvider";
 import { proposalUtils } from "../../utils/proposal-utils";
+import useFormattedDate from "../../hooks/useFormattedDate";
 
 type Candidate = {
   name: string;
@@ -51,6 +52,11 @@ export default function ResultDetails() {
   const { provider } = state;
   const address = router.query.address as string;
   const proposalId = router.query.proposalId as string;
+
+  const { time: timeStart } = useFormattedDate(
+    ballot?.proposal?.voteStart || 0
+  );
+  const { time: timeEnd } = useFormattedDate(ballot?.proposal?.voteEnd || 0);
 
   const getStatus = async () => {
     startLoading();
@@ -172,13 +178,13 @@ export default function ResultDetails() {
           <Text as="p" fontWeight="bold">
             {format("starts_on")}:{" "}
             <Text as="span" display="inline-block" fontWeight="medium">
-              {ballot?.proposal.voteStart}
+              {timeStart}
             </Text>
           </Text>
           <Text as="p" fontWeight="bold">
             {format("ends_on")}:{" "}
             <Text as="span" display="inline-block" fontWeight="medium">
-              {ballot?.proposal.voteEnd}
+              {timeEnd}
             </Text>
           </Text>
           <Text as="p" fontWeight="bold">

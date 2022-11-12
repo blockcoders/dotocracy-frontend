@@ -47,6 +47,7 @@ export const Proposal: FC<ProposalProps> = ({
         as={motion.div}
         {...enterAnimation}
         maxW={"320px"}
+        height={"full"}
         w={"full"}
         bg={useColorModeValue("white", "gray.900")}
         boxShadow={"2xl"}
@@ -70,7 +71,7 @@ export const Proposal: FC<ProposalProps> = ({
         <Stack mt={4} direction={"row"} spacing={4}>
           <Button
             as={motion.button}
-            disabled={balance !== 1 || state != "1"}
+            disabled={balance !== 1 || state == "0" || state == "2" || state == "4"}
             _readOnly={balance !== 1}
             {...buttonAnimation}
             fontSize={"sm"}
