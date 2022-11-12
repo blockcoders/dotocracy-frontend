@@ -81,7 +81,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     });
     return () => {
       (window as any).ethereum.removeListener("accountsChanged", () => {});
-      (window as any).ethereum.removeListener("chainChanged", () => {}  );
+      (window as any).ethereum.removeListener("chainChanged", () => {});
     };
   }, []);
 
@@ -96,8 +96,19 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   const getFormattedDate = async (blockNumber: number) => {
+    const lastBlock = await state.provider?.getBlock("latest");
+    const lastBlockNumber = lastBlock?.number || 0;
+    const lastBlockTimestamp = (Number(lastBlock?.timestamp) * 1000) || Date.now();
+    if (blockNumber > lastBlockNumber) {
+      const diff = blockNumber - lastBlockNumber;
+      const blockTime = 13;
+      const milliseconds = diff * blockTime * 1000;
+      const date = new Date(lastBlockTimestamp + milliseconds);
+      return date.toLocaleString("en-GB");
+    }
     return new Date(
-      ((await state.provider?.getBlock(Number(blockNumber)))?.timestamp || 0) * 1000
+      ((await state.provider?.getBlock(Number(blockNumber)))?.timestamp || 0) *
+        1000
     ).toLocaleString("en-GB");
   };
 
