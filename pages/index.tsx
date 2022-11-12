@@ -60,7 +60,6 @@ export default function Home() {
       console.log(ballotContract);
 
       const proposalsIds = await ballotContract.getProposals(selectedAddress);
-
       const proposals: Proposal[] = [];
       for (const proposalId of proposalsIds) {
         const [name, voteStart, voteEnd, state] = await Promise.all([
@@ -122,7 +121,7 @@ export default function Home() {
           </Button>
         </HStack>
 
-        {isLoading && <Spinner size="md" mt={50}/>}
+        {isLoading && <Spinner size="md" mt={50} />}
         {!isLoading && ballot && <Heading mb={10}>{ballot.name}</Heading>}
         {!isLoading && ballot?.proposals.length === 0 && (
           <Text>{format("no_votations_found")}</Text>
