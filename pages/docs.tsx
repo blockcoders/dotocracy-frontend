@@ -69,8 +69,8 @@ export default function Docs() {
         </Heading>
         <Text>
           {format("how_to_create_a_new_ballot_1")}
-          <Link href="https://polkadot.js.org/extension/">
-            <b>{format("how_to_create_a_new_ballot_polkadot_extension")}</b>
+          <Link href="https://metamask.io/">
+            <b>{format("how_to_create_a_new_ballot_metamask_extension")}</b>
           </Link>
           {format("how_to_create_a_new_ballot_2")}
           <Link href={"/create"}>
@@ -82,11 +82,15 @@ export default function Docs() {
             {format("how_to_create_a_new_ballot_4")}
           </Text>
           <Text my={3}>
+            <b>{format("how_to_create_a_new_ballot_starts_on")}</b>
+            {format("how_to_create_a_new_ballot_5_start")}
+          </Text>
+          <Text my={3}>
             <b>{format("how_to_create_a_new_ballot_ends_on")}</b>
             {format("how_to_create_a_new_ballot_5")}
           </Text>
           <Text my={3}>
-            <b>{format("how_to_create_a_new_ballot_candidates")}</b>
+            <b>{format("how_to_create_a_new_ballot_options")}</b>
             {format("how_to_create_a_new_ballot_6")}
           </Text>
           <Text my={3}>
@@ -100,8 +104,8 @@ export default function Docs() {
         </Heading>
         <Text>
           {format("voting_1")}
-          <Link href="https://polkadot.js.org/extension/">
-            <b>{format("voting_polkadot_extension")}</b>
+          <Link href="https://metamask.io/">
+            <b>{format("voting_metamask_extension")}</b>
           </Link>
           {format("voting_2")}
           <Text my={3}>

@@ -25,8 +25,7 @@ import {
 import { useWalletContext } from "../providers/WalletProvider";
 import { transformDate } from "../utils/date";
 
-const dateOptions = ["Minutes", "Hours", "Days"];
-
+const dateOptions = ["minutes", "hours", "days"];
 const BALLOT_ADDRESS = process.env.NEXT_PUBLIC_BALLOT_ADDRESS as string;
 
 export default function Create() {
@@ -51,6 +50,7 @@ export default function Create() {
     state: { provider },
   } = useWalletContext();
 
+
   const createVotation = async () => {
     if (!form.ballotName.trim()) {
       return showErrorToast(format("please_fill_ballot_name_and_date"));
@@ -65,7 +65,7 @@ export default function Create() {
       (form.voters.length === 1 && !form.voters[0])
     ) {
       return showErrorToast(
-        format("there_must_be_at_least_one_voter_or_one_candidate")
+        format("there_must_be_at_least_one_voter_and_one_option")
       );
     }
 
@@ -75,13 +75,12 @@ export default function Create() {
 
     if (emptyCandidates || emptyVoters) {
       return showErrorToast(
-        format("there_is_at_least_one_empty_voter_or_candidate")
+        format("there_is_at_least_one_empty_voter_or_option")
       );
     }
 
     startLoading();
     try {
-      // TODO: call contract
       const voters = form.voters;
       const delay = transformDate(form.startOption, form.startDate);
       const period = delay + transformDate(form.endOption, form.endDate);
@@ -139,9 +138,8 @@ export default function Create() {
               />
 
               <HStack gap={10}>
-                {/* start date */}
                 <VStack>
-                  <Text>{format("Empezar en:")}</Text>
+                  <Text>{format("starts_on")}</Text>
                   <HStack
                     gap={0}
                     sx={{
@@ -170,16 +168,14 @@ export default function Create() {
                     >
                       {dateOptions.map((opt, index) => (
                         <option key={index} value={opt}>
-                          {opt}
+                          {format(opt)}
                         </option>
                       ))}
                     </Select>
                   </HStack>
                 </VStack>
-
-                {/* end date */}
                 <VStack>
-                  <Text>{format("Terminar en:")}</Text>
+                  <Text>{format("ends_on")}</Text>
                   <HStack
                     gap={0}
                     sx={{
@@ -208,7 +204,7 @@ export default function Create() {
                     >
                       {dateOptions.map((opt, index) => (
                         <option key={index} value={opt}>
-                          {opt}
+                          {format(opt)}
                         </option>
                       ))}
                     </Select>

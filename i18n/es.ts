@@ -23,6 +23,9 @@ export const es = {
   address: "Dirección",
   ends_on: "Termina el",
   starts_on: "Comienza el",
+  minutes: "Minutos",
+  hours: "Horas",
+  days: "Dias",
   pending: "Pendiente",
   succeeded: "Exitosa",
   expired: "Expirada",
@@ -37,10 +40,10 @@ export const es = {
   select_option: "Seleccione una opción",
   please_fill_ballot_name_and_date:
     "Por favor, llene el nombre de la votacion y la fecha de finalización",
-  there_must_be_at_least_one_voter_or_one_candidate:
-    "Tiene que haber al menos un votante o un candidato",
-  there_is_at_least_one_empty_voter_or_candidate:
-    "Hay al menos un votante o candidato vacío",
+    there_must_be_at_least_one_voter_and_one_option:
+    "Tiene que haber al menos un votante y una opción",
+  there_is_at_least_one_empty_voter_or_option:
+    "Hay al menos una opción o un votante vacío",
   ballot_created: "Votación creada",
   sending: "Enviando...",
   new_ballot: "Nueva votación",
@@ -98,8 +101,8 @@ export const es = {
   how_to_create_a_new_ballot: "Como crear una nueva votación",
   how_to_create_a_new_ballot_1:
     "Para crear una nueva votación, necesitas tener una billetera conectada a la aplicación. Si no tienes una, puedes crear una utilizando:",
-  how_to_create_a_new_ballot_polkadot_extension:
-    " la extensión de Polkadot.js. ",
+  how_to_create_a_new_ballot_metamask_extension:
+    " la extensión de Metamask. ",
   how_to_create_a_new_ballot_2:
     "Una vez que tengas una billetera, puedes crear una nueva votación accediendo a la pagina ",
   how_to_create_a_new_ballot_create: " Crear. ",
@@ -108,9 +111,11 @@ export const es = {
   how_to_create_a_new_ballot_name: "Nombre: ",
   how_to_create_a_new_ballot_4:
     "Nombra tu votación para que tú y cualquier votante puedan encontrarla fácilmente.",
+  how_to_create_a_new_ballot_starts_on: "Comienza el: ",
   how_to_create_a_new_ballot_ends_on: "Termina el: ",
-  how_to_create_a_new_ballot_5: "Ultimo día para participar en esta votación.",
-  how_to_create_a_new_ballot_candidates: "Candidatos: ",
+  how_to_create_a_new_ballot_5_start: "La fecha en la que comienza la votación.",
+  how_to_create_a_new_ballot_5: "La fecha en la que finaliza la votación.",
+  how_to_create_a_new_ballot_options: "Opciones: ",
   how_to_create_a_new_ballot_6:
     "Lista de opciones/personas/entidades para votar.",
   how_to_create_a_new_ballot_voters: "Votantes: ",
@@ -121,15 +126,15 @@ export const es = {
   voting: "Votacion",
   voting_1:
     "Votar es fácil. Solo necesitas tener una billetera conectada a la aplicación. Si no tienes una, puedes crear una utilizando:",
-  voting_polkadot_extension: " la extensión de Polkadot.js. ",
+  voting_metamask_extension: " la extensión de Metamask. ",
   voting_2:
-    'Una vez que tengas una billetera conectada, verás una lista de todas las votaciones abiertas. Puedes votar en cualquiera de ellas haciendo clic en el botón "Votar". Serás redirigido a una página donde tendrás que seleccionar el candidato al que deseas votar. Una vez que hayas seleccionado la votación y la opción, tendrás que firmar la transacción utilizando tu billetera. Una vez que se confirme la transacción, serás redirigido a la página de resultados donde verás los resultados de la votación.',
+    'Una vez que tengas una billetera conectada, verás una lista de todas las votaciones abiertas. Puedes votar en cualquiera de ellas haciendo clic en el botón "Votar". Serás redirigido a una página donde tendrás que seleccionar la opcion que deseas votar. Una vez que hayas seleccionado la votación y la opción, tendrás que firmar la transacción utilizando tu billetera. Una vez que se confirme la transacción, serás redirigido a la página de resultados donde verás los resultados de la votación.',
   voting_step_1: "Paso 1: ",
   voting_step_1_text: "Conecta tu billetera.",
   voting_step_2: "Paso 2: ",
   voting_step_2_text: "Encontrar la votación en la que deseas votar.",
   voting_step_3: "Paso 3: ",
-  voting_step_3_text: "Vota al candidato que quieras!",
+  voting_step_3_text: "Vota la opcion que quieras!",
   voting_warn: "(Necesitaras firmar una transacción utilizando tu billetera.)",
   voting_note: "Advertencia: ",
   voting_note_text:
