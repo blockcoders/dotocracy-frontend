@@ -68,20 +68,24 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
 
   useEffect(() => {
     connectWallet(false);
-    (window as any).ethereum.on(
+    const w = window as any;
+    if (!w?.ethereum) { 
+      return;
+    }
+    w?.ethereum?.on(
       "accountsChanged",
       function (accounts: string[]) {
         changeAddress(accounts[0]);
       }
     );
-    (window as any).ethereum.on("chainChanged", (networkId: string) => {
+    w?.ethereum?.on("chainChanged", (networkId: string) => {
       if (networkId !== "0x507") {
         showWarningToast(format("unsupported_network"));
       }
     });
     return () => {
-      (window as any).ethereum.removeListener("accountsChanged", () => {});
-      (window as any).ethereum.removeListener("chainChanged", () => {});
+      w?.ethereum?.removeListener("accountsChanged", () => {});
+      w?.ethereum?.removeListener("chainChanged", () => {});
     };
   }, []);
 
