@@ -9,12 +9,15 @@ import {
 import { useToast } from "../hooks/useToast";
 import { useFormatIntl } from "../hooks/useFormatIntl";
 import { ethers } from "ethers";
+import { ApiPromise, WsProvider } from "@polkadot/api";
+
+type ProivderType = "metamask" | "polkadot" | null;
 
 const WalletContext = createContext(
   {} as {
     state: InitialState;
     changeAddress: (address: string) => void;
-    connectWallet: () => void;
+    connectWallet: (providerType: ProivderType) => void;
     getFormattedDate: (blockNumber: number) => Promise<string>;
   }
 );
@@ -23,7 +26,8 @@ interface InitialState {
   selectedAddress: string;
   wallets: string[];
   isLoadingWallet: boolean;
-  provider?: ethers.providers.Web3Provider;
+  provider?: ethers.providers.Web3Provider | ApiPromise | undefined;
+  providerType: ProivderType;
 }
 
 const initialState: InitialState = {
@@ -31,6 +35,7 @@ const initialState: InitialState = {
   wallets: [],
   isLoadingWallet: false,
   provider: undefined,
+  providerType: null,
 };
 
 const reducer = (state: InitialState, action: any): InitialState => {
@@ -42,6 +47,7 @@ const reducer = (state: InitialState, action: any): InitialState => {
         wallets: action.payload.wallets,
         provider: action.payload.provider,
         isLoadingWallet: false,
+        providerType: action.payload.providerType,
       };
     }
     case "change-address": {
@@ -67,26 +73,35 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const { showWarningToast } = useToast();
 
   useEffect(() => {
-    connectWallet(false);
-    const w = window as any;
-    if (!w?.ethereum) { 
-      return;
-    }
-    w?.ethereum?.on(
-      "accountsChanged",
-      function (accounts: string[]) {
+    const walletType = (localStorage.getItem("wallet-type") ||
+      null) as ProivderType;
+
+    if (!walletType) return;
+
+    let w: any;
+
+    if (walletType === "metamask") {
+      connectWallet(walletType, false);
+      w = window as any;
+      if (!w?.ethereum) {
+        return;
+      }
+      w?.ethereum?.on("accountsChanged", function (accounts: string[]) {
         changeAddress(accounts[0]);
-      }
-    );
-    w?.ethereum?.on("chainChanged", (networkId: string) => {
-      if (networkId !== "0x507") {
-        showWarningToast(format("unsupported_network"));
-      }
-    });
+      });
+      w?.ethereum?.on("chainChanged", (networkId: string) => {
+        if (networkId !== "0x507") {
+          showWarningToast(format("unsupported_network"));
+        }
+      });
+    } else {
+    }
+
     return () => {
       w?.ethereum?.removeListener("accountsChanged", () => {});
       w?.ethereum?.removeListener("chainChanged", () => {});
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const changeAddress = (address: string) => {
@@ -102,7 +117,8 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const getFormattedDate = async (blockNumber: number) => {
     const lastBlock = await state.provider?.getBlock("latest");
     const lastBlockNumber = lastBlock?.number || 0;
-    const lastBlockTimestamp = (Number(lastBlock?.timestamp) * 1000) || Date.now();
+    const lastBlockTimestamp =
+      Number(lastBlock?.timestamp) * 1000 || Date.now();
     if (blockNumber > lastBlockNumber) {
       const diff = blockNumber - lastBlockNumber;
       const blockTime = 13;
@@ -116,19 +132,49 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     ).toLocaleString("en-GB");
   };
 
-  const connectWallet = async (showAlert: boolean = true) => {
+  const connectWallet = async (
+    selectedProvider: ProivderType,
+    showAlert: boolean = true
+  ) => {
     try {
-      if (!(window as any)?.ethereum) {
-        showAlert && showWarningToast(format("no_extension_detected"));
-        return;
+      let provider = null;
+      let addresses: string[] = [];
+
+      if (selectedProvider === "metamask") {
+        if (!(window as any)?.ethereum) {
+          showAlert && showWarningToast(format("no_extension_detected"));
+          return;
+        }
+        provider = new ethers.providers.Web3Provider((window as any)?.ethereum);
+        addresses = await provider.send("eth_requestAccounts", []);
+        if (addresses.length === 0) {
+          showAlert && showWarningToast(format("no_accounts_detected"));
+        }
+      } else {
+        const { web3Accounts, web3Enable } = await import(
+          "@polkadot/extension-dapp"
+        );
+
+        const extensions = await web3Enable("Dotocracy");
+        if (extensions.length === 0) {
+          showAlert && showWarningToast("No extension detected");
+          console.warn("no extension");
+          return;
+        }
+        const accounts = await web3Accounts();
+
+        if (accounts.length === 0) {
+          showAlert && showWarningToast("No accounts detected");
+          console.warn("No wallets fonund");
+          return;
+        }
+
+        addresses = accounts.map((a) => a.address);
+        const wsProvider = new WsProvider("wss://rpc.polkadot.io");
+        provider = await ApiPromise.create({ provider: wsProvider });
       }
-      const provider = new ethers.providers.Web3Provider(
-        (window as any)?.ethereum
-      );
-      const addresses = await provider.send("eth_requestAccounts", []);
-      if (addresses.length === 0) {
-        showAlert && showWarningToast(format("no_accounts_detected"));
-      }
+
+      window.localStorage.setItem("wallet-type", selectedProvider || "");
 
       dispatch({
         type: "init",
@@ -136,6 +182,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
           provider,
           wallets: addresses,
           selectedAddress: addresses?.[0],
+          providerType: selectedProvider,
         },
       });
     } catch (error) {
