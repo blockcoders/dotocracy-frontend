@@ -16,6 +16,7 @@ export const en = {
   unsupported_network: "Unsupported network",
   error_searching_ballot: "Error searching ballot",
   no_votations_found: "No votations found",
+  copy_to_clipboard: "Copy to clipboard",
   status: "Status",
   canceled: "Canceled",
   executed: "Executed",

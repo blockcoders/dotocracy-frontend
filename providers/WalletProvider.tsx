@@ -155,14 +155,16 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     try {
       let provider = null;
       let addresses: string[] = [];
-
+      const win = window as any;
       if (selectedProvider === "metamask") {
-        if (!(window as any)?.ethereum) {
+        if (!win?.ethereum) {
           showAlert && showWarningToast(format("no_extension_detected"));
           return;
         }
-        provider = new ethers.providers.Web3Provider((window as any)?.ethereum);
+        
+        provider = new ethers.providers.Web3Provider(win?.ethereum);
         addresses = await provider.send("eth_requestAccounts", []);
+
         if (addresses.length === 0) {
           showAlert && showWarningToast(format("no_accounts_detected"));
         }
@@ -173,15 +175,13 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
 
         const extensions = await web3Enable("Dotocracy");
         if (extensions.length === 0) {
-          showAlert && showWarningToast("No extension detected");
-          console.warn("no extension");
+          showAlert && showWarningToast(format("no_extension_detected"));
           return;
         }
         const accounts = await web3Accounts();
 
         if (accounts.length === 0) {
-          showAlert && showWarningToast("No accounts detected");
-          console.warn("No wallets fonund");
+          showAlert && showWarningToast(format("no_accounts_detected"));
           return;
         }
 

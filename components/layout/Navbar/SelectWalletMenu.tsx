@@ -22,11 +22,15 @@ import { useFormatIntl } from "../../../hooks/useFormatIntl";
 import Image from "next/image";
 import { walletsToSelect } from "../../../config/wallets";
 
+const showShortAddress = (address: string) => {
+  if (!address) return "";
+  return (address.slice(0, 6) + "..." + address.slice(-4)).toLowerCase();
+};
+
 export const SelectWalletMenu = () => {
   const { format } = useFormatIntl();
   const {
     state: { isLoadingWallet, wallets, selectedAddress, providerType },
-    changeAddress,
     connectWallet,
     logOut,
   } = useWalletContext();
@@ -126,7 +130,7 @@ export const SelectWalletMenu = () => {
               {selectedAddress && (
                 <HStack>
                   {getWalletIcon(providerType as string)}
-                  <Text>{selectedAddress}</Text>
+                  <Text>{showShortAddress(selectedAddress)}</Text>
                 </HStack>
               )}
             </>
@@ -134,6 +138,11 @@ export const SelectWalletMenu = () => {
         </MenuButton>
         {selectedAddress && (
           <MenuList>
+            <MenuItem
+              onClick={() => navigator.clipboard.writeText(selectedAddress)}
+            >
+              {format("copy_to_clipboard")}
+            </MenuItem>
             <MenuItem onClick={logOut}>{format("logout")}</MenuItem>
           </MenuList>
         )}

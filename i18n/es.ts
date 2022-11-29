@@ -16,6 +16,7 @@ export const es = {
   unsupported_network: "Red no soportada",
   error_searching_ballot: "Error buscando votación",
   no_votations_found: "No se encontraron votaciones",
+  copy_to_clipboard: "Copiar al portapapeles",
   status: "Estado",
   canceled: "Cancelada",
   executed: "Ejecutada",
