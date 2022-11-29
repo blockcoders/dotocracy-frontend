@@ -4,6 +4,8 @@ import {
   HStack,
   Menu,
   MenuButton,
+  MenuItem,
+  MenuList,
   Modal,
   ModalBody,
   ModalCloseButton,
@@ -26,6 +28,7 @@ export const SelectWalletMenu = () => {
     state: { isLoadingWallet, wallets, selectedAddress, providerType },
     changeAddress,
     connectWallet,
+    logOut,
   } = useWalletContext();
 
   const { isOpen, onClose, onOpen } = useDisclosure();
@@ -53,8 +56,14 @@ export const SelectWalletMenu = () => {
     return null;
   };
 
+  const selectWallet = (type: any) => {
+    connectWallet(type as any);
+    onClose();
+  };
+
   return (
     <>
+      {/* modal to select wallet */}
       <Modal
         isCentered
         isOpen={isOpen}
@@ -63,7 +72,7 @@ export const SelectWalletMenu = () => {
       >
         <ModalOverlay />
         <ModalContent>
-          <ModalHeader>Select wallet</ModalHeader>
+          <ModalHeader>{format("select_wallet")}</ModalHeader>
           <ModalCloseButton />
           <ModalBody py={10}>
             <VStack gap={4}>
@@ -75,7 +84,7 @@ export const SelectWalletMenu = () => {
                   w="full"
                   size="lg"
                   py={8}
-                  onClick={() => connectWallet(w.type as any)}
+                  onClick={() => selectWallet(w.type as any)}
                 >
                   <HStack>
                     <Box w="30px" h="30px" pos="relative">
@@ -97,6 +106,8 @@ export const SelectWalletMenu = () => {
           </ModalBody>
         </ModalContent>
       </Modal>
+
+      {/* button to select / logout wallet */}
       <Menu>
         <MenuButton
           as={Button}
@@ -111,12 +122,21 @@ export const SelectWalletMenu = () => {
           {!haveWallets ? (
             format("connect_wallet")
           ) : (
-            <HStack>
-              {getWalletIcon(providerType)}
-              <Text>{selectedAddress}</Text>
-            </HStack>
+            <>
+              {selectedAddress && (
+                <HStack>
+                  {getWalletIcon(providerType as string)}
+                  <Text>{selectedAddress}</Text>
+                </HStack>
+              )}
+            </>
           )}
         </MenuButton>
+        {selectedAddress && (
+          <MenuList>
+            <MenuItem onClick={logOut}>{format("logout")}</MenuItem>
+          </MenuList>
+        )}
       </Menu>
     </>
   );

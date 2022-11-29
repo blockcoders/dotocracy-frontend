@@ -40,7 +40,7 @@ export const es = {
   select_option: "Seleccione una opción",
   please_fill_ballot_name_and_date:
     "Por favor, llene el nombre de la votacion y la fecha de finalización",
-    there_must_be_at_least_one_voter_and_one_option:
+  there_must_be_at_least_one_voter_and_one_option:
     "Tiene que haber al menos un votante y una opción",
   there_is_at_least_one_empty_voter_or_option:
     "Hay al menos una opción o un votante vacío",
@@ -101,8 +101,7 @@ export const es = {
   how_to_create_a_new_ballot: "Como crear una nueva votación",
   how_to_create_a_new_ballot_1:
     "Para crear una nueva votación, necesitas tener una billetera conectada a la aplicación. Si no tienes una, puedes crear una utilizando:",
-  how_to_create_a_new_ballot_metamask_extension:
-    " la extensión de Metamask. ",
+  how_to_create_a_new_ballot_metamask_extension: " la extensión de Metamask. ",
   how_to_create_a_new_ballot_2:
     "Una vez que tengas una billetera, puedes crear una nueva votación accediendo a la pagina ",
   how_to_create_a_new_ballot_create: " Crear. ",
@@ -113,7 +112,8 @@ export const es = {
     "Nombra tu votación para que tú y cualquier votante puedan encontrarla fácilmente.",
   how_to_create_a_new_ballot_starts_on: "Comienza el: ",
   how_to_create_a_new_ballot_ends_on: "Termina el: ",
-  how_to_create_a_new_ballot_5_start: "La fecha en la que comienza la votación.",
+  how_to_create_a_new_ballot_5_start:
+    "La fecha en la que comienza la votación.",
   how_to_create_a_new_ballot_5: "La fecha en la que finaliza la votación.",
   how_to_create_a_new_ballot_options: "Opciones: ",
   how_to_create_a_new_ballot_6:
@@ -156,4 +156,5 @@ export const es = {
     "Crea votaciones que se puedan votar desde diferentes parachains utilizando xcm",
   create_ballots_that_can_be_voted_from_different_parachains_using_xcm_text:
     "El eco sistema de Polkadot permite que las parachains se comuniquen, esto significa que podremos agregar algunas características que involucren poder votar desde diferentes parachains. Teniendo el NFT emitido en la parachain donde se creó la votación y luego poder votar en la parachain donde se encuentra el votante. Tendremos que explorar las posibilidades y limitaciones de esta característica.",
+  logout: "Cerrar sesión",
 };

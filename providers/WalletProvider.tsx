@@ -19,6 +19,7 @@ const WalletContext = createContext(
     changeAddress: (address: string) => void;
     connectWallet: (providerType: ProivderType) => void;
     getFormattedDate: (blockNumber: number) => Promise<string>;
+    logOut: () => void;
   }
 );
 
@@ -95,6 +96,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         }
       });
     } else {
+      connectWallet(walletType, false);
     }
 
     return () => {
@@ -115,21 +117,35 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   };
 
   const getFormattedDate = async (blockNumber: number) => {
-    const lastBlock = await state.provider?.getBlock("latest");
-    const lastBlockNumber = lastBlock?.number || 0;
-    const lastBlockTimestamp =
-      Number(lastBlock?.timestamp) * 1000 || Date.now();
-    if (blockNumber > lastBlockNumber) {
-      const diff = blockNumber - lastBlockNumber;
-      const blockTime = 13;
-      const milliseconds = diff * blockTime * 1000;
-      const date = new Date(lastBlockTimestamp + milliseconds);
-      return date.toLocaleString("en-GB");
+    if (state.providerType === "metamask") {
+      const provider = state.provider as ethers.providers.Web3Provider;
+
+      const lastBlock = await provider?.getBlock("latest");
+      const lastBlockNumber = lastBlock?.number || 0;
+      const lastBlockTimestamp =
+        Number(lastBlock?.timestamp) * 1000 || Date.now();
+      if (blockNumber > lastBlockNumber) {
+        const diff = blockNumber - lastBlockNumber;
+        const blockTime = 13;
+        const milliseconds = diff * blockTime * 1000;
+        const date = new Date(lastBlockTimestamp + milliseconds);
+        return date.toLocaleString("en-GB");
+      }
+      return new Date(
+        ((await provider?.getBlock(Number(blockNumber)))?.timestamp || 0) * 1000
+      ).toLocaleString("en-GB");
+    } else {
+      let provider = state.provider as ApiPromise;
+      const lastHeader = await provider.rpc.chain.getHeader();
+      const lastBlockNumber = lastHeader.hash;
+      const lastBlock = await provider.rpc.chain.getBlock(lastBlockNumber);
+      const { extrinsics } = lastBlock.block || {};
+      const timestampArgs = extrinsics
+        .map((e) => e.method)
+        .find((m) => m.section === "timestamp" && m.method === "set");
+      const timestamp = Number(timestampArgs?.args[0].toString()) || Date.now();
+      return new Date(timestamp).toLocaleString("en-GB");
     }
-    return new Date(
-      ((await state.provider?.getBlock(Number(blockNumber)))?.timestamp || 0) *
-        1000
-    ).toLocaleString("en-GB");
   };
 
   const connectWallet = async (
@@ -190,6 +206,20 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const logOut = () => {
+    localStorage.removeItem("wallet-type");
+
+    dispatch({
+      type: "init",
+      payload: {
+        provider: null,
+        wallets: [],
+        selectedAddress: "",
+        providerType: null,
+      },
+    });
+  };
+
   return (
     <WalletContext.Provider
       value={{
@@ -197,6 +227,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         changeAddress,
         connectWallet,
         getFormattedDate,
+        logOut,
       }}
     >
       {children}

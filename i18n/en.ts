@@ -153,4 +153,5 @@ export const en = {
     "Create ballots that can be voted from different parachains using xcm",
   create_ballots_that_can_be_voted_from_different_parachains_using_xcm_text:
     "Polkadot ecosystem allows for parachains to comunicate this means that we will be able to add some features that involve being able to vote from different parachains. Having the NFT minted on the parachain where the ballot was created and then being able to vote on the parachain where the voter is located. We will have to explore the posibilities and limitations of this feature.",
+  logout: "Log out",
 };
