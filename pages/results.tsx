@@ -52,7 +52,7 @@ export default function Home() {
   const searchBallot = async () => {
     startLoading();
     try {
-      const ballotContract = await getBallotContractInstance(search, provider);
+      const ballotContract = await getBallotContractInstance(search, selectedAddress, provider);
       const name = await ballotContract.name();
       const proposalsIds = await ballotContract.getProposals(selectedAddress);
       const proposals: Proposal[] = [];
@@ -74,6 +74,7 @@ export default function Home() {
       const ticketAddress = await ballotContract.tokenAddress();
       const ticketContract = await getTicketContractInstance(
         ticketAddress,
+        selectedAddress,
         provider
       );
       const ticketName = await ticketContract.name();

@@ -68,7 +68,7 @@ export default function ResultDetails() {
         ballotContract.proposalDescription(proposalId),
         ballotContract.startsOn(proposalId),
         ballotContract.endsOn(proposalId),
-        ballotContract.state(proposalId) as "0" | "1" | "2" | "3" | "4" | "5",
+        ballotContract.state(proposalId),
       ]);
       setStatus(proposalUtils[state]);
       setBallot({
@@ -77,8 +77,8 @@ export default function ResultDetails() {
         proposal: {
           id: proposalId,
           name,
-          voteStart: voteStart.toNumber(),
-          voteEnd: voteEnd.toNumber(),
+          voteStart: voteStart,
+          voteEnd: voteEnd,
           candidates: [],
         },
       });

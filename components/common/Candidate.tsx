@@ -72,7 +72,7 @@ export const Candidate: FC<CandidateProps> = ({
         provider?.getSigner()
       );
 
-      const rest = await ballotContract.castVote(proposalId, hash);
+      await ballotContract.castVote(proposalId, hash);
       showSuccessToast("Succesfull vote");
 
       router.push("/");

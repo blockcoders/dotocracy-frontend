@@ -29,4 +29,37 @@ export class BallotContract extends ContractInstance {
   async tokenAddress(): Promise<string> {
     return this.query("tokenAddress");
   }
+
+  async castVote(proposalId: string, hash: string) {
+    return this.tx("castVote", proposalId, hash);
+  }
+
+  async createProposal(
+    voters: string[],
+    delay: number,
+    period: number,
+    description: string,
+    options: string[]
+  ) {
+    return this.tx(
+      "createProposal",
+      voters,
+      delay,
+      period,
+      description,
+      options
+    );
+  }
+
+  async progress(proposalId: string) {
+    return this.query("progress", proposalId);
+  }
+
+  async getResults(proposalId: string) {
+    return this.query("getResults", proposalId);
+  }
+
+  async getOptions(proposalId: string) { 
+    return this.query("getOptions", proposalId);
+  }
 }
