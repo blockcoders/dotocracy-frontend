@@ -1,9 +1,16 @@
-import BALLOT_ABI from "../contracts/Ballot.json";
-import TICKET_ABI from "../contracts/Ticket.json";
+import BALLOT_ABI from "../contracts/ABI/Ballot.json";
+import TICKET_ABI from "../contracts/ABI/Ticket.json";
 import { ethers } from "ethers";
 import { useWalletContext } from "../providers/WalletProvider";
-import { ContractPromise } from "@polkadot/api-contract";
+import { Abi, ContractPromise } from "@polkadot/api-contract";
 import { ApiPromise } from "@polkadot/api";
+import {
+  MultiChainABI,
+  MultiChainProvider,
+  ContractInstance,
+} from "../contracts/ContractInstance";
+import { BallotContract } from "../contracts/BallotContract";
+import { TicketContract } from "../contracts/TicketContract";
 
 export const useContracts = () => {
   const {
@@ -12,40 +19,55 @@ export const useContracts = () => {
 
   const getContractInstance = (
     address: string,
-    abi: ethers.ContractInterface | string,
-    signerOrProvider?:
-      | ethers.providers.Provider
-      | ethers.Signer
-      | ApiPromise
-      | undefined
+    abi: MultiChainABI,
+    account: string,
+    signerOrProvider?: MultiChainProvider
   ) => {
+    let contractInstance;
     if (providerType === "metamask") {
-      return new ethers.Contract(
+      contractInstance = new ethers.Contract(
         address,
-        abi,
+        abi as ethers.ContractInterface,
         signerOrProvider as ethers.providers.Provider | ethers.Signer
       );
     } else {
-      return new ContractPromise(
+      contractInstance = new ContractPromise(
         signerOrProvider as ApiPromise,
-        abi as string,
+        abi as Abi,
         address
       );
     }
+    return new ContractInstance(contractInstance, address, account);
   };
 
   const getBallotContractInstance = async (
     address: string,
-    signerOrProvider?: ethers.providers.Provider | ethers.Signer | undefined
+    account: string,
+    signerOrProvider?: MultiChainProvider
   ) => {
-    return getContractInstance(address, BALLOT_ABI.abi, signerOrProvider);
+    const ballotAbi =
+      providerType === "metamask" ? BALLOT_ABI.abi : new Abi("metadata");
+    return getContractInstance(
+      address,
+      ballotAbi,
+      account,
+      signerOrProvider
+    ) as BallotContract;
   };
 
   const getTicketContractInstance = async (
     address: string,
-    signerOrProvider?: ethers.providers.Provider | ethers.Signer | undefined
+    account: string,
+    signerOrProvider?: MultiChainProvider
   ) => {
-    return getContractInstance(address, TICKET_ABI.abi, signerOrProvider);
+    const ticketAbi =
+      providerType === "metamask" ? TICKET_ABI.abi : new Abi("metadata");
+    return getContractInstance(
+      address,
+      ticketAbi,
+      account,
+      signerOrProvider
+    ) as TicketContract;
   };
 
   return {
