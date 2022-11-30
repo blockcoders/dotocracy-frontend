@@ -31,9 +31,9 @@ const BALLOT_ADDRESS = process.env.NEXT_PUBLIC_BALLOT_ADDRESS as string;
 export default function Create() {
   const {
     form,
-    addCandidate,
-    updateCandidate,
-    deleteCandidate,
+    addOption,
+    updateOption,
+    deleteOption,
     addVoter,
     updateVoters,
     deleteVoter,
@@ -69,11 +69,11 @@ export default function Create() {
       );
     }
 
-    const emptyCandidates = form.options.some((c) => !c.trim());
+    const emptyOptions = form.options.some((c) => !c.trim());
 
     const emptyVoters = form.voters.some((v) => !v.trim());
 
-    if (emptyCandidates || emptyVoters) {
+    if (emptyOptions || emptyVoters) {
       return showErrorToast(
         format("there_is_at_least_one_empty_voter_or_option")
       );
@@ -233,16 +233,16 @@ export default function Create() {
                         <Input
                           value={form?.options[index] || ""}
                           onChange={({ target }) =>
-                            updateCandidate(index, target.value)
+                            updateOption(index, target.value)
                           }
                         />
-                        <Button onClick={() => deleteCandidate(index)}>
+                        <Button onClick={() => deleteOption(index)}>
                           <AiFillDelete />
                         </Button>
                       </HStack>
                     ))}
                   </AnimatePresence>
-                  <Button onClick={addCandidate}>
+                  <Button onClick={addOption}>
                     <BsPlusLg />
                   </Button>
                 </VStack>

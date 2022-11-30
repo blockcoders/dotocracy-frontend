@@ -31,16 +31,16 @@ export class ContractInstance {
     this.account = account;
   }
 
-  async query(method: string, ...args: string[]): Promise<string> {
+  async query(method: string, ...args: string[]) {
     if (this.contract instanceof ethers.Contract) {
-      return this.contract[method]().toString();
+      return this.contract[method](...args);
     } else {
       const result = await this.contract.query[method](
         this.account,
         DEFAULT_GAS_OPTIONS_POLKADOT,
         ...args
       );
-      return result?.output?.toString() || "";
+      return result?.output;
     }
   }
 

@@ -21,7 +21,7 @@ import { useContracts } from "../../hooks/useContracts";
 import { useWalletContext } from "../../providers/WalletProvider";
 import { useRouter } from "next/router";
 
-interface CandidateProps {
+interface OptionProps {
   name: string;
   hash: string;
   fromView?: "vote" | "result";
@@ -29,7 +29,7 @@ interface CandidateProps {
   address: string;
 }
 
-export const Candidate: FC<CandidateProps> = ({
+export const Option: FC<OptionProps> = ({
   name,
   hash,
   fromView = "vote",
@@ -42,7 +42,7 @@ export const Candidate: FC<CandidateProps> = ({
   const { showSuccessToast, showErrorToast } = useToast();
   const { getBallotContractInstance } = useContracts();
   const {
-    state: { provider },
+    state: { provider, selectedAddress },
   } = useWalletContext();
 
   const getErrorMessage = (error: any) => {
@@ -69,6 +69,7 @@ export const Candidate: FC<CandidateProps> = ({
     try {
       const ballotContract = await getBallotContractInstance(
         address,
+        selectedAddress,
         provider?.getSigner()
       );
 

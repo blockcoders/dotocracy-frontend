@@ -54,6 +54,7 @@ export default function Home() {
   const searchBallot = async () => {
     startLoading();
     try {
+      console.log("searching", { search, selectedAddress, provider });
       const ballotContract = await getBallotContractInstance(
         search,
         selectedAddress,

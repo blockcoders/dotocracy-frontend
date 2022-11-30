@@ -1,12 +1,17 @@
 import { ContractInstance } from "./ContractInstance";
 
 export class BallotContract extends ContractInstance {
+  constructor(c: ContractInstance) {
+    const { contract, account, address } = c;
+    super(contract, account, address);
+  }
+
   async name(): Promise<string> {
     return this.query("name");
   }
   async getProposals(selectedAddress: string) {
     const proposalsIds = await this.query("getProposals", selectedAddress);
-    return JSON.parse(proposalsIds);
+    return proposalsIds;
   }
   async proposalDescription(proposalId: string): Promise<string> {
     return this.query("proposalDescription", proposalId);
