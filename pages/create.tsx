@@ -18,12 +18,11 @@ import { useCreateBallot } from "../hooks/useCreateBallot";
 import { useFormatIntl } from "../hooks/useFormatIntl";
 import { AnimatePresence, motion } from "framer-motion";
 import { useContracts } from "../hooks/useContracts";
-import {
-  buttonAnimation,
-  cardEnterAnimation,
-} from "../utils/animations";
+import { buttonAnimation, cardEnterAnimation } from "../utils/animations";
 import { useWalletContext } from "../providers/WalletProvider";
 import { transformDate } from "../utils/date";
+import { ethers } from "ethers";
+import { ApiPromise } from "@polkadot/api";
 
 const dateOptions = ["minutes", "hours", "days"];
 const BALLOT_ADDRESS = process.env.NEXT_PUBLIC_BALLOT_ADDRESS as string;
@@ -47,9 +46,8 @@ export default function Create() {
   const { format } = useFormatIntl();
   const { getBallotContractInstance } = useContracts();
   const {
-    state: { provider },
+    state: { provider, selectedAddress },
   } = useWalletContext();
-
 
   const createVotation = async () => {
     if (!form.ballotName.trim()) {
@@ -86,13 +84,16 @@ export default function Create() {
       const period = delay + transformDate(form.endOption, form.endDate);
       const description = form.ballotName;
       const options = form.options;
-
+      const signerOrProvider = selectedAddress.startsWith("0x")
+        ? (provider as ethers.providers.Web3Provider)?.getSigner()
+        : (provider as ApiPromise);
       const ballotContract = await getBallotContractInstance(
         BALLOT_ADDRESS,
-        provider?.getSigner()
+        selectedAddress,
+        signerOrProvider
       );
 
-      const res = await ballotContract.createProposal(
+      await ballotContract.createProposal(
         voters,
         delay,
         period,

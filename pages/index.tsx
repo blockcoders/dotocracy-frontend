@@ -108,7 +108,7 @@ export default function Home() {
       <Container maxW="2xl" textAlign="center">
         <ReactTypingEffect
           className={styles["main-title"]}
-          text={["Dotocracy", "Blockcoders", "Polkadot"]}
+          text={["Dotocracy", "Blockcoders", "Polkadot", "Kusama", "Moonbeam", "Astar"]}
           speed={100}
           typingDelay={0}
         />

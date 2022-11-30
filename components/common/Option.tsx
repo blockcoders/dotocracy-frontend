@@ -20,6 +20,8 @@ import { useToast } from "../../hooks/useToast";
 import { useContracts } from "../../hooks/useContracts";
 import { useWalletContext } from "../../providers/WalletProvider";
 import { useRouter } from "next/router";
+import { ApiPromise } from "@polkadot/api";
+import { ethers } from "ethers";
 
 interface OptionProps {
   name: string;
@@ -67,10 +69,13 @@ export const Option: FC<OptionProps> = ({
 
   const onVote = async () => {
     try {
+      const signerOrProvider = selectedAddress.startsWith("0x")
+        ? (provider as ethers.providers.Web3Provider)?.getSigner()
+        : (provider as ApiPromise);
       const ballotContract = await getBallotContractInstance(
         address,
         selectedAddress,
-        provider?.getSigner()
+        signerOrProvider
       );
 
       await ballotContract.castVote(proposalId, hash);
