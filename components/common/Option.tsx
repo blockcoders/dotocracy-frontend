@@ -44,7 +44,7 @@ export const Option: FC<OptionProps> = ({
   const { showSuccessToast, showErrorToast } = useToast();
   const { getBallotContractInstance } = useContracts();
   const {
-    state: { provider, selectedAddress },
+    state: { provider, selectedAddress, providerType },
   } = useWalletContext();
 
   const getErrorMessage = (error: any) => {
@@ -69,9 +69,10 @@ export const Option: FC<OptionProps> = ({
 
   const onVote = async () => {
     try {
-      const signerOrProvider = selectedAddress.startsWith("0x")
-        ? (provider as ethers.providers.Web3Provider)?.getSigner()
-        : (provider as ApiPromise);
+      const signerOrProvider =
+        providerType === "metamask"
+          ? (provider as ethers.providers.Web3Provider)?.getSigner()
+          : (provider as ApiPromise);
       const ballotContract = await getBallotContractInstance(
         address,
         selectedAddress,

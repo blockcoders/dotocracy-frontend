@@ -24,7 +24,7 @@ export const useContracts = () => {
     signerOrProvider?: MultiChainProvider
   ) => {
     let contractInstance;
-    if (address.startsWith("0x")) {
+    if (providerType === "metamask") {
       contractInstance = new ethers.Contract(
         address,
         abi as ethers.ContractInterface,
@@ -45,9 +45,8 @@ export const useContracts = () => {
     account: string,
     signerOrProvider?: MultiChainProvider
   ) => {
-    const ballotAbi = address.startsWith("0x")
-      ? BALLOT_ABI.abi
-      : new Abi("metadata");
+    const ballotAbi =
+      providerType === "metamask" ? BALLOT_ABI.abi : new Abi("metadata");
     const contract = await getContractInstance(
       address,
       ballotAbi,
@@ -62,9 +61,8 @@ export const useContracts = () => {
     account: string,
     signerOrProvider?: MultiChainProvider
   ) => {
-    const ticketAbi = address.startsWith("0x")
-      ? TICKET_ABI.abi
-      : new Abi("metadata");
+    const ticketAbi =
+      providerType === "metamask" ? TICKET_ABI.abi : new Abi("metadata");
     const contract = await getContractInstance(
       address,
       ticketAbi,

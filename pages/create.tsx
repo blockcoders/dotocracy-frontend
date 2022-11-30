@@ -46,7 +46,7 @@ export default function Create() {
   const { format } = useFormatIntl();
   const { getBallotContractInstance } = useContracts();
   const {
-    state: { provider, selectedAddress },
+    state: { provider, selectedAddress, providerType },
   } = useWalletContext();
 
   const createVotation = async () => {
@@ -84,9 +84,10 @@ export default function Create() {
       const period = delay + transformDate(form.endOption, form.endDate);
       const description = form.ballotName;
       const options = form.options;
-      const signerOrProvider = selectedAddress.startsWith("0x")
-        ? (provider as ethers.providers.Web3Provider)?.getSigner()
-        : (provider as ApiPromise);
+      const signerOrProvider =
+        providerType === "metamask"
+          ? (provider as ethers.providers.Web3Provider)?.getSigner()
+          : (provider as ApiPromise);
       const ballotContract = await getBallotContractInstance(
         BALLOT_ADDRESS,
         selectedAddress,
