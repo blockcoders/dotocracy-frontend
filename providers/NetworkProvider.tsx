@@ -10,6 +10,7 @@ import { networks } from "../config/networks";
 interface Network {
   name: string;
   wss: string;
+  chainId: number | string;
 }
 
 const NetworkContext = createContext(

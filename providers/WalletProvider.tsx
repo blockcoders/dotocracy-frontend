@@ -10,6 +10,7 @@ import { useToast } from "../hooks/useToast";
 import { useFormatIntl } from "../hooks/useFormatIntl";
 import { ethers } from "ethers";
 import { ApiPromise, WsProvider } from "@polkadot/api";
+import { useNetworkContext } from "./NetworkProvider";
 
 type ProivderType = "metamask" | "polkadot" | null;
 
@@ -72,6 +73,9 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const { format } = useFormatIntl();
   const [state, dispatch] = useReducer(reducer, initialState as any);
   const { showWarningToast } = useToast();
+  const {
+    state: { network },
+  } = useNetworkContext();
 
   useEffect(() => {
     const walletType = (localStorage.getItem("wallet-type") ||
@@ -90,11 +94,6 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       w?.ethereum?.on("accountsChanged", function (accounts: string[]) {
         changeAddress(accounts[0]);
       });
-      w?.ethereum?.on("chainChanged", (networkId: string) => {
-        if (networkId !== "0x507") {
-          showWarningToast(format("unsupported_network"));
-        }
-      });
     } else {
       connectWallet(walletType, false);
     }
@@ -104,7 +103,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       w?.ethereum?.removeListener("chainChanged", () => {});
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [network]);
 
   const changeAddress = (address: string) => {
     dispatch({
@@ -153,6 +152,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     showAlert: boolean = true
   ) => {
     try {
+      if (!network) return;
       let provider = null;
       let addresses: string[] = [];
       const win = window as any;
@@ -161,8 +161,8 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
           showAlert && showWarningToast(format("no_extension_detected"));
           return;
         }
-        
-        provider = new ethers.providers.Web3Provider(win?.ethereum);
+
+        provider = new ethers.providers.Web3Provider(win?.ethereum, network?.chainId);
         addresses = await provider.send("eth_requestAccounts", []);
 
         if (addresses.length === 0) {
@@ -186,7 +186,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         }
 
         addresses = accounts.map((a) => a.address);
-        const wsProvider = new WsProvider("wss://rpc.polkadot.io");
+        const wsProvider = new WsProvider(network?.wss);
         provider = await ApiPromise.create({ provider: wsProvider });
       }
 

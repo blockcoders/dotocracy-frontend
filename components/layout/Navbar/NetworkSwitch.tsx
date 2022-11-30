@@ -22,6 +22,9 @@ export const NetworkSwitch = () => {
   } = useNetworkContext();
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
+  const getNetwork = () => {
+    return network?.name || format("network")
+  }
   return (
     <Menu>
       <MenuButton
@@ -32,7 +35,7 @@ export const NetworkSwitch = () => {
         textOverflow="ellipsis"
         whiteSpace="nowrap"
       >
-        {isLargerThan768 ? format("network") : <FaNetworkWired />}
+        {isLargerThan768 ? getNetwork() : <FaNetworkWired />}
       </MenuButton>
       {networks && (
         <MenuList maxW="32">
