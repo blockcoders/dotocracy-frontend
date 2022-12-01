@@ -1,18 +1,168 @@
 export const networks = [
   {
-    name: "Moonbase Alpha",
-    wss: "wss://wss.api.moonbase.moonbeam.network",
-    chainId: {
-      chainId: 1287,//"0x507",
-      name: "Moonbase Alpha",
-    }
+    name: "Astar",
+    chain: "ASTR",
+    rpc: [
+      "https://astar.public.blastapi.io",
+      "https://astar-rpc.dwellir.com",
+      "https://astar.api.onfinality.io/public",
+      "https://rpc.astar.network:8545",
+      "wss://astar.public.blastapi.io",
+      "wss://astar-rpc.dwellir.com",
+      "wss://astar.api.onfinality.io/public-ws",
+    ],
+    faucets: [],
+    nativeCurrency: {
+      name: "Astar",
+      symbol: "ASTR",
+      decimals: 18,
+    },
+    infoURL: "https://astar.network/",
+    shortName: "astr",
+    chainId: 592,
+    networkId: 592,
+    icon: "astar",
+    explorers: [
+      {
+        name: "subscan",
+        url: "https://astar.subscan.io",
+        standard: "none",
+        icon: "subscan",
+      },
+    ],
+  },
+  {
+    name: "Shiden",
+    chain: "SDN",
+    rpc: [
+      "https://shiden.api.onfinality.io/public",
+      "https://shiden-rpc.dwellir.com",
+      "https://shiden.public.blastapi.io",
+      "wss://shiden.api.onfinality.io/public-ws",
+      "wss://shiden.public.blastapi.io",
+      "wss://shiden-rpc.dwellir.com",
+    ],
+    faucets: [],
+    nativeCurrency: {
+      name: "Shiden",
+      symbol: "SDN",
+      decimals: 18,
+    },
+    infoURL: "https://shiden.astar.network/",
+    shortName: "sdn",
+    chainId: 336,
+    networkId: 336,
+    icon: "shiden",
+    explorers: [
+      {
+        name: "subscan",
+        url: "https://shiden.subscan.io",
+        standard: "none",
+        icon: "subscan",
+      },
+    ],
   },
   {
     name: "Shibuya",
-    wss: "wss://rpc.shibuya.astar.network",
-    chainId: {
-      chainId: 81,//"0x507",
+    chain: "SBY",
+    rpc: [
+      "https://evm.shibuya.astar.network",
+      "https://shibuya.public.blastapi.io",
+      "https://shibuya-rpc.dwellir.com",
+      "wss://rpc.shibuya.astar.network",
+      "wss://shibuya-rpc.dwellir.com",
+      "wss://shibuya.public.blastapi.io",
+    ],
+    faucets: [],
+    nativeCurrency: {
       name: "Shibuya",
-    } //"0x2a", // 81
+      symbol: "SBY",
+      decimals: 18,
+    },
+    infoURL: "https://shiden.astar.network/",
+    shortName: "sby",
+    chainId: 81,
+    networkId: 81,
+    icon: "shibuya",
+    explorers: [
+      {
+        name: "blockscout",
+        url: "https://blockscout.com/shibuya",
+        standard: "none",
+        icon: "blockscout",
+      },
+    ],
+  },
+  {
+    name: "Moonbeam",
+    chain: "MOON",
+    rpc: ["https://rpc.api.moonbeam.network", "wss://wss.api.moonbeam.network"],
+    faucets: [],
+    nativeCurrency: {
+      name: "Glimmer",
+      symbol: "GLMR",
+      decimals: 18,
+    },
+    infoURL: "https://moonbeam.network/networks/moonbeam/",
+    shortName: "mbeam",
+    chainId: 1284,
+    networkId: 1284,
+    explorers: [
+      {
+        name: "moonscan",
+        url: "https://moonbeam.moonscan.io",
+        standard: "none",
+      },
+    ],
+  },
+  {
+    name: "Moonriver",
+    chain: "MOON",
+    rpc: [
+      "https://rpc.api.moonriver.moonbeam.network",
+      "wss://wss.api.moonriver.moonbeam.network",
+    ],
+    faucets: [],
+    nativeCurrency: {
+      name: "Moonriver",
+      symbol: "MOVR",
+      decimals: 18,
+    },
+    infoURL: "https://moonbeam.network/networks/moonriver/",
+    shortName: "mriver",
+    chainId: 1285,
+    networkId: 1285,
+    explorers: [
+      {
+        name: "moonscan",
+        url: "https://moonriver.moonscan.io",
+        standard: "none",
+      },
+    ],
+  },
+  {
+    name: "Moonbase Alpha",
+    chain: "MOON",
+    rpc: [
+      "https://rpc.api.moonbase.moonbeam.network",
+      "wss://wss.api.moonbase.moonbeam.network",
+    ],
+    faucets: [],
+    nativeCurrency: {
+      name: "Dev",
+      symbol: "DEV",
+      decimals: 18,
+    },
+    infoURL: "https://docs.moonbeam.network/networks/testnet/",
+    shortName: "mbase",
+    chainId: 1287,
+    networkId: 1287,
+    explorers: [
+      {
+        name: "moonscan",
+        url: "https://moonbase.moonscan.io",
+        standard: "none",
+      },
+    ],
   },
 ];

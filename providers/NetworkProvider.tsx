@@ -7,13 +7,29 @@ import {
 } from "react";
 import { networks } from "../config/networks";
 
+interface Explorer {
+  name: string;
+  url: string;
+  standard: string;
+  icon?: string;
+}
+
 interface Network {
   name: string;
-  wss: string;
-  chainId: {
-    chainId: number;
+  chain: string;
+  rpc: string[];
+  faucets?: string[];
+  nativeCurrency: {
     name: string;
+    symbol: string;
+    decimals: number;
   };
+  infoURL: string;
+  shortName: string;
+  chainId: number;
+  networkId: number;
+  icon?: string;
+  explorers: Explorer[];
 }
 
 const NetworkContext = createContext(

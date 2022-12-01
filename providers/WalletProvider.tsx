@@ -11,6 +11,7 @@ import { useFormatIntl } from "../hooks/useFormatIntl";
 import { ethers } from "ethers";
 import { ApiPromise, WsProvider } from "@polkadot/api";
 import { useNetworkContext } from "./NetworkProvider";
+import { networks } from "../config/networks";
 
 type ProivderType = "metamask" | "polkadot" | null;
 
@@ -72,6 +73,8 @@ const reducer = (state: InitialState, action: any): InitialState => {
 export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
   const { format } = useFormatIntl();
   const [state, dispatch] = useReducer(reducer, initialState as any);
+  const { changeNetwork } = useNetworkContext()
+
   const { showWarningToast } = useToast();
   const {
     state: { network },
@@ -94,6 +97,16 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       w?.ethereum?.on("accountsChanged", function (accounts: string[]) {
         changeAddress(accounts[0]);
       });
+      w.ethereum.on("chainChanged", function (chainId: string) {
+        const existingNetwork = networks.find(
+          (n) => chainId === `0x${Number(n.chainId).toString(16)}`
+        );
+        if (!existingNetwork) {
+          showWarningToast(format("unsupported_network"));
+          return;
+        }
+        changeNetwork(existingNetwork);
+      });
     } else {
       connectWallet(walletType, false);
     }
@@ -103,7 +116,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
       w?.ethereum?.removeListener("chainChanged", () => {});
     };
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [network]);
+  }, [network.name]);
 
   const changeAddress = (address: string) => {
     dispatch({
@@ -147,6 +160,23 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
     }
   };
 
+  const switchMetamaskNetwork = async () => {
+    const { ethereum } = window as any;
+    const { chainId, name, nativeCurrency, rpc, explorers } = network;
+    await ethereum.request({
+      method: "wallet_addEthereumChain",
+      params: [
+        {
+          chainId: `0x${Number(chainId).toString(16)}`,
+          chainName: name,
+          nativeCurrency,
+          rpcUrls: rpc.filter((r: string) => r.includes("https")),
+          blockExplorerUrls: explorers.map((e: any) => e.url),
+        },
+      ],
+    });
+  };
+
   const connectWallet = async (
     selectedProvider: ProivderType,
     showAlert: boolean = true
@@ -161,8 +191,8 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
           showAlert && showWarningToast(format("no_extension_detected"));
           return;
         }
-
-        provider = new ethers.providers.Web3Provider(win?.ethereum);
+        await switchMetamaskNetwork(); // force switch to correct network
+        provider = new ethers.providers.Web3Provider(win?.ethereum, network);
         addresses = await provider.send("eth_requestAccounts", []);
 
         if (addresses.length === 0) {
@@ -186,7 +216,8 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
         }
 
         addresses = accounts.map((a) => a.address);
-        const wsProvider = new WsProvider(network?.wss);
+        const wss = network.rpc.find((r) => r.includes("wss"));
+        const wsProvider = new WsProvider(wss);
         provider = await ApiPromise.create({ provider: wsProvider });
       }
 
