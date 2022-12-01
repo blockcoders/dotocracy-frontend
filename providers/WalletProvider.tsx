@@ -162,7 +162,7 @@ export const WalletProvider: FC<PropsWithChildren> = ({ children }) => {
           return;
         }
 
-        provider = new ethers.providers.Web3Provider(win?.ethereum, network?.chainId);
+        provider = new ethers.providers.Web3Provider(win?.ethereum);
         addresses = await provider.send("eth_requestAccounts", []);
 
         if (addresses.length === 0) {
