@@ -101,7 +101,9 @@ export const en = {
   how_to_create_a_new_ballot: "How to create a new ballot",
   how_to_create_a_new_ballot_1:
     "To create a new ballot, you need to have a wallet connected to the app. If you don't have one, you can create one using",
-  how_to_create_a_new_ballot_metamask_extension: " Metamask extension. ",
+  how_to_create_a_new_ballot_metamask_extension: " Metamask extension",
+  how_to_create_a_new_ballot_or: " or ",
+  how_to_create_a_new_ballot_polkadotjs_extension: "PolkadotJS extension. ",
   how_to_create_a_new_ballot_2:
     "Once you have a wallet, you can create a new ballot by going to the",
   how_to_create_a_new_ballot_create: " Create ",
@@ -124,7 +126,9 @@ export const en = {
   voting: "Voting",
   voting_1:
     "Voting is easy. You just need to have a wallet connected to the app. If you don't have one, you can create one using",
-  voting_metamask_extension: " Metamask extension. ",
+  voting_metamask_extension: " Metamask extension",
+  voting_or: " or ",
+  voting_polkadotjs_extension: "PolkadotJS extension. ",
   voting_2:
     'Once you have a wallet connected, you will see a list of all the open ballots. You can vote on any of them by clicking on the "Vote" button. You will be redirected to a page where you will have to select the option you want to vote on. Once you have selected the ballot and the option, you will have to sign the transaction using your wallet. Once the transaction is confirmed, you will be redirected to the results page where you will see the results of the ballot.',
   voting_step_1: "Step 1: ",

@@ -102,7 +102,9 @@ export const es = {
   how_to_create_a_new_ballot: "Como crear una nueva votación",
   how_to_create_a_new_ballot_1:
     "Para crear una nueva votación, necesitas tener una billetera conectada a la aplicación. Si no tienes una, puedes crear una utilizando:",
-  how_to_create_a_new_ballot_metamask_extension: " la extensión de Metamask. ",
+  how_to_create_a_new_ballot_metamask_extension: " la extensión de Metamask",
+  how_to_create_a_new_ballot_or: " o ",
+  how_to_create_a_new_ballot_polkadotjs_extension: "la extensión de PolkadotJS. ",
   how_to_create_a_new_ballot_2:
     "Una vez que tengas una billetera, puedes crear una nueva votación accediendo a la pagina ",
   how_to_create_a_new_ballot_create: " Crear. ",
@@ -127,7 +129,9 @@ export const es = {
   voting: "Votacion",
   voting_1:
     "Votar es fácil. Solo necesitas tener una billetera conectada a la aplicación. Si no tienes una, puedes crear una utilizando:",
-  voting_metamask_extension: " la extensión de Metamask. ",
+  voting_metamask_extension: " la extensión de Metamask",
+  voting_or: " o ",
+  voting_polkadotjs_extension: " la extensión de PolkadotJS. ",
   voting_2:
     'Una vez que tengas una billetera conectada, verás una lista de todas las votaciones abiertas. Puedes votar en cualquiera de ellas haciendo clic en el botón "Votar". Serás redirigido a una página donde tendrás que seleccionar la opcion que deseas votar. Una vez que hayas seleccionado la votación y la opción, tendrás que firmar la transacción utilizando tu billetera. Una vez que se confirme la transacción, serás redirigido a la página de resultados donde verás los resultados de la votación.',
   voting_step_1: "Paso 1: ",
