@@ -15,6 +15,7 @@ interface Explorer {
 }
 
 interface Network {
+  deployed: boolean;
   name: string;
   chain: string;
   rpc: string[];

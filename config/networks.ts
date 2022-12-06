@@ -1,5 +1,6 @@
 export const networks = [
-  {
+  { 
+    deployed: false,
     name: "Astar",
     chain: "ASTR",
     rpc: [
@@ -31,7 +32,8 @@ export const networks = [
       },
     ],
   },
-  {
+  { 
+    deployed: false,
     name: "Shiden",
     chain: "SDN",
     rpc: [
@@ -62,7 +64,8 @@ export const networks = [
       },
     ],
   },
-  {
+  { 
+    deployed: true,
     name: "Shibuya",
     chain: "SBY",
     rpc: [
@@ -93,7 +96,8 @@ export const networks = [
       },
     ],
   },
-  {
+  { 
+    deployed: false,
     name: "Moonbeam",
     chain: "MOON",
     rpc: ["https://rpc.api.moonbeam.network", "wss://wss.api.moonbeam.network"],
@@ -115,7 +119,8 @@ export const networks = [
       },
     ],
   },
-  {
+  { 
+    deployed: false,
     name: "Moonriver",
     chain: "MOON",
     rpc: [
@@ -140,7 +145,8 @@ export const networks = [
       },
     ],
   },
-  {
+  { 
+    deployed: true,
     name: "Moonbase Alpha",
     chain: "MOON",
     rpc: [

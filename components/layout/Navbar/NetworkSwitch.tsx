@@ -23,8 +23,8 @@ export const NetworkSwitch = () => {
   const [isLargerThan768] = useMediaQuery("(min-width: 768px)");
 
   const getNetwork = () => {
-    return network?.name || format("network")
-  }
+    return network?.name || format("network");
+  };
   return (
     <Menu>
       <MenuButton
@@ -40,25 +40,27 @@ export const NetworkSwitch = () => {
       {networks && (
         <MenuList maxW="32">
           <Text px={3}>{format("select_network")}</Text>
-          {networks.map((w) => (
-            <MenuItem
-              key={w?.name}
-              textOverflow="ellipsis"
-              overflow="hidden"
-              whiteSpace="nowrap"
-              display="flex"
-              gap={2}
-              onClick={() => changeNetwork(w)}
-            >
-              <Box
-                bgColor={w?.name === network.name ? "green" : "gray"}
-                borderRadius="full"
-                w={2}
-                h={2}
-              />
-              {w?.name}
-            </MenuItem>
-          ))}
+          {networks
+            .filter((n) => n.deployed)
+            .map((nw) => (
+              <MenuItem
+                key={nw?.name}
+                textOverflow="ellipsis"
+                overflow="hidden"
+                whiteSpace="nowrap"
+                display="flex"
+                gap={2}
+                onClick={() => changeNetwork(nw)}
+              >
+                <Box
+                  bgColor={nw?.name === network.name ? "green" : "gray"}
+                  borderRadius="full"
+                  w={2}
+                  h={2}
+                />
+                {nw?.name}
+              </MenuItem>
+            ))}
         </MenuList>
       )}
     </Menu>
