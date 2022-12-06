@@ -45,7 +45,7 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  network: networks[0],
+  network: networks.filter(n => n.deployed)[0],
 };
 
 const reducer = (state: InitialState, action: any): InitialState => {
