@@ -1,7 +1,7 @@
 import { Box, Container, Grid, Spinner, Text } from "@chakra-ui/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { Candidate } from "../../components/common/Candidate";
+import { Option } from "../../components/common/Option";
 import { useFormatIntl } from "../../hooks/useFormatIntl";
 import { useLoading } from "../../hooks/useLoading";
 import { useContracts } from "../../hooks/useContracts";
@@ -9,7 +9,7 @@ import { useWalletContext } from "../../providers/WalletProvider";
 import { proposalUtils } from "../../utils/proposal-utils";
 import useFormattedDate from "../../hooks/useFormattedDate";
 
-type Candidate = {
+type Option = {
   name: string;
   hash: string;
 };
@@ -20,7 +20,7 @@ type Proposal = {
   voteStart: number;
   voteEnd: number;
   state: "0" | "1" | "2" | "3" | "4" | "5";
-  candidates: Candidate[];
+  options: Option[];
 };
 
 type Ballot = {
@@ -36,7 +36,7 @@ export default function VoteDetail() {
   const { startLoading, endLoading, isLoading } = useLoading();
   const { getBallotContractInstance } = useContracts();
   const { state } = useWalletContext();
-  const { provider } = state;
+  const { provider, selectedAddress } = state;
   const address = router.query.address as string;
   const proposalId = router.query.proposalId as string;
   const { time: timeStart } = useFormattedDate(
@@ -50,11 +50,12 @@ export default function VoteDetail() {
       if (!proposalId) return;
       const ballotContract = await getBallotContractInstance(
         address,
+        selectedAddress,
         provider?.getSigner()
       );
 
       const ballot = await ballotContract.name();
-      const [name, voteStart, voteEnd, state, candidates] = await Promise.all([
+      const [name, voteStart, voteEnd, state, options] = await Promise.all([
         ballotContract.proposalDescription(proposalId),
         ballotContract.startsOn(proposalId),
         ballotContract.endsOn(proposalId),
@@ -62,12 +63,12 @@ export default function VoteDetail() {
         ballotContract.getOptions(proposalId),
       ]);
 
-      let _candidates: { name: string; hash: string }[] = [];
+      let _options: { name: string; hash: string }[] = [];
 
-      candidates?.[0].forEach((hash: string, index: number) => {
-        _candidates.push({
+      options?.[0].forEach((hash: string, index: number) => {
+        _options.push({
           hash,
-          name: candidates[1][index],
+          name: options[1][index],
         });
       });
 
@@ -80,7 +81,7 @@ export default function VoteDetail() {
           voteStart: Number(voteStart),
           voteEnd: Number(voteEnd),
           state,
-          candidates: _candidates,
+          options: _options,
         },
       });
     } catch (error) {
@@ -130,8 +131,8 @@ export default function VoteDetail() {
           columnGap={6}
           rowGap={10}
         >
-          {ballot?.proposal?.candidates.map((c: any, index) => (
-            <Candidate
+          {ballot?.proposal?.options.map((c: any, index) => (
+            <Option
               key={index.toString()}
               {...c}
               proposalId={proposalId}

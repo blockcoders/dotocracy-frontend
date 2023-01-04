@@ -1,7 +1,7 @@
 import { HStack } from "@chakra-ui/react";
 import { VscGithub } from "react-icons/vsc";
 import { TbWorld } from "react-icons/tb";
-import { BsTwitter } from "react-icons/bs";
+import { BsTelegram, BsTwitter } from "react-icons/bs";
 import Link from "next/link";
 
 const FONT_SIZE = 24;
@@ -17,6 +17,9 @@ export const SocialMedia = () => {
       </Link>
       <Link href="https://twitter.com/blockcoders_">
         <BsTwitter fontSize={FONT_SIZE} />
+      </Link>
+      <Link href="https://t.me/blockcoderstg">
+        <BsTelegram fontSize={FONT_SIZE} />
       </Link>
     </HStack>
   );

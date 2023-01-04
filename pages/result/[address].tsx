@@ -22,7 +22,7 @@ import { useWalletContext } from "../../providers/WalletProvider";
 import { proposalUtils } from "../../utils/proposal-utils";
 import useFormattedDate from "../../hooks/useFormattedDate";
 
-type Candidate = {
+type Option = {
   name: string;
   votes: number;
 };
@@ -32,7 +32,7 @@ type Proposal = {
   name: string;
   voteStart: number;
   voteEnd: number;
-  candidates: Candidate[];
+  options: Option[];
 };
 
 type Ballot = {
@@ -49,7 +49,7 @@ export default function ResultDetails() {
   const { startLoading, endLoading, isLoading } = useLoading();
   const { getBallotContractInstance } = useContracts();
   const { state } = useWalletContext();
-  const { provider } = state;
+  const { provider, selectedAddress } = state;
   const address = router.query.address as string;
   const proposalId = router.query.proposalId as string;
 
@@ -63,12 +63,12 @@ export default function ResultDetails() {
     try {
       if (!address) return;
       if (!proposalId) return;
-      const ballotContract = await getBallotContractInstance(address, provider);
+      const ballotContract = await getBallotContractInstance(address, selectedAddress , provider);
       const [name, voteStart, voteEnd, state] = await Promise.all([
         ballotContract.proposalDescription(proposalId),
         ballotContract.startsOn(proposalId),
         ballotContract.endsOn(proposalId),
-        ballotContract.state(proposalId) as "0" | "1" | "2" | "3" | "4" | "5",
+        ballotContract.state(proposalId),
       ]);
       setStatus(proposalUtils[state]);
       setBallot({
@@ -77,9 +77,9 @@ export default function ResultDetails() {
         proposal: {
           id: proposalId,
           name,
-          voteStart: voteStart.toNumber(),
-          voteEnd: voteEnd.toNumber(),
-          candidates: [],
+          voteStart: voteStart,
+          voteEnd: voteEnd,
+          options: [],
         },
       });
       if (state == "1") {
@@ -100,9 +100,9 @@ export default function ResultDetails() {
     try {
       if (!address) return;
       if (!proposalId) return;
-      const ballotContract = await getBallotContractInstance(address, provider);
+      const ballotContract = await getBallotContractInstance(address, selectedAddress, provider);
       const progress = await ballotContract.progress(proposalId);
-      setProgress([progress[0].toNumber(), progress[1].toNumber()]);
+      setProgress([progress[0], progress[1]]);
     } catch (e) {
       console.error(e);
     } finally {
@@ -115,21 +115,21 @@ export default function ResultDetails() {
     try {
       if (!address) return;
       if (!proposalId) return;
-      const ballotContract = await getBallotContractInstance(address, provider);
+      const ballotContract = await getBallotContractInstance(address, selectedAddress, provider);
 
       const ballot = await ballotContract.name();
-      const [name, voteStart, voteEnd, candidates] = await Promise.all([
+      const [name, voteStart, voteEnd, options] = await Promise.all([
         ballotContract.proposalDescription(proposalId),
         ballotContract.startsOn(proposalId),
         ballotContract.endsOn(proposalId),
         ballotContract.getResults(proposalId),
       ]);
-      let _candidates: { name: string; votes: number }[] = [];
+      let _options: { name: string; votes: number }[] = [];
 
-      candidates?.[0].forEach((name: string, index: number) => {
-        _candidates.push({
+      options?.[0].forEach((name: string, index: number) => {
+        _options.push({
           name,
-          votes: Number(candidates[1][index]),
+          votes: Number(options[1][index]),
         });
       });
 
@@ -141,7 +141,7 @@ export default function ResultDetails() {
           name,
           voteStart: Number(voteStart),
           voteEnd: Number(voteEnd),
-          candidates: _candidates,
+          options: _options,
         },
       });
     } catch (error) {
@@ -222,7 +222,7 @@ export default function ResultDetails() {
                   </Tr>
                 </Thead>
                 <Tbody>
-                  {ballot?.proposal?.candidates.map((c, i) => (
+                  {ballot?.proposal?.options.map((c, i) => (
                     <Tr key={i}>
                       <Td>{c.name}</Td>
                       <Td>{c.votes}</Td>
@@ -233,7 +233,7 @@ export default function ResultDetails() {
                   <Tr>
                     <Th>{format("registered_votes")}</Th>
                     <Th>
-                      {ballot?.proposal.candidates
+                      {ballot?.proposal.options
                         .map(({ votes }) => votes)
                         .reduce((a, b) => a + b, 0)}
                     </Th>

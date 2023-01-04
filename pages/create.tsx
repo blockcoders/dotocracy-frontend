@@ -18,12 +18,11 @@ import { useCreateBallot } from "../hooks/useCreateBallot";
 import { useFormatIntl } from "../hooks/useFormatIntl";
 import { AnimatePresence, motion } from "framer-motion";
 import { useContracts } from "../hooks/useContracts";
-import {
-  buttonAnimation,
-  cardEnterAnimation,
-} from "../utils/animations";
+import { buttonAnimation, cardEnterAnimation } from "../utils/animations";
 import { useWalletContext } from "../providers/WalletProvider";
 import { transformDate } from "../utils/date";
+import { ethers } from "ethers";
+import { ApiPromise } from "@polkadot/api";
 
 const dateOptions = ["minutes", "hours", "days"];
 const BALLOT_ADDRESS = process.env.NEXT_PUBLIC_BALLOT_ADDRESS as string;
@@ -31,9 +30,9 @@ const BALLOT_ADDRESS = process.env.NEXT_PUBLIC_BALLOT_ADDRESS as string;
 export default function Create() {
   const {
     form,
-    addCandidate,
-    updateCandidate,
-    deleteCandidate,
+    addOption,
+    updateOption,
+    deleteOption,
     addVoter,
     updateVoters,
     deleteVoter,
@@ -47,9 +46,8 @@ export default function Create() {
   const { format } = useFormatIntl();
   const { getBallotContractInstance } = useContracts();
   const {
-    state: { provider },
+    state: { provider, selectedAddress, providerType },
   } = useWalletContext();
-
 
   const createVotation = async () => {
     if (!form.ballotName.trim()) {
@@ -69,11 +67,11 @@ export default function Create() {
       );
     }
 
-    const emptyCandidates = form.options.some((c) => !c.trim());
+    const emptyOptions = form.options.some((c) => !c.trim());
 
     const emptyVoters = form.voters.some((v) => !v.trim());
 
-    if (emptyCandidates || emptyVoters) {
+    if (emptyOptions || emptyVoters) {
       return showErrorToast(
         format("there_is_at_least_one_empty_voter_or_option")
       );
@@ -86,13 +84,17 @@ export default function Create() {
       const period = delay + transformDate(form.endOption, form.endDate);
       const description = form.ballotName;
       const options = form.options;
-
+      const signerOrProvider =
+        providerType === "metamask"
+          ? (provider as ethers.providers.Web3Provider)?.getSigner()
+          : (provider as ApiPromise);
       const ballotContract = await getBallotContractInstance(
         BALLOT_ADDRESS,
-        provider?.getSigner()
+        selectedAddress,
+        signerOrProvider
       );
 
-      const res = await ballotContract.createProposal(
+      await ballotContract.createProposal(
         voters,
         delay,
         period,
@@ -233,16 +235,16 @@ export default function Create() {
                         <Input
                           value={form?.options[index] || ""}
                           onChange={({ target }) =>
-                            updateCandidate(index, target.value)
+                            updateOption(index, target.value)
                           }
                         />
-                        <Button onClick={() => deleteCandidate(index)}>
+                        <Button onClick={() => deleteOption(index)}>
                           <AiFillDelete />
                         </Button>
                       </HStack>
                     ))}
                   </AnimatePresence>
-                  <Button onClick={addCandidate}>
+                  <Button onClick={addOption}>
                     <BsPlusLg />
                   </Button>
                 </VStack>

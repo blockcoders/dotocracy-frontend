@@ -20,8 +20,10 @@ import { useToast } from "../../hooks/useToast";
 import { useContracts } from "../../hooks/useContracts";
 import { useWalletContext } from "../../providers/WalletProvider";
 import { useRouter } from "next/router";
+import { ApiPromise } from "@polkadot/api";
+import { ethers } from "ethers";
 
-interface CandidateProps {
+interface OptionProps {
   name: string;
   hash: string;
   fromView?: "vote" | "result";
@@ -29,7 +31,7 @@ interface CandidateProps {
   address: string;
 }
 
-export const Candidate: FC<CandidateProps> = ({
+export const Option: FC<OptionProps> = ({
   name,
   hash,
   fromView = "vote",
@@ -42,7 +44,7 @@ export const Candidate: FC<CandidateProps> = ({
   const { showSuccessToast, showErrorToast } = useToast();
   const { getBallotContractInstance } = useContracts();
   const {
-    state: { provider },
+    state: { provider, selectedAddress, providerType },
   } = useWalletContext();
 
   const getErrorMessage = (error: any) => {
@@ -67,12 +69,17 @@ export const Candidate: FC<CandidateProps> = ({
 
   const onVote = async () => {
     try {
+      const signerOrProvider =
+        providerType === "metamask"
+          ? (provider as ethers.providers.Web3Provider)?.getSigner()
+          : (provider as ApiPromise);
       const ballotContract = await getBallotContractInstance(
         address,
-        provider?.getSigner()
+        selectedAddress,
+        signerOrProvider
       );
 
-      const rest = await ballotContract.castVote(proposalId, hash);
+      await ballotContract.castVote(proposalId, hash);
       showSuccessToast("Succesfull vote");
 
       router.push("/");

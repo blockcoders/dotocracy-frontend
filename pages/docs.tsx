@@ -72,6 +72,10 @@ export default function Docs() {
           <Link href="https://metamask.io/">
             <b>{format("how_to_create_a_new_ballot_metamask_extension")}</b>
           </Link>
+          {format("how_to_create_a_new_ballot_or")}
+          <Link href="https://polkadot.js.org/extension/">
+            <b>{format("how_to_create_a_new_ballot_polkadotjs_extension")}</b>
+          </Link>
           {format("how_to_create_a_new_ballot_2")}
           <Link href={"/create"}>
             <b>{format("how_to_create_a_new_ballot_create")}</b>
@@ -106,6 +110,10 @@ export default function Docs() {
           {format("voting_1")}
           <Link href="https://metamask.io/">
             <b>{format("voting_metamask_extension")}</b>
+          </Link>
+          {format("voting_or")}
+          <Link href="https://polkadot.js.org/extension/">
+            <b>{format("voting_polkadotjs_extension")}</b>
           </Link>
           {format("voting_2")}
           <Text my={3}>

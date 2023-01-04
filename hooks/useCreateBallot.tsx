@@ -26,7 +26,7 @@ export const useCreateBallot = () => {
   const [form, setForm] = useState<Form>(initialState);
 
   // options
-  const addCandidate = () => {
+  const addOption = () => {
     const isAnyoneEmpty = form.options.some((p) => !p.trim());
 
     if (isAnyoneEmpty) return;
@@ -37,7 +37,7 @@ export const useCreateBallot = () => {
     }));
   };
 
-  const updateCandidate = (index: number, value: string) => {
+  const updateOption = (index: number, value: string) => {
     const options = [...form.options].map((c, i) => (i === index ? value : c));
     setForm((state) => ({
       ...state,
@@ -45,7 +45,7 @@ export const useCreateBallot = () => {
     }));
   };
 
-  const deleteCandidate = (index: number) => {
+  const deleteOption = (index: number) => {
     if (form.options.length === 1) return;
 
     const options = [...form.options].filter((c, i) => i !== index);
@@ -114,9 +114,9 @@ export const useCreateBallot = () => {
 
   return {
     form,
-    addCandidate,
-    updateCandidate,
-    deleteCandidate,
+    addOption,
+    updateOption,
+    deleteOption,
     addVoter,
     updateVoters,
     deleteVoter,

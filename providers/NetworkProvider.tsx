@@ -7,9 +7,30 @@ import {
 } from "react";
 import { networks } from "../config/networks";
 
-interface Network {
+interface Explorer {
   name: string;
-  wss: string;
+  url: string;
+  standard: string;
+  icon?: string;
+}
+
+interface Network {
+  deployed: boolean;
+  name: string;
+  chain: string;
+  rpc: string[];
+  faucets?: string[];
+  nativeCurrency: {
+    name: string;
+    symbol: string;
+    decimals: number;
+  };
+  infoURL: string;
+  shortName: string;
+  chainId: number;
+  networkId: number;
+  icon?: string;
+  explorers: Explorer[];
 }
 
 const NetworkContext = createContext(
@@ -24,7 +45,7 @@ interface InitialState {
 }
 
 const initialState: InitialState = {
-  network: networks[0],
+  network: networks.filter(n => n.deployed)[0],
 };
 
 const reducer = (state: InitialState, action: any): InitialState => {

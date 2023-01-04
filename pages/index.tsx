@@ -54,7 +54,12 @@ export default function Home() {
   const searchBallot = async () => {
     startLoading();
     try {
-      const ballotContract = await getBallotContractInstance(search, provider);
+      console.log("searching", { search, selectedAddress, provider });
+      const ballotContract = await getBallotContractInstance(
+        search,
+        selectedAddress,
+        provider
+      );
       const name = await ballotContract.name();
       const proposalsIds = await ballotContract.getProposals(selectedAddress);
       const proposals: Proposal[] = [];
@@ -77,6 +82,7 @@ export default function Home() {
       const ticketAddress = await ballotContract.tokenAddress();
       const ticketContract = await getTicketContractInstance(
         ticketAddress,
+        selectedAddress,
         provider
       );
       const ticketName = await ticketContract.name();
@@ -102,7 +108,7 @@ export default function Home() {
       <Container maxW="2xl" textAlign="center">
         <ReactTypingEffect
           className={styles["main-title"]}
-          text={["Dotocracy", "Blockcoders", "Polkadot"]}
+          text={["Dotocracy", "Blockcoders", "Polkadot", "Kusama", "Moonbeam", "Astar"]}
           speed={100}
           typingDelay={0}
         />
